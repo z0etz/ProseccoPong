@@ -2,10 +2,38 @@ package com.katja.proseccopong
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+import com.katja.proseccopong.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val bClassicPong: Button = binding.buttonClassicGame
+        val bProseccoPong: Button = binding.buttonProseccoGame
+        val bHighscore: Button = binding.buttonHighscore
+
+        bClassicPong.setOnClickListener {
+            val toast = getString(R.string.classic_pong)
+            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
+            // TODO: Byt ut toast till logik för vad som ska hända när man trycker på knappen.
+        }
+
+        bProseccoPong.setOnClickListener {
+            val toast = getString(R.string.prosecco_pong)
+            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
+            // TODO: Byt ut toast till logik för vad som ska hända när man trycker på knappen.
+        }
+
+        bHighscore.setOnClickListener {
+            val toast = getString(R.string.highscore)
+            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
+            // TODO: Byt ut toast till logik för vad som ska hända när man trycker på knappen.
+        }
     }
 }
