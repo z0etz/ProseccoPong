@@ -3,16 +3,16 @@ package com.katja.proseccopong
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.SurfaceHolder
-import com.katja.proseccopong.databinding.ActivitySurfaaceViewBinding
+import com.katja.proseccopong.databinding.ActivitySurfaceViewBinding
 
-class SurfaaceView : AppCompatActivity(),SurfaceHolder.Callback {
-    lateinit var binding :ActivitySurfaaceViewBinding
+class SurfaceViewActivity : AppCompatActivity(),SurfaceHolder.Callback {
+    lateinit var binding :ActivitySurfaceViewBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivitySurfaaceViewBinding.inflate(layoutInflater)
+        binding= ActivitySurfaceViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var gameView = GameView(this)
+        val gameView = GameView(this)
         binding.surfaceView.holder.addCallback(gameView)
                 setContentView(gameView)
 
