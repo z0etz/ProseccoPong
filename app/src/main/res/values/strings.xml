@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Prosecco Pong</string>
+    <string name="welcome_title">Välkommen till Prosecco Pong!</string>
+    <string name="classic_pong">Klassik Pong</string>
+    <string name="prosecco_pong">Prosecco Pong</string>
+    <string name="highscore">Highscore</string>
 </resources>
