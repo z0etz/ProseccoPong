@@ -13,7 +13,7 @@
         android:theme="@style/Theme.ProseccoPong"
         tools:targetApi="31">
         <activity
-            android:name=".SurfaaceView"
+            android:name=".SurfaceViewActivity"
             android:exported="false" />
 
         <activity
