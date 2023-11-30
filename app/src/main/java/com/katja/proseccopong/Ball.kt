@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.provider.Settings.Global.getString
 import android.widget.Toast
 
 class Ball(val context: Context, var posX: Float,
@@ -25,6 +24,10 @@ class Ball(val context: Context, var posX: Float,
         if(posX-size<bounds.left||posX-size>bounds.right){
             speedX*=-1
             speedX+=speedX*1.2f
+            // TODO: Flytta funktionsanropet nedan till när bollen studdsar mot spelbrickan istället
+            // för väggarna (placerat här tillfälligt för testning).
+            GameView.addPoints()
+
         }
         if(posY-size<bounds.top){
             speedY*=-1
