@@ -1,5 +1,6 @@
 package com.katja.proseccopong
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -19,9 +20,8 @@ class MainActivity : AppCompatActivity() {
         val bHighscore: Button = binding.buttonHighscore
 
         bClassicPong.setOnClickListener {
-            val toast = getString(R.string.classic_pong)
-            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
-            // TODO: Byt ut toast till logik för vad som ska hända när man trycker på knappen.
+            val intent = Intent(this, SurfaceViewActivity::class.java)
+            startActivity(intent)
         }
 
         bProseccoPong.setOnClickListener {
@@ -31,9 +31,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         bHighscore.setOnClickListener {
-            val toast = getString(R.string.highscore)
-            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
-            // TODO: Byt ut toast till logik för vad som ska hända när man trycker på knappen.
+            val intent = Intent(this, ClassicHighscoreActivity::class.java)
+            startActivity(intent)
         }
     }
 }
