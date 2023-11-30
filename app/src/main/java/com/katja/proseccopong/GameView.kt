@@ -24,8 +24,6 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
 
        }
 
-
-
         ball1 = Ball(mcontext,100f, 100f, 20f, 5f, 5f)
         playerBall=PlayerBall(mcontext,100f,25f,5f,0f,Color.WHITE)
     }

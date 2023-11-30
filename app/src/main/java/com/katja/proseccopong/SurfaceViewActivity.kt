@@ -7,6 +7,8 @@ import com.katja.proseccopong.databinding.ActivitySurfaceViewBinding
 
 class SurfaceViewActivity : AppCompatActivity(),SurfaceHolder.Callback {
     lateinit var binding :ActivitySurfaceViewBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivitySurfaceViewBinding.inflate(layoutInflater)

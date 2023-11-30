@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         val bHighscore: Button = binding.buttonHighscore
 
         bClassicPong.setOnClickListener {
-            val intent = Intent(this, SurfaceViewActivity::class.java)
+            val intent = Intent(this, EnterNameActivity::class.java)
             startActivity(intent)
         }
 
