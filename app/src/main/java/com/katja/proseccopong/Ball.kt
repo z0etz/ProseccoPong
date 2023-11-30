@@ -23,7 +23,7 @@ class Ball(val context: Context, var posX: Float,
 
         if(posX-size<bounds.left||posX-size>bounds.right){
             speedX*=-1
-            speedX+=speedX*1.2f
+            posX = posX + speedX * 2
             // TODO: Flytta funktionsanropet nedan till när bollen studdsar mot spelbrickan istället
             // för väggarna (placerat här tillfälligt för testning).
             GameView.addPoints()
@@ -31,7 +31,10 @@ class Ball(val context: Context, var posX: Float,
         }
         if(posY-size<bounds.top){
             speedY*=-1
-            speedY+=speedY*1.2f
+            posY = posY + 2
+            speedY+=speedY*1.001f
+            speedX+=speedX*1.001f
+
         }
 if(posY-size>bounds.bottom){
     (context as Activity).runOnUiThread {
