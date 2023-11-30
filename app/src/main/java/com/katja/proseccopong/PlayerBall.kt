@@ -1,13 +1,14 @@
 package com.katja.proseccopong
 
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 
 
-class PlayerBall(
+class PlayerBall(val context: Context,
     var width: Float,
     var height: Float,
     var speedX: Float = 0f,

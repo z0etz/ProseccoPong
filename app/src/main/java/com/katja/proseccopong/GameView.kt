@@ -8,11 +8,13 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
-class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
+class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
     private var mholder: SurfaceHolder? = holder
     private var running = false
     lateinit var canvas:Canvas
+    private var mcontext=context
     private lateinit var ball1: Ball
+    private lateinit var playerBall: PlayerBall
     private var thread: Thread? = null
     lateinit var bounds: Rect
 
@@ -24,7 +26,8 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,R
 
 
 
-        ball1 = Ball(100f, 100f, 20f, 5f, 5f)
+        ball1 = Ball(mcontext,100f, 100f, 20f, 5f, 5f)
+        playerBall=PlayerBall(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
 
@@ -32,6 +35,7 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,R
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
             bounds=Rect(0,0,width,height)
+        playerBall.initialize(width, height)
         start()
     }
 
@@ -40,7 +44,7 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,R
     }
     override fun onTouchEvent(event: MotionEvent?):Boolean{
 
-        ball1.posX=event!!.x
+        playerBall.posX=event!!.x
 
         return true
     }
@@ -63,6 +67,7 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,R
 
     fun update() {
         ball1.update()
+
     }
 
     fun draw() {
@@ -71,6 +76,7 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,R
 
         canvas.drawColor(Color.BLACK)
         ball1.draw(canvas)
+        playerBall.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
 
     }
@@ -80,7 +86,8 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,R
 
                 update()
                 draw()
-            ball1.checkbounders(bounds)
+            ball1.checkbounders(bounds,mcontext)
+            playerBall.checkBounds(bounds)
 
             }
         Thread.sleep(6)
