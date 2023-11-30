@@ -3,20 +3,26 @@ package com.katja.proseccopong
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Rect
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import androidx.core.content.ContextCompat
 
 class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
     private var mholder: SurfaceHolder? = holder
     private var running = false
     lateinit var canvas:Canvas
     private var mcontext=context
-    private lateinit var ball1: Ball
-    private lateinit var playerBall: PlayerBall
+    private var ball1: Ball
+    private var playerBall: PlayerBall
     private var thread: Thread? = null
     lateinit var bounds: Rect
+    var viewWidth = 0f
+    var viewHeight = 0f
+    var paintPoints = Paint()
+    val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
 
     init {
        if(mholder!=null) {
@@ -34,8 +40,10 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-            bounds=Rect(0,0,width,height)
+        bounds=Rect(0,0,width,height)
         playerBall.initialize(width, height)
+        viewWidth = width.toFloat()
+        viewHeight = height.toFloat()
         start()
     }
 
@@ -73,12 +81,11 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
     fun draw() {
 
         canvas= holder!!.lockCanvas()
-
         canvas.drawColor(Color.BLACK)
-        ball1.draw(canvas)
+        drawPoints(canvas)
         playerBall.draw(canvas)
+        ball1.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
-
     }
 
     override fun run() {
@@ -92,4 +99,20 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
             }
         Thread.sleep(6)
         }
+
+    fun drawPoints(canvas: Canvas) {
+        paintPoints.color = Color.BLACK
+        paintPoints.textAlign = Paint.Align.CENTER
+        paintPoints.textSize = textSizePoints
+        paintPoints.color = ContextCompat.getColor(context, R.color.pink)
+        canvas.drawText(points.toString(),viewWidth / 2, viewHeight / 10, paintPoints)
     }
+
+    companion object {
+        var points = 0
+       fun addPoints() {
+            // TODO: anropa denna funktion varje gång bollen studdsar mot spelbrickan.
+            points ++
+        }
+    }
+}
