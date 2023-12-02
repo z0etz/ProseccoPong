@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@drawable/pexels_kai_pilger_1341279">
 
 
     <TextView
@@ -13,23 +13,35 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:paddingTop="30dp"
+        android:shadowColor="@color/baby_blue"
+        android:shadowDx="-10"
+        android:shadowDy="10"
+        android:shadowRadius="40"
         android:text="HALL OF FAME"
+        android:fontFamily="@font/gameplay"
         android:textAlignment="center"
-        android:textColor="@color/pink"
+        android:textColor="@color/white"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
+        android:layout_marginStart="56dp"
+        android:fontFamily="@font/splatch"
+        android:shadowColor="@color/pink"
+        android:shadowDx="10"
+        android:shadowDy="10"
+        android:shadowRadius="20"
         android:text="The top 10 Hall Of Famers"
         android:textColor="@color/pink"
-        android:textSize="10sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.728" />
+        app:layout_constraintVertical_bias="0.795" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -41,24 +53,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!-- <ListView
-         android:layout_width="309dp"
-         android:layout_height="566dp"
-         android:layout_marginStart="51dp"
-         android:layout_marginEnd="51dp"
-         android:layout_marginBottom="15dp"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintHorizontal_bias="0.0"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintVertical_bias="0.0" />
-
-     <androidx.constraintlayout.widget.Guideline
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:orientation="horizontal"
-         app:layout_constraintGuide_percent="0.75"/> -->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
