@@ -4,11 +4,17 @@
     <dimen name="font_small">14sp</dimen>
     <dimen name="font_medium">16sp</dimen>
     <dimen name="font_large">24sp</dimen>
+    <dimen name="font_XL">50sp</dimen>
+    <dimen name="font_XXL">100sp</dimen>
     <dimen name="margin_small">10dp</dimen>
     <dimen name="margin_medium">25dp</dimen>
     <dimen name="margin_large">50dp</dimen>
     <dimen name="button_width">150dp</dimen>
     <dimen name="button_height">70dp</dimen>
+
+    <!-- Altenative sizes -->
+    <dimen name="button_w">200dp</dimen>
+    <dimen name="button_h">50dp</dimen>
 
 
 </resources>
