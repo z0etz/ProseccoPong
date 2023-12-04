@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.view.SurfaceHolder
 import com.katja.proseccopong.databinding.ActivitySurfaceViewBinding
 
-class SurfaceViewActivity : AppCompatActivity(),SurfaceHolder.Callback {
+class ClassicGameViewActivity : AppCompatActivity(),SurfaceHolder.Callback {
     lateinit var binding :ActivitySurfaceViewBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivitySurfaceViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val gameView = GameView(this)
-        binding.surfaceView.holder.addCallback(gameView)
-                setContentView(gameView)
+        val classicGameView = ClassicGameView(this)
+        binding.surfaceView.holder.addCallback(classicGameView)
+                setContentView(classicGameView)
 
 
 
