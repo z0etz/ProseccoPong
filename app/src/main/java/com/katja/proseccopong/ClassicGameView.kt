@@ -79,7 +79,9 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
     fun draw() {
 
         canvas= holder!!.lockCanvas()
-        canvas.drawColor(Color.BLACK)
+        val backgroundDrawable = resources.getDrawable(R.drawable.pexels_kai_pilger_1341279, null)
+        backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
+        backgroundDrawable.draw(canvas)
         drawPoints(canvas)
         playerPlatform.draw(canvas)
         ball1.draw(canvas)
