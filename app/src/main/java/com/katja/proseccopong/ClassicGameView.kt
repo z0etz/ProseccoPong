@@ -10,13 +10,13 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 
-class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
+class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
     private var mholder: SurfaceHolder? = holder
     private var running = false
     lateinit var canvas:Canvas
     private var mcontext=context
     private var ball1: Ball
-    private var playerBall: PlayerBall
+    private var playerPlatform: PlayerPlatform
     private var thread: Thread? = null
     lateinit var bounds: Rect
     var viewWidth = 0f
@@ -31,7 +31,7 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
        }
 
         ball1 = Ball(mcontext,100f, 100f, 20f, 5f, 5f)
-        playerBall=PlayerBall(mcontext,100f,25f,5f,0f,Color.WHITE)
+        playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
 
@@ -39,7 +39,7 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         bounds=Rect(0,0,width,height)
-        playerBall.initialize(width, height)
+        playerPlatform.initialize(width, height)
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
         start()
@@ -50,7 +50,7 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
     }
     override fun onTouchEvent(event: MotionEvent?):Boolean{
 
-        playerBall.posX=event!!.x
+        playerPlatform.posX=event!!.x
 
         return true
     }
@@ -81,7 +81,7 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
         canvas= holder!!.lockCanvas()
         canvas.drawColor(Color.BLACK)
         drawPoints(canvas)
-        playerBall.draw(canvas)
+        playerPlatform.draw(canvas)
         ball1.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
     }
@@ -92,7 +92,7 @@ class GameView( context: Context): SurfaceView(context), SurfaceHolder.Callback,
                 update()
                 draw()
             ball1.checkbounders(bounds,mcontext)
-            playerBall.checkBounds(bounds)
+            playerPlatform.checkBounds(bounds)
 
             }
         Thread.sleep(6)

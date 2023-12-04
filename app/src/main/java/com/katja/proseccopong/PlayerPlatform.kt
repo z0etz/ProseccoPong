@@ -8,14 +8,14 @@ import android.graphics.Paint
 import android.graphics.Rect
 
 
-class PlayerBall(val context: Context,
-    var width: Float,
-    var height: Float,
-    var speedX: Float = 0f,
-    var speedY: Float,
-    color: Int = Color.BLUE,
+class PlayerPlatform(val context: Context,
+                     var width: Float,
+                     var height: Float,
+                     var speedX: Float = 0f,
+                     var speedY: Float,
+                     color: Int = Color.BLUE,
 
-) {
+                     ) {
 
     var posX: Float =0f
     var posY: Float = 0f

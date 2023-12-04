@@ -17,7 +17,7 @@
             android:exported="false" />
         <!-- Aktivitet för SurfaceViewActivity -->
         <activity
-            android:name=".SurfaceViewActivity"
+            android:name=".ClassicGameViewActivity"
             android:exported="false">
 
             <!-- Intent-filter för att starta aktiviteten -->

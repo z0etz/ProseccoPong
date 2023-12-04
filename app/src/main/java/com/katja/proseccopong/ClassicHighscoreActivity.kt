@@ -13,7 +13,7 @@ class ClassicHighscoreActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
 // Create an instance of your adapter
-        val adapter = HighScoreAdapter(highScores = listOf())
+        val adapter = ClassicHighScoreAdapter(highScores = listOf())
 
 // Set the adapter to the RecyclerView
         recyclerView.adapter = adapter
