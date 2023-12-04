@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class HighScoreAdapter(private val highScores: List<HighScoreItem>) : RecyclerView.Adapter<HighScoreAdapter.ViewHolder>() {
+class ClassicHighScoreAdapter(private val highScores: List<HighScoreItem>) : RecyclerView.Adapter<ClassicHighScoreAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val rankTextView: TextView = view.findViewById(R.id.rankTextView)
         val scoreTextView: TextView = view.findViewById(R.id.scoreTextView)
