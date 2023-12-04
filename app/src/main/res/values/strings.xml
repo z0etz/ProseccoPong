@@ -4,4 +4,6 @@
     <string name="classic_pong">Klassisk Pong</string>
     <string name="prosecco_pong">Prosecco Pong</string>
     <string name="highscore">Highscore</string>
+    <string name="prosecco">Prosecco</string>
+    <string name="pong">Pong</string>
 </resources>
