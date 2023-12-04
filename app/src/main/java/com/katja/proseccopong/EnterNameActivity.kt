@@ -17,7 +17,7 @@ class EnterNameActivity : AppCompatActivity() {
 
         buttonPlay.setOnClickListener {
             val playerName = editTextName.text.toString()
-            val intent = Intent(this, SurfaceViewActivity::class.java)
+            val intent = Intent(this, ClassicGameViewActivity::class.java)
             intent.putExtra("PLAYER_NAME", playerName)
             startActivity(intent)
         }
