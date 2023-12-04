@@ -3,10 +3,10 @@ package com.katja.proseccopong
 import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 class Ball(
     val context: Context, var posX: Float,
@@ -14,10 +14,12 @@ class Ball(
     var size: Float,
     var speedX: Float,
     var speedY: Float,
-    color: Int = Color.BLUE
+    var color: Int = R.color.pink
 ) {
 
-    private val paint = Paint().apply { this.color = color }
+    private val paint = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.pink)
+    }
 
 
     fun checkbounders(bounds: Rect, context: Context) {
