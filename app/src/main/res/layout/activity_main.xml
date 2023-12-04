@@ -7,7 +7,6 @@
     tools:context=".MainActivity"
     android:background="@drawable/pexels_kai_pilger_1341279">
 
-
     <!-- Lägga allt i dimens -->
 
     <TextView
