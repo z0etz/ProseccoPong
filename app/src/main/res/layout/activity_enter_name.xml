@@ -1,24 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EnterNameActivity">
+    tools:context=".EnterNameActivity"
+    android:background="@drawable/pexels_kai_pilger_1341279">
+
+
+    <TextView
+        android:id="@+id/classicPongTextView"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/gameplay"
+        android:shadowColor="@color/baby_blue"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="20"
+        android:text="CLASSIC PONG"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034" />
 
     <EditText
         android:id="@+id/editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Ange ditt namn"
-        android:layout_centerInParent="true"
-        android:padding="16dp"/>
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/card_layout"
+        android:fontFamily="@font/gameplay"
+        android:hint="Your name"
+        android:padding="20dp"
+        android:shadowColor="@color/pink"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="10"
+        android:textColor="@color/white"
+        android:textColorHint="@color/pink"
+        android:textSize="15sp"
+        android:inputType="text"
+        android:autofillHints="name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/classicPongTextView"
+        app:layout_constraintVertical_bias="0.364" />
 
     <Button
         android:id="@+id/buttonPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Spela"
-        android:layout_below="@id/editTextName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
-</RelativeLayout>
+        android:layout_width="@dimen/button_w"
+        android:layout_height="@dimen/button_h"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/main_buttons"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="20"
+        android:text="Play"
+        android:textStyle="bold"
+        android:textColor="@color/pink"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
