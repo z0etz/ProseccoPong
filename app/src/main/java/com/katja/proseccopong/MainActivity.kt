@@ -20,9 +20,10 @@ class MainActivity : AppCompatActivity() {
         val bHighscore: Button = binding.buttonHighscore
 
         bClassicPong.setOnClickListener {
-            val intent = Intent(this, ClassicGameViewActivity::class.java)
+            val intent = Intent(this, EnterNameActivity::class.java)
             startActivity(intent)
         }
+
 
         bProseccoPong.setOnClickListener {
             val toast = getString(R.string.prosecco_pong)

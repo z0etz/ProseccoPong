@@ -30,8 +30,6 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
 
        }
 
-
-
         ball1 = Ball(mcontext,100f, 100f, 20f, 5f, 5f)
         playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }

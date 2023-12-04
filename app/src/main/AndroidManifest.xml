@@ -12,29 +12,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProseccoPong"
         tools:targetApi="31">
-
+        <activity
+            android:name=".EnterNameActivity"
+            android:exported="false" />
         <!-- Aktivitet för SurfaceViewActivity -->
         <activity
             android:name=".ClassicGameViewActivity"
             android:exported="false">
+
             <!-- Intent-filter för att starta aktiviteten -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-
-        <!-- Aktivitet för ClassicHighscoreActivity -->
+        </activity> <!-- Aktivitet för ClassicHighscoreActivity -->
         <activity
             android:name=".ClassicHighscoreActivity"
-            android:exported="false" />
-
-        <!-- Aktivitet för MainActivity -->
+            android:exported="false" /> <!-- Aktivitet för MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
