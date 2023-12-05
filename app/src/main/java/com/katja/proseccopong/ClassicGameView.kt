@@ -10,7 +10,10 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
+import kotlin.math.pow
+import kotlin.math.sqrt
 import androidx.core.content.ContextCompat.startActivity
+
 
 class ClassicGameView(context: Context, private val activityContext: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
     private var mholder: SurfaceHolder? = holder
@@ -79,7 +82,35 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         ball1.update()
 
     }
+    fun onIntersection(p:PlayerPlatform,b:Ball){
+        // Calculate the centers of the platform and the ball
+        val platformCenterX = p.posX + p.width / 2
+        val ballCenterX = b.posX
 
+        // Calculate the difference between the centers
+        val differenceX = ballCenterX - platformCenterX
+
+        // If the ball intersects the platform
+        if (b.posY + b.size >= p.posY && b.posY <= p.posY + p.height) {
+            // Reverse the ball's horizontal direction
+            b.speedX = -differenceX / 10 // Adjust this factor as needed
+            // Reverse the ball's vertical direction (optional)
+            b.speedY *= -1
+        }
+    }
+fun onCollision(p: PlayerPlatform,b:Ball) {
+    val ballBottom = b.posY + b.size
+    val platformTop = p.posY
+
+    // If the bottom of the ball meets the top of the platform
+    if (ballBottom >= platformTop && b.speedY > 0) {
+        // Reverse the ball's vertical direction
+        b.speedY *= -1
+    }
+
+
+
+}
     fun draw() {
 
         canvas= holder!!.lockCanvas()
@@ -97,6 +128,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
 
                 update()
                 draw()
+            onIntersection(playerPlatform,ball1)
             ball1.checkbounders(bounds,mcontext)
             playerPlatform.checkBounds(bounds)
 
