@@ -13,26 +13,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/highscore_view_classic"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="@color/black"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        android:layout_marginTop="@dimen/extra_small_margin_top"
+        app:cardBackgroundColor="@color/black">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/pexels_kai_pilger_1341279">
 
 
             <TextView
                 android:id="@+id/rankTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
-                android:hint="RANK"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/medium_margin_start"
+                android:layout_marginTop="@dimen/small_margin_top"
+                android:hint="@string/rank"
                 android:shadowColor="@color/baby_blue"
                 android:shadowDx="3"
                 android:shadowDy="3"
@@ -45,10 +42,10 @@
             <TextView
                 android:id="@+id/scoreTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="184dp"
-                android:hint="SCORE"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/small_margin_top"
+                android:layout_marginEnd="@dimen/extra_medium_margin_end"
+                android:hint="@string/score"
                 android:shadowColor="@color/baby_blue"
                 android:shadowDx="3"
                 android:shadowDy="3"
@@ -61,10 +58,10 @@
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:hint="NAME"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/medium_margin_start"
+                android:layout_marginTop="@dimen/small_margin_top"
+                android:hint="@string/name"
                 android:shadowColor="@color/baby_blue"
                 android:shadowDx="3"
                 android:shadowDy="3"
