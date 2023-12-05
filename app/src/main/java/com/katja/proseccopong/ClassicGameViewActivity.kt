@@ -14,7 +14,10 @@ class ClassicGameViewActivity : AppCompatActivity(),SurfaceHolder.Callback {
         binding= ActivitySurfaceViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val classicGameView = ClassicGameView(this)
+        val playerName = intent.getStringExtra("PLAYER_NAME")
+        val classicGameView = ClassicGameView(this, this)
+        classicGameView.setPlayerName(playerName ?: "")
+
         binding.surfaceView.holder.addCallback(classicGameView)
                 setContentView(classicGameView)
 

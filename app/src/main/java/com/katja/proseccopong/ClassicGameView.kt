@@ -1,6 +1,7 @@
 package com.katja.proseccopong
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -10,7 +11,8 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 
-class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
+
+class ClassicGameView(context: Context, private val activityContext: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
     private var mholder: SurfaceHolder? = holder
     private var running = false
     lateinit var canvas:Canvas
@@ -23,6 +25,8 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
     var viewHeight = 0f
     var paintPoints = Paint()
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
+    private var playerName: String = ""
+
 
     init {
        if(mholder!=null) {
@@ -30,7 +34,7 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
 
        }
 
-        ball1 = Ball(mcontext,100f, 100f, 20f, 5f, 5f)
+        ball1 = Ball(this, mcontext,100f, 100f, 20f, 5f, 5f)
         playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -75,7 +79,37 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
         ball1.update()
 
     }
+    fun onIntersection(p:PlayerPlatform,b:Ball){
+        // Calculate the centers of the platform and the ball
+        val platformCenterX = p.posX + p.width / 2
+        val ballCenterX = b.posX
 
+        // Calculate the difference between the centers
+        val differenceX = ballCenterX - platformCenterX
+
+        // If the ball intersects the platform
+        if (b.posY + b.size >= p.posY && b.posY <= p.posY + p.height) {
+            // Reverse the ball's horizontal direction
+            b.speedX = -differenceX / 10 // Adjust this factor as needed
+            // Reverse the ball's vertical direction (optional)
+            b.speedY *= -1
+            // Increment points
+            addPoints()
+        }
+    }
+fun onCollision(p: PlayerPlatform,b:Ball) {
+    val ballBottom = b.posY + b.size
+    val platformTop = p.posY
+
+    // If the bottom of the ball meets the top of the platform
+    if (ballBottom >= platformTop && b.speedY > 0) {
+        // Reverse the ball's vertical direction
+        b.speedY *= -1
+    }
+
+
+
+}
     fun draw() {
 
         canvas= holder!!.lockCanvas()
@@ -93,6 +127,7 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
 
                 update()
                 draw()
+            onIntersection(playerPlatform,ball1)
             ball1.checkbounders(bounds,mcontext)
             playerPlatform.checkBounds(bounds)
 
@@ -105,13 +140,27 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
         paintPoints.textAlign = Paint.Align.CENTER
         paintPoints.textSize = textSizePoints
         paintPoints.color = ContextCompat.getColor(context, R.color.pink)
-        canvas.drawText(points.toString(),viewWidth / 2, viewHeight / 10, paintPoints)
+        canvas.drawText(points.toString(),viewWidth / 2, (viewHeight / 10) + textSizePoints + 20, paintPoints)
+        canvas.drawText(playerName,viewWidth / 2, viewHeight / 10, paintPoints)
+    }
+
+    fun setPlayerName(name: String) {
+        playerName = name
+    }
+
+    fun saveScore(){
+        val newClassicScore = Score(playerName, points, true)
+        ScoreList.scoreList.add(newClassicScore)
+    }
+
+    fun gameEnd(){
+        val intent = Intent(activityContext, ClassicHighscoreActivity::class.java)
+        activityContext.startActivity(intent)
     }
 
     companion object {
         var points = 0
        fun addPoints() {
-            // TODO: anropa denna funktion varje gång bollen studdsar mot spelbrickan.
             points ++
         }
     }

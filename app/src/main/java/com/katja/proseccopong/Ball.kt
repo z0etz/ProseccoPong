@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 
-class Ball(
+class Ball(private val gameView: ClassicGameView,
     val context: Context, var posX: Float,
     var posY: Float,
     var size: Float,
@@ -26,10 +26,7 @@ class Ball(
 
         if (posX - size < bounds.left || posX - size > bounds.right) {
             speedX *= -1
-//            posX = posX + speedX * 2
-            // TODO: Flytta funktionsanropet nedan till när bollen studdsar mot spelbrickan istället
-            // för väggarna (placerat här tillfälligt för testning).
-            ClassicGameView.addPoints()
+            posX = posX + speedX * 2
 
         }
         if (posY - size < bounds.top) {
@@ -40,10 +37,15 @@ class Ball(
 
         }
         if (posY - size > bounds.bottom) {
+
+            //Save score and sout for debug
+            gameView.saveScore()
+            println(ScoreList)
             (context as Activity).runOnUiThread {
                 val toast = "Ball is out"
                 Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
             }
+            gameView.gameEnd()
         }
     }
 
