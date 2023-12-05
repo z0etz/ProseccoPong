@@ -1,6 +1,7 @@
 package com.katja.proseccopong
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -11,8 +12,10 @@ import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 import kotlin.math.pow
 import kotlin.math.sqrt
+import androidx.core.content.ContextCompat.startActivity
 
-class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
+
+class ClassicGameView(context: Context, private val activityContext: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
     private var mholder: SurfaceHolder? = holder
     private var running = false
     lateinit var canvas:Canvas
@@ -25,6 +28,8 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
     var viewHeight = 0f
     var paintPoints = Paint()
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
+    private var playerName: String = ""
+
 
     init {
        if(mholder!=null) {
@@ -32,7 +37,7 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
 
        }
 
-        ball1 = Ball(mcontext,100f, 100f, 20f, 10f, 5f)
+        ball1 = Ball(this, mcontext,100f, 100f, 20f, 5f, 5f)
         playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -136,7 +141,22 @@ fun onCollision(p: PlayerPlatform,b:Ball) {
         paintPoints.textAlign = Paint.Align.CENTER
         paintPoints.textSize = textSizePoints
         paintPoints.color = ContextCompat.getColor(context, R.color.pink)
-        canvas.drawText(points.toString(),viewWidth / 2, viewHeight / 10, paintPoints)
+        canvas.drawText(points.toString(),viewWidth / 2, (viewHeight / 10) + textSizePoints + 20, paintPoints)
+        canvas.drawText(playerName,viewWidth / 2, viewHeight / 10, paintPoints)
+    }
+
+    fun setPlayerName(name: String) {
+        playerName = name
+    }
+
+    fun saveScore(){
+        val newClassicScore = Score(playerName, points, true)
+        ScoreList.scoreList.add(newClassicScore)
+    }
+
+    fun gameEnd(){
+        val intent = Intent(activityContext, ClassicHighscoreActivity::class.java)
+        activityContext.startActivity(intent)
     }
 
     companion object {

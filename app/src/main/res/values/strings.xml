@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">Prosecco Pong</string>
-    <string name="welcome_title">Välkommen till Prosecco Pong!</string>
-    <string name="classic_pong">Klassisk Pong</string>
+    <string name="welcome_title">Welcome to Prosecco Pong!</string>
+    <string name="classic_pong">Classic Pong</string>
     <string name="prosecco_pong">Prosecco Pong</string>
     <string name="highscore">Highscore</string>
     <string name="prosecco">Prosecco</string>
     <string name="pong">Pong</string>
+    <string name="name">NAME</string>
+    <string name="score">SCORE</string>
+    <string name="rank">RANK</string>
+    <string name="high_scores">HIGH SCORES</string>
+    <string name="classic_pong_title">CLASSIC PONG</string>
+    <string name="your_name">Your name</string>
+    <string name="hall_of_fame">HALL OF FAME</string>
+    <string name="the_top_10_hall_of_famers">The top 10 Hall Of Famers</string>
 </resources>

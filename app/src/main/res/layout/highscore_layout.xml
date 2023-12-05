@@ -10,49 +10,72 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:paddingTop="30dp"
-        android:shadowColor="@color/baby_blue"
-        android:shadowDx="-10"
-        android:shadowDy="10"
-        android:shadowRadius="40"
-        android:text="HALL OF FAME"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin_top"
         android:fontFamily="@font/gameplay"
+        android:shadowColor="@color/baby_blue"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="20"
+        android:text="@string/hall_of_fame"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="@dimen/medium_font"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034"/>
+
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
+        android:textAlignment="center"
+        android:layout_marginTop="@dimen/small_margin_top"
         android:fontFamily="@font/splatch"
         android:shadowColor="@color/pink"
         android:shadowDx="10"
         android:shadowDy="10"
         android:shadowRadius="20"
-        android:text="The top 10 Hall Of Famers"
+        android:text="@string/the_top_10_hall_of_famers"
         android:textColor="@color/pink"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.795" />
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <!--<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="300dp"
-        android:layout_height="560dp"
-        android:layout_marginTop="128dp"
+        android:layout_width="301dp"
+        android:layout_height="442dp"
+        android:layout_marginTop="204dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="@dimen/large_layout_width"
+        android:layout_height="@dimen/large_layout_height"
+        android:layout_marginTop="@dimen/large_margin_top"
+        android:layout_marginBottom="@dimen/medium_margin_bottom"
+        android:backgroundTint="@color/black"
+        android:elevation="@dimen/small_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
