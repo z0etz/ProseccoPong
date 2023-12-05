@@ -26,10 +26,7 @@ class Ball(private val gameView: ClassicGameView,
 
         if (posX - size < bounds.left || posX - size > bounds.right) {
             speedX *= -1
-//            posX = posX + speedX * 2
-            // TODO: Flytta funktionsanropet nedan till när bollen studdsar mot spelbrickan istället
-            // för väggarna (placerat här tillfälligt för testning).
-            ClassicGameView.addPoints()
+            posX = posX + speedX * 2
 
         }
         if (posY - size < bounds.top) {

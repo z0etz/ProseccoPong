@@ -10,9 +10,6 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
-import kotlin.math.pow
-import kotlin.math.sqrt
-import androidx.core.content.ContextCompat.startActivity
 
 
 class ClassicGameView(context: Context, private val activityContext: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
@@ -96,6 +93,8 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
             b.speedX = -differenceX / 10 // Adjust this factor as needed
             // Reverse the ball's vertical direction (optional)
             b.speedY *= -1
+            // Increment points
+            addPoints()
         }
     }
 fun onCollision(p: PlayerPlatform,b:Ball) {
@@ -162,7 +161,6 @@ fun onCollision(p: PlayerPlatform,b:Ball) {
     companion object {
         var points = 0
        fun addPoints() {
-            // TODO: anropa denna funktion varje gång bollen studdsar mot spelbrickan.
             points ++
         }
     }
