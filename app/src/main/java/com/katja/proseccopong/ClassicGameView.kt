@@ -9,6 +9,8 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
     private var mholder: SurfaceHolder? = holder
@@ -30,7 +32,7 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
 
        }
 
-        ball1 = Ball(mcontext,100f, 100f, 20f, 5f, 5f)
+        ball1 = Ball(mcontext,100f, 100f, 20f, 10f, 5f)
         playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -75,7 +77,35 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
         ball1.update()
 
     }
+    fun onIntersection(p:PlayerPlatform,b:Ball){
+        // Calculate the centers of the platform and the ball
+        val platformCenterX = p.posX + p.width / 2
+        val ballCenterX = b.posX
 
+        // Calculate the difference between the centers
+        val differenceX = ballCenterX - platformCenterX
+
+        // If the ball intersects the platform
+        if (b.posY + b.size >= p.posY && b.posY <= p.posY + p.height) {
+            // Reverse the ball's horizontal direction
+            b.speedX = -differenceX / 10 // Adjust this factor as needed
+            // Reverse the ball's vertical direction (optional)
+            b.speedY *= -1
+        }
+    }
+fun onCollision(p: PlayerPlatform,b:Ball) {
+    val ballBottom = b.posY + b.size
+    val platformTop = p.posY
+
+    // If the bottom of the ball meets the top of the platform
+    if (ballBottom >= platformTop && b.speedY > 0) {
+        // Reverse the ball's vertical direction
+        b.speedY *= -1
+    }
+
+
+
+}
     fun draw() {
 
         canvas= holder!!.lockCanvas()
@@ -93,6 +123,7 @@ class ClassicGameView(context: Context): SurfaceView(context), SurfaceHolder.Cal
 
                 update()
                 draw()
+            onIntersection(playerPlatform,ball1)
             ball1.checkbounders(bounds,mcontext)
             playerPlatform.checkBounds(bounds)
 
