@@ -1,11 +1,9 @@
 package com.katja.proseccopong
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 
 class Ball(private val gameView: ClassicGameView,
@@ -31,9 +29,7 @@ class Ball(private val gameView: ClassicGameView,
         }
         if (posY - size < bounds.top) {
             speedY *= -1
-            posY = posY + 2
-            speedY *= 1.1f
-            speedX *= 1.1f
+            posY = posY + speedY * 2
 
         }
         if (posY - size > bounds.bottom) {
@@ -41,10 +37,10 @@ class Ball(private val gameView: ClassicGameView,
             //Save score and sout for debug
             gameView.saveScore()
             println(ScoreList)
-            (context as Activity).runOnUiThread {
-                val toast = "Ball is out"
-                Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
-            }
+//            (context as Activity).runOnUiThread {
+//                val toast = "Ball is out"
+//                Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
+//            }
             gameView.gameEnd()
         }
     }

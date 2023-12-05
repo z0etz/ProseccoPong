@@ -34,7 +34,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
 
        }
 
-        ball1 = Ball(this, mcontext,100f, 100f, 20f, 5f, 5f)
+        ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f)
         playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -90,9 +90,10 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         // If the ball intersects the platform
         if (b.posY + b.size >= p.posY && b.posY <= p.posY + p.height) {
             // Reverse the ball's horizontal direction
-            b.speedX = -differenceX / 10 // Adjust this factor as needed
+            b.speedX = differenceX / 5  // Adjust this factor as needed
             // Reverse the ball's vertical direction (optional)
             b.speedY *= -1
+            b.speedY *= 1.05f
             // Increment points
             addPoints()
         }
