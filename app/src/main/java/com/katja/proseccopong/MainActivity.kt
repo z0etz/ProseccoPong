@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val bProseccoPong: Button = binding.buttonProseccoGame
         val bHighscore: Button = binding.buttonHighscore
 
+
         bClassicPong.setOnClickListener {
             val intent = Intent(this, EnterNameActivity::class.java)
             startActivity(intent)
@@ -35,5 +36,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ClassicHighscoreActivity::class.java)
             startActivity(intent)
         }
+
+
     }
 }
