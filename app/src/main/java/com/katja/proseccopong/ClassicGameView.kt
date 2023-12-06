@@ -20,6 +20,10 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
     private var ball1: Ball
     private var playerPlatform: PlayerPlatform
     private var thread: Thread? = null
+    private var platformLevel = 200f
+    private var platformHeight = 25f
+    private var platformTop = platformHeight + platformLevel
+    private var platformWidth = 200f
     lateinit var bounds: Rect
     var viewWidth = 0f
     var viewHeight = 0f
@@ -35,9 +39,9 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
             holder?.addCallback(this)
 
         }
+        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
+        ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f, platformTop)
 
-        ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f)
-        playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -45,7 +49,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        bounds=Rect(0,0,width,height)
+        bounds=Rect(0,0, width,height)
         playerPlatform.initialize(width, height)
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
@@ -83,23 +87,35 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         ball1.update()
 
     }
-    fun onIntersection(p:PlayerPlatform,b:Ball){
+
+    // Function to accsess the return statment of onIntersection by other classes
+    fun ballDown(): Boolean {
+        return onIntersection(playerPlatform, ball1)
+    }
+
+    fun onIntersection(p:PlayerPlatform,b:Ball): Boolean{
         // Calculate the centers of the platform and the ball
         val platformCenterX = p.posX + p.width / 2
         val ballCenterX = b.posX
 
-        // Calculate the difference between the centers
-        val differenceX = ballCenterX - platformCenterX
-
         // If the ball intersects the platform
-        if (b.posY + b.size >= p.posY && b.posY <= p.posY + p.height) {
+        if (b.posX - b.size / 2 <= platformCenterX + p.width / 2 && b.posX + b.size / 2 >= platformCenterX - p.width / 2) {
+            // Calculate the difference between the centers
+            val differenceX = ballCenterX - platformCenterX
             // Reverse the ball's horizontal direction
-            b.speedX = differenceX / 5  // Adjust this factor as needed
-            // Reverse the ball's vertical direction (optional)
+            b.speedX = differenceX / 2  // Adjust this factor as needed
+            // Reverse the ball's vertical direction
             b.speedY *= -1
-            b.speedY *= 1.05f
+            // Increse the ball's vertcal speed
+            b.speedY *= 1.05f // Adjust this factor as needed
+            // Move the ball up to avoid it going into the platform
+            b.posY = b.posY + b.speedY * 2
             // Increment points
             addPoints()
+            return false // Return statment to mark that the ball is not out
+        }
+        else {
+            return true // Return statment to mark that the ball is out
         }
     }
     fun onCollision(p: PlayerPlatform,b:Ball) {
@@ -132,7 +148,6 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
 
             update()
             draw()
-            onIntersection(playerPlatform,ball1)
             ball1.checkbounders(bounds,mcontext)
             playerPlatform.checkBounds(bounds)
 
@@ -169,6 +184,8 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
 
     fun gameEnd(){
         saveScore() // Save the score before transitioning to HighscoreActivity
+        println(ScoreList) //Sout for debug
+        resetPoints() // Reset points variable so that it starts at 0 in the next game
         val intent = Intent(activityContext, ClassicHighscoreActivity::class.java)
         activityContext.startActivity(intent)
     }
@@ -178,8 +195,12 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         fun addPoints() {
             points ++
         }
+        fun resetPoints(){
+            points = 0
+        }
     }
 }
+
 
 
 
