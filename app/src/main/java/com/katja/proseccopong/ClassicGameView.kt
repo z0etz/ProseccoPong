@@ -164,13 +164,20 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
     }
 
     fun drawPoints(canvas: Canvas) {
-        paintPoints.color = Color.BLACK
+
+        paintPoints.color = ContextCompat.getColor(context, R.color.pink)
         paintPoints.textAlign = Paint.Align.CENTER
         paintPoints.textSize = textSizePoints
-        paintPoints.color = ContextCompat.getColor(context, R.color.pink)
-        canvas.drawText(points.toString(),viewWidth / 2, (viewHeight / 10) + textSizePoints + 20, paintPoints)
-        canvas.drawText(playerName,viewWidth / 2, viewHeight / 10, paintPoints)
+        paintPoints.setShadowLayer(20f, 5f, 5f, ContextCompat.getColor(context, R.color.pink))
+        canvas.drawText(playerName, viewWidth / 2, viewHeight / 10, paintPoints)
+
+        canvas.drawText(points.toString(), viewWidth / 2, (viewHeight / 10) + textSizePoints + 20, paintPoints)
+
+        paintPoints.clearShadowLayer()
     }
+
+
+
 
     fun setPlayerName(name: String) {
         playerName = name
