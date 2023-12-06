@@ -21,18 +21,21 @@ class Ball(private val gameView: ClassicGameView,
 
 
     fun checkbounders(bounds: Rect, context: Context) {
+        val leftBound = bounds.left + size
+        val rightBound = bounds.right - size
+        val topBound = bounds.top + size
+        val bottomBound = bounds.bottom - size
 
-        if (posX - size < bounds.left || posX - size > bounds.right) {
+        if (posX - size < leftBound || posX + size > rightBound) {
             speedX *= -1
-            posX = posX + speedX * 2
-
+            posX += speedX * 2
         }
-        if (posY - size < bounds.top) {
+
+        if (posY - size < topBound ) {
             speedY *= -1
-            posY = posY + speedY * 2
-
+            posY += speedY * 2
         }
-        if (posY - size > bounds.bottom) {
+        if (posY - size > bottomBound) {
 
             //Save score and sout for debug
             gameView.saveScore()
