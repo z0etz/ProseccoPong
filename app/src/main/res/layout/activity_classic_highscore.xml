@@ -86,7 +86,7 @@
         android:layout_marginBottom="55dp"
         android:background="@drawable/main_buttons"
         android:fontFamily="@font/gameplay"
-        android:padding="@dimen/margin_small"
+        android:padding="@dimen/margin_medium"
         android:shadowColor="@color/pink"
         android:shadowDx="5"
         android:shadowDy="5"

@@ -19,17 +19,11 @@ class ClassicHighscoreActivity : AppCompatActivity() {
             val Intent = Intent (this,MainActivity :: class.java)
             startActivity(Intent)
         }
-        
+
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-
-
-        val adapter = ClassicHighScoreAdapter(highScores = listOf())
-
-// Set the adapter to the RecyclerView
+        val adapter = ClassicHighScoreAdapter(ScoreList.scoreList)
         recyclerView.adapter = adapter
-
-
         recyclerView.layoutManager = LinearLayoutManager(this)
 
     }

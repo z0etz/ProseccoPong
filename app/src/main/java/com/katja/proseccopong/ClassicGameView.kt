@@ -29,14 +29,15 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
 
 
     init {
-       if(mholder!=null) {
-           holder?.addCallback(this)
+        if(mholder!=null) {
+            holder?.addCallback(this)
 
-       }
+        }
 
         ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f)
         playerPlatform=PlayerPlatform(mcontext,100f,25f,5f,0f,Color.WHITE)
     }
+
     override fun surfaceCreated(holder: SurfaceHolder) {
 
     }
@@ -98,19 +99,19 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
             addPoints()
         }
     }
-fun onCollision(p: PlayerPlatform,b:Ball) {
-    val ballBottom = b.posY + b.size
-    val platformTop = p.posY
+    fun onCollision(p: PlayerPlatform,b:Ball) {
+        val ballBottom = b.posY + b.size
+        val platformTop = p.posY
 
-    // If the bottom of the ball meets the top of the platform
-    if (ballBottom >= platformTop && b.speedY > 0) {
-        // Reverse the ball's vertical direction
-        b.speedY *= -1
+        // If the bottom of the ball meets the top of the platform
+        if (ballBottom >= platformTop && b.speedY > 0) {
+            // Reverse the ball's vertical direction
+            b.speedY *= -1
+        }
+
+
+
     }
-
-
-
-}
     fun draw() {
 
         canvas= holder!!.lockCanvas()
@@ -126,15 +127,15 @@ fun onCollision(p: PlayerPlatform,b:Ball) {
     override fun run() {
         while (running) {
 
-                update()
-                draw()
+            update()
+            draw()
             onIntersection(playerPlatform,ball1)
             ball1.checkbounders(bounds,mcontext)
             playerPlatform.checkBounds(bounds)
 
-            }
-        Thread.sleep(6)
         }
+        Thread.sleep(6)
+    }
 
     fun drawPoints(canvas: Canvas) {
         paintPoints.color = Color.BLACK
@@ -149,20 +150,33 @@ fun onCollision(p: PlayerPlatform,b:Ball) {
         playerName = name
     }
 
-    fun saveScore(){
-        val newClassicScore = Score(playerName, points, true)
-        ScoreList.scoreList.add(newClassicScore)
+    fun saveScore() {
+        val existingScoreIndex = ScoreList.scoreList.indexOfFirst { it.name == playerName && it.classic }
+
+        if (existingScoreIndex != -1) {
+            // If the user already exists in the list, update the score
+            ScoreList.scoreList[existingScoreIndex].score = points
+        } else {
+            // If the user doesn't exist, add a new score
+            val newClassicScore = Score(playerName, points, true)
+            ScoreList.scoreList.add(newClassicScore)
+        }
     }
 
+
     fun gameEnd(){
+        saveScore() // Save the score before transitioning to HighscoreActivity
         val intent = Intent(activityContext, ClassicHighscoreActivity::class.java)
         activityContext.startActivity(intent)
     }
 
     companion object {
         var points = 0
-       fun addPoints() {
+        fun addPoints() {
             points ++
         }
     }
 }
+
+
+
