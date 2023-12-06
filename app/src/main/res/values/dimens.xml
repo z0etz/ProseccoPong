@@ -21,6 +21,7 @@
 
     <dimen name="extra_small_margin_top">10dp</dimen>
     <dimen name="small_margin_top">85dp</dimen>
+    <dimen name="extra_medium_margin_top">125dp</dimen>
     <dimen name="medium_margin_top">200dp</dimen>
     <dimen name="large_margin_top">335dp</dimen>
 
