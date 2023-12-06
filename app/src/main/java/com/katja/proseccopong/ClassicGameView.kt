@@ -61,8 +61,16 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         stop()
     }
     override fun onTouchEvent(event: MotionEvent?):Boolean{
+        val touchX = event?.x ?: 0f
 
-        playerPlatform.posX=event!!.x
+        // Gradvis rörelsehastighet för plattformen
+        val movementSpeed = 5f
+
+        // Beräkna skillnaden mellan den nuvarande plattformens position och tryckpunkten
+        val difference = touchX - playerPlatform.posX
+
+        // Uppdatera plattformens position gradvis mot tryckpunkten
+        playerPlatform.posX += difference / movementSpeed
 
         return true
     }
