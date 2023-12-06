@@ -1,12 +1,14 @@
 package com.katja.proseccopong
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class ClassicHighScoreAdapter(private val highScores: List<HighScoreItem>) : RecyclerView.Adapter<ClassicHighScoreAdapter.ViewHolder>() {
+class ClassicHighScoreAdapter(private val highScores: List<Score>) : RecyclerView.Adapter<ClassicHighScoreAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val rankTextView: TextView = view.findViewById(R.id.rankTextView)
         val scoreTextView: TextView = view.findViewById(R.id.scoreTextView)
@@ -25,10 +27,15 @@ class ClassicHighScoreAdapter(private val highScores: List<HighScoreItem>) : Rec
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val highScore = highScores[position]
+        val score = highScores[position]
 
-        holder.rankTextView.text = highScore.rank.toString()
-        holder.scoreTextView.text = highScore.score.toString()
-        holder.nameTextView.text = highScore.playerName
+        // Assuming rank is the position in the list (1-based)
+        holder.rankTextView.text = (position + 1).toString()
+        holder.scoreTextView.text = score.score.toString()
+        holder.nameTextView.text = score.name
+
     }
+
+
 }
+
