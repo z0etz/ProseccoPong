@@ -25,16 +25,19 @@ class Ball(private val gameView: ClassicGameView,
     var ballOutToastShown = false
 
     fun checkbounders(bounds: Rect, context: Context) {
+        val leftBound = bounds.left + size
+        val rightBound = bounds.right - size
+        val topBound = bounds.top + size
+        val bottomBound = bounds.bottom - size
 
-        if (posX - size < bounds.left || posX - size > bounds.right) {
+        if (posX - size < leftBound || posX + size > rightBound) {
             speedX *= -1
-            posX = posX + speedX * 2
-
+            posX += speedX * 2
         }
-        if (posY - size < bounds.top) {
-            speedY *= -1
-            posY = posY + speedY * 2
 
+        if (posY - size < topBound ) {
+            speedY *= -1
+            posY += speedY * 2
         }
         if (posY + size / 2 > bounds.bottom - platformTop) {
             // When the ball reaches the platform level, check it it collides or goes out
@@ -48,6 +51,7 @@ class Ball(private val gameView: ClassicGameView,
                     ballOutToastShown = true // Set the flag to true once the toast is shown
                 }
             }
+
         }
     }
 

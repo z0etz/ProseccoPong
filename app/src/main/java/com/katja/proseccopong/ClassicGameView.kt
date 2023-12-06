@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 
 
 class ClassicGameView(context: Context, private val activityContext: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
-    private var mholder: SurfaceHolder? = holder
+    private var mholder: SurfaceHolder? = null
     private var running = false
     lateinit var canvas:Canvas
     private var mcontext=context
@@ -33,6 +33,8 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
 
 
     init {
+        mholder = holder
+
         if(mholder!=null) {
             holder?.addCallback(this)
 
@@ -52,6 +54,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
         start()
+
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
@@ -130,7 +133,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
     }
     fun draw() {
 
-        canvas= holder!!.lockCanvas()
+        canvas= mholder!!.lockCanvas() ?: return
         val backgroundDrawable = resources.getDrawable(R.drawable.pexels_kai_pilger_1341279, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
