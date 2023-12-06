@@ -166,6 +166,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
 
     fun gameEnd(){
         saveScore() // Save the score before transitioning to HighscoreActivity
+        resetPoints() // Reset points variable so that it starts at 0 in the next game
         val intent = Intent(activityContext, ClassicHighscoreActivity::class.java)
         activityContext.startActivity(intent)
     }
@@ -175,8 +176,12 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         fun addPoints() {
             points ++
         }
+        fun resetPoints(){
+            points = 0
+        }
     }
 }
+
 
 
 
