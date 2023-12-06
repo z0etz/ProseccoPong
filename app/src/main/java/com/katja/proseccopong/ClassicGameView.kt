@@ -50,6 +50,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
         start()
+
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {

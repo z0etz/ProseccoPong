@@ -38,6 +38,7 @@ class Ball(private val gameView: ClassicGameView,
         if (posY - size > bottomBound) {
 
             //Save score and sout for debug
+
             gameView.saveScore()
             println(ScoreList)
 //            (context as Activity).runOnUiThread {
