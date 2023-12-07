@@ -75,6 +75,7 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         return true
     }
 
+
     fun start() {
         running = true
         thread = Thread(this)
