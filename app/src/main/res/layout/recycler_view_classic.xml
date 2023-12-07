@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/medium_padding"
-    android:background="@drawable/pexels_kai_pilger_1341279">
+    android:background="#00000000">
+
 
     <!-- Guideline för att skapa utrymme mellan rank och score -->
     <androidx.constraintlayout.widget.Guideline
