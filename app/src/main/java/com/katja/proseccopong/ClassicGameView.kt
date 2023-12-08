@@ -2,6 +2,7 @@ package com.katja.proseccopong
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -10,9 +11,10 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
 
 
-class ClassicGameView(context: Context, private val activityContext: Context): SurfaceView(context), SurfaceHolder.Callback,Runnable {
+class ClassicGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable {
     private var mholder: SurfaceHolder? = null
     private var running = false
     lateinit var canvas:Canvas
@@ -185,16 +187,24 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
     }
 
     fun saveScore() {
+
+        val editor = sharedPreferences.edit()
+
         val existingScoreIndex = ScoreList.scoreList.indexOfFirst { it.name == playerName && it.classic }
 
         if (existingScoreIndex != -1) {
-            // If the user already exists in the list, update the score
+            // Om användaren redan finns i listan, uppdatera poängen
             ScoreList.scoreList[existingScoreIndex].score = points
         } else {
-            // If the user doesn't exist, add a new score
+            // Om användaren inte finns, lägg till nya poäng
             val newClassicScore = Score(playerName, points, true)
             ScoreList.scoreList.add(newClassicScore)
         }
+
+        // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
+        val scoreListJson = Gson().toJson(ScoreList.scoreList)
+        editor.putString("score_list", scoreListJson)
+        editor.apply()
     }
 
 
@@ -216,7 +226,3 @@ class ClassicGameView(context: Context, private val activityContext: Context): S
         }
     }
 }
-
-
-
-
