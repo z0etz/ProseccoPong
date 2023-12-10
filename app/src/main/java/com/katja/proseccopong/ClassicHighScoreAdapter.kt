@@ -13,8 +13,6 @@ class ClassicHighScoreAdapter(private val highScores: List<Score>) : RecyclerVie
         val rankTextView: TextView = view.findViewById(R.id.rankTextView)
         val scoreTextView: TextView = view.findViewById(R.id.scoreTextView)
         val nameTextView: TextView = view.findViewById(R.id.nameTextView)
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
