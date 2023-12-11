@@ -24,6 +24,9 @@ class ClassicHighscoreActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Sortera listan baserat på poäng i fall det inte är sorterat ännu
+        ScoreList.scoreList.sortByDescending { it.score }
+
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val adapter = ClassicHighScoreAdapter(ScoreList.scoreList)
         recyclerView.adapter = adapter
