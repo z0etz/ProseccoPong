@@ -212,7 +212,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         saveScore() // Save the score before transitioning to HighscoreActivity
         println(ScoreList) //Sout for debug
         resetPoints() // Reset points variable so that it starts at 0 in the next game
-        val intent = Intent(activityContext, ClassicHighscoreActivity::class.java)
+        val intent = Intent(activityContext, HighscoreActivity::class.java)
         activityContext.startActivity(intent)
     }
 
