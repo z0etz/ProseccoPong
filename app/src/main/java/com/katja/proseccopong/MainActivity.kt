@@ -21,15 +21,20 @@ class MainActivity : AppCompatActivity() {
 
 
         bClassicPong.setOnClickListener {
+            val toast = "ClassicGameViewActivity"
+            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EnterNameActivity::class.java)
+            intent.putExtra("Game Choice", toast);
             startActivity(intent)
         }
 
 
         bProseccoPong.setOnClickListener {
-            val toast = getString(R.string.prosecco_pong)
+            val toast = "ProseccoGameViewActivity"
             Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
-            // TODO: Byt ut toast till logik för vad som ska hända när man trycker på knappen.
+            val intent = Intent(this, EnterNameActivity::class.java)
+            intent.putExtra("Game Choice", toast)
+            startActivity(intent)
         }
 
         bHighscore.setOnClickListener {
