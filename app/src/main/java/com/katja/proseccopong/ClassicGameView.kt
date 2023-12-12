@@ -155,6 +155,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         Thread.sleep(6)
     }
 
+
     fun drawPoints(canvas: Canvas) {
         val textColor = ContextCompat.getColor(context, R.color.white)
         val shadowColor = ContextCompat.getColor(context, R.color.baby_blue)
