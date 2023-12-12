@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 
 
-class ClassicGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable {
+class ClassicGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
     private var mholder: SurfaceHolder? = null
     private var running = false
     lateinit var canvas:Canvas
@@ -101,7 +101,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     // Function to accsess the return statment of onIntersection by other classes
-    fun ballDown(): Boolean {
+    override fun ballDown(): Boolean {
         return onIntersection(playerPlatform, ball1)
     }
 
@@ -123,26 +123,14 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
             // Increment points
-            addPoints()
+            GameManager.addPoints()
             return false // Return statment to mark that the ball is not out
         }
         else {
             return true // Return statment to mark that the ball is out
         }
     }
-    fun onCollision(p: PlayerPlatform,b:Ball) {
-        val ballBottom = b.posY + b.size
-        val platformTop = p.posY
 
-        // If the bottom of the ball meets the top of the platform
-        if (ballBottom >= platformTop && b.speedY > 0) {
-            // Reverse the ball's vertical direction
-            b.speedY *= -1
-        }
-
-
-
-    }
     fun draw() {
 
         canvas= mholder!!.lockCanvas() ?: return
@@ -167,6 +155,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         Thread.sleep(6)
     }
 
+
     fun drawPoints(canvas: Canvas) {
         val textColor = ContextCompat.getColor(context, R.color.white)
         val shadowColor = ContextCompat.getColor(context, R.color.baby_blue)
@@ -181,7 +170,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
         // Rita "Name" och "Score" bredvid varandra på samma rad, högre upp på skärmen
         val nameText = "Name: $playerName".uppercase() // Gör texten till stora bokstäver
-        val scoreText = "Score: $points".uppercase() // Gör texten till stora bokstäver
+        val scoreText = "Score: $GameManager.points".uppercase() // Gör texten till stora bokstäver
 
         val centerX = viewWidth / 2
         val centerY = viewHeight / 8 // Justera y-koordinaten för att höja texten
@@ -206,6 +195,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         playerName = name
     }
 
+    // TODO: Ändra så att tidigare resultat inte skrivs över
     fun saveScore() {
 
         val editor = sharedPreferences.edit()
@@ -214,10 +204,10 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
         if (existingScoreIndex != -1) {
             // Om användaren redan finns i listan, uppdatera poängen
-            ScoreList.scoreList[existingScoreIndex].score = points
+            ScoreList.scoreList[existingScoreIndex].score = GameManager.points
         } else {
             // Om användaren inte finns, lägg till nya poäng
-            val newClassicScore = Score(playerName, points, true)
+            val newClassicScore = Score(playerName, GameManager.points, true)
             ScoreList.scoreList.add(newClassicScore)
         }
 
@@ -228,21 +218,11 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
 
-    fun gameEnd(){
+    override fun gameEnd(){
         saveScore() // Save the score before transitioning to HighscoreActivity
         println(ScoreList) //Sout for debug
-        resetPoints() // Reset points variable so that it starts at 0 in the next game
         val intent = Intent(activityContext, HighscoreActivity::class.java)
         activityContext.startActivity(intent)
-    }
-
-    companion object {
-        var points = 0
-        fun addPoints() {
-            points ++
-        }
-        fun resetPoints(){
-            points = 0
-        }
+        GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
     }
 }

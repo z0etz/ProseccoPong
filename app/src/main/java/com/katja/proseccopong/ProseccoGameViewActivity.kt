@@ -9,7 +9,7 @@ import com.katja.proseccopong.databinding.ActivityProseccoGameViewBinding
 class ProseccoGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
     lateinit var proseccoBinding: ActivityProseccoGameViewBinding
-    lateinit var classicGameView: ClassicGameView
+    lateinit var proseccoGameView: ProseccoGameView
 
     // Skapa SharedPreferences-objekt
     private val sharedPreferences by lazy {
@@ -22,16 +22,16 @@ class ProseccoGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
         setContentView(proseccoBinding.root)
 
         val playerName = intent.getStringExtra("PLAYER_NAME")
-        classicGameView = ClassicGameView(this, this, sharedPreferences)
-        classicGameView.setPlayerName(playerName ?: "")
+        proseccoGameView = ProseccoGameView(this, this, sharedPreferences)
+        proseccoGameView.setPlayerName(playerName ?: "")
 
-        proseccoBinding.surfaceProseccoGameView.holder.addCallback(classicGameView)
-        setContentView(classicGameView)
+        proseccoBinding.surfaceProseccoGameView.holder.addCallback(proseccoGameView)
+        setContentView(proseccoGameView)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        classicGameView.saveScore() // Spara poängen när aktiviteten förstörs
+        proseccoGameView.saveScore() // Spara poängen när aktiviteten förstörs
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
