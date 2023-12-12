@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.Typeface
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -167,19 +168,38 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     fun drawPoints(canvas: Canvas) {
+        val textColor = ContextCompat.getColor(context, R.color.white)
+        val shadowColor = ContextCompat.getColor(context, R.color.baby_blue)
 
-        paintPoints.color = ContextCompat.getColor(context, R.color.pink)
+        paintPoints.color = textColor
         paintPoints.textAlign = Paint.Align.CENTER
         paintPoints.textSize = textSizePoints
-        paintPoints.setShadowLayer(20f, 5f, 5f, ContextCompat.getColor(context, R.color.pink))
-        canvas.drawText(playerName, viewWidth / 2, viewHeight / 10, paintPoints)
+        paintPoints.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) // Gör texten fet
 
-        canvas.drawText(points.toString(), viewWidth / 2, (viewHeight / 10) + textSizePoints + 20, paintPoints)
+        // Använd shadowLayer för skugga
+        paintPoints.setShadowLayer(20f, 3f, 3f, shadowColor)
 
+        // Rita "Name" och "Score" bredvid varandra på samma rad, högre upp på skärmen
+        val nameText = "Name: $playerName".uppercase() // Gör texten till stora bokstäver
+        val scoreText = "Score: $points".uppercase() // Gör texten till stora bokstäver
+
+        val centerX = viewWidth / 2
+        val centerY = viewHeight / 8 // Justera y-koordinaten för att höja texten
+        val distanceBetweenText = 10f // Justera avståndet mellan "Name" och "Score"
+
+        // Rita "Name"
+        val nameX = centerX - paintPoints.measureText(nameText) / 2
+        val nameY = centerY - textSizePoints / 2
+        canvas.drawText(nameText, nameX, nameY, paintPoints)
+
+        // Rita "Score" bredvid "Name"
+        val scoreX = centerX + paintPoints.measureText(nameText) / 2 + distanceBetweenText
+        val scoreY = centerY - textSizePoints / 2
+        canvas.drawText(scoreText, scoreX, scoreY, paintPoints)
+
+        // Rensa shadowLayer efter användning
         paintPoints.clearShadowLayer()
     }
-
-
 
 
     fun setPlayerName(name: String) {
