@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClassicHighscoreActivity"
+    tools:context=".HighscoreActivity"
     android:background="@drawable/pexels_kai_pilger_1341279">
 
 
@@ -95,7 +95,7 @@
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="20"
-        android:text="Main menu"
+        android:text="@string/main_menu"
         android:textColor="@color/pink"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -60,6 +60,7 @@
     <dimen name="medium_padding">20dp</dimen>
     <dimen name="extra_small_margin_start">16dp</dimen>
     <dimen name="extra_medium_margin_end">184dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 
 </resources>

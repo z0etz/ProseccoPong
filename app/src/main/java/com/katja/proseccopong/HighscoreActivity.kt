@@ -6,15 +6,15 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.katja.proseccopong.databinding.ActivityClassicHighscoreBinding
+import com.katja.proseccopong.databinding.ActivityHighscoreBinding
 
-class ClassicHighscoreActivity : AppCompatActivity() {
+class HighscoreActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityClassicHighscoreBinding
+    private lateinit var binding: ActivityHighscoreBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityClassicHighscoreBinding.inflate(layoutInflater)
+        binding = ActivityHighscoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val mainmenubutton: Button = binding.buttonMainMenu
@@ -28,7 +28,7 @@ class ClassicHighscoreActivity : AppCompatActivity() {
         ScoreList.scoreList.sortByDescending { it.score }
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        val adapter = ClassicHighScoreAdapter(ScoreList.scoreList)
+        val adapter = HighScoreAdapter(ScoreList.scoreList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }

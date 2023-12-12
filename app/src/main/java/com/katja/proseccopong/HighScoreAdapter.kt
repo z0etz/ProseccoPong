@@ -1,14 +1,12 @@
 package com.katja.proseccopong
 
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class ClassicHighScoreAdapter(private val highScores: List<Score>) : RecyclerView.Adapter<ClassicHighScoreAdapter.ViewHolder>() {
+class HighScoreAdapter(private val highScores: List<Score>) : RecyclerView.Adapter<HighScoreAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val rankTextView: TextView = view.findViewById(R.id.rankTextView)
         val scoreTextView: TextView = view.findViewById(R.id.scoreTextView)

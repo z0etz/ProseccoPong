@@ -1,14 +1,14 @@
 package com.katja.proseccopong
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.SurfaceHolder
-import androidx.appcompat.app.AppCompatActivity
-import com.katja.proseccopong.databinding.ActivityClassicGameViewBinding
+import com.katja.proseccopong.databinding.ActivityProseccoGameViewBinding
 
-class ClassicGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
+class ProseccoGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
-    lateinit var binding: ActivityClassicGameViewBinding
+    lateinit var proseccoBinding: ActivityProseccoGameViewBinding
     lateinit var classicGameView: ClassicGameView
 
     // Skapa SharedPreferences-objekt
@@ -18,14 +18,14 @@ class ClassicGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityClassicGameViewBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        proseccoBinding = ActivityProseccoGameViewBinding.inflate(layoutInflater)
+        setContentView(proseccoBinding.root)
 
         val playerName = intent.getStringExtra("PLAYER_NAME")
         classicGameView = ClassicGameView(this, this, sharedPreferences)
         classicGameView.setPlayerName(playerName ?: "")
 
-        binding.surfaceClassicGameView.holder.addCallback(classicGameView)
+        proseccoBinding.surfaceProseccoGameView.holder.addCallback(classicGameView)
         setContentView(classicGameView)
     }
 
