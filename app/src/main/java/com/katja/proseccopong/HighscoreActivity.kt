@@ -13,6 +13,7 @@ class HighscoreActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHighscoreBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val deleteScore = application as MyApplication
         super.onCreate(savedInstanceState)
         binding = ActivityHighscoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -31,5 +32,10 @@ class HighscoreActivity : AppCompatActivity() {
         val adapter = HighScoreAdapter(ScoreList.scoreList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val buttonDelete = binding.btnDelete // Change this to your ImageButton ID
+        buttonDelete.setOnClickListener {
+            deleteScore.clearAllData()
+            recreate() // Återskapar den nuvarande aktiviteten
+        }
     }
 }
