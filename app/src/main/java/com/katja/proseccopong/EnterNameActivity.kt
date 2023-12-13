@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 class EnterNameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-     val  GameChoice: String? = intent.getStringExtra("Game Choice")
 
-
+        val  GameChoice: String? = intent.getStringExtra("Game Choice")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_name)
