@@ -33,7 +33,8 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     var paintPoints = Paint()
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     private var playerName: String = ""
-
+    var points = 0
+    var existingScoreIndex = -1
 
     init {
         mholder = holder
@@ -196,6 +197,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     // TODO: Ändra så att tidigare resultat inte skrivs över
+
     fun saveScore() {
         val editor = sharedPreferences.edit()
 
@@ -203,28 +205,27 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         val existingScores = ScoreList.scoreList.filter { it.name == playerName && it.classic }
 
         // Kontrollera om den nya poängen redan finns i listan
-        val isDuplicate = existingScores.any { it.score == GameManager.points }
-
+        val isDuplicate = existingScores.any { it.score == points }
 
         // Lägg till ny poäng i listan om det inte är en duplicat
         if (!isDuplicate) {
-            // Lägg till ny poäng i listan
-            val newClassicScore = Score(playerName, GameManager.points, true)
-
-        if (existingScoreIndex != -1) {
             // Om användaren redan finns i listan, uppdatera poängen
-            ScoreList.scoreList[existingScoreIndex].score = GameManager.points
-        } else {
-            // Om användaren inte finns, lägg till nya poäng
-            val newClassicScore = Score(playerName, GameManager.points, true)
+            if (existingScoreIndex != -1) {
+                ScoreList.scoreList[existingScoreIndex].score = GameManager.points
+            } else {
+                // Om användaren inte finns, lägg till nya poäng
+                val newClassicScore = Score(playerName, GameManager.points, true)
+                ScoreList.scoreList.add(newClassicScore)
+            }
 
-            ScoreList.scoreList.add(newClassicScore)
+            // Uppdatera den befintliga variabeln
+            existingScoreIndex = existingScores.indexOfFirst { it.name == playerName && it.classic }
+
+            // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
+            val scoreListJson = Gson().toJson(ScoreList.scoreList)
+            editor.putString("score_list", scoreListJson)
+            editor.apply()
         }
-
-        // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
-        val scoreListJson = Gson().toJson(ScoreList.scoreList)
-        editor.putString("score_list", scoreListJson)
-        editor.apply()
     }
 
 
@@ -236,5 +237,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
     }
 }
+
 
 
