@@ -71,6 +71,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/small_font"
         android:textStyle="bold"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"

@@ -197,10 +197,19 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
     // TODO: Ändra så att tidigare resultat inte skrivs över
     fun saveScore() {
-
         val editor = sharedPreferences.edit()
 
-        val existingScoreIndex = ScoreList.scoreList.indexOfFirst { it.name == playerName && it.classic }
+        // Hitta befintliga poängposter för samma spelare
+        val existingScores = ScoreList.scoreList.filter { it.name == playerName && it.classic }
+
+        // Kontrollera om den nya poängen redan finns i listan
+        val isDuplicate = existingScores.any { it.score == points }
+
+
+        // Lägg till ny poäng i listan om det inte är en duplicat
+        if (!isDuplicate) {
+            // Lägg till ny poäng i listan
+            val newClassicScore = Score(playerName, points, true)
 
         if (existingScoreIndex != -1) {
             // Om användaren redan finns i listan, uppdatera poängen
@@ -208,6 +217,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         } else {
             // Om användaren inte finns, lägg till nya poäng
             val newClassicScore = Score(playerName, GameManager.points, true)
+
             ScoreList.scoreList.add(newClassicScore)
         }
 
@@ -226,3 +236,5 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
     }
 }
+
+
