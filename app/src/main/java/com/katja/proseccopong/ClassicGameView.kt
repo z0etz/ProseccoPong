@@ -203,13 +203,13 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         val existingScores = ScoreList.scoreList.filter { it.name == playerName && it.classic }
 
         // Kontrollera om den nya poängen redan finns i listan
-        val isDuplicate = existingScores.any { it.score == points }
+        val isDuplicate = existingScores.any { it.score == GameManager.points }
 
 
         // Lägg till ny poäng i listan om det inte är en duplicat
         if (!isDuplicate) {
             // Lägg till ny poäng i listan
-            val newClassicScore = Score(playerName, points, true)
+            val newClassicScore = Score(playerName, GameManager.points, true)
 
         if (existingScoreIndex != -1) {
             // Om användaren redan finns i listan, uppdatera poängen
