@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 
-class Ball(private val gameView: ClassicGameView,
+class Ball(private val gameView: GameView,
     val context: Context,
     var posX: Float,
     var posY: Float,
