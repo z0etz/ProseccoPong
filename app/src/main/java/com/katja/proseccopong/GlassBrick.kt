@@ -6,12 +6,12 @@ import androidx.core.content.ContextCompat
 
 class GlassBrick(private val gameView: GameView,
                  val context: Context,
-                 var posX: Float,
-                 var posY: Float, var rose: Boolean) {
+                 var offsetFromMiddleX: Float,
+                 var offsetFromTopY: Float, var rose: Boolean, var viewWidth: Float, var viewHeight: Float) {
 
     var hasBeenHit = false
     var glassImage = ContextCompat.getDrawable(context, R.drawable.glas_prosecco)
-    val width = 100
+    val width = 50
     val height = width * 3
     var rotationAngle = 0f
 
@@ -38,7 +38,10 @@ class GlassBrick(private val gameView: GameView,
             val glassImage = ContextCompat.getDrawable(context, R.drawable.glas_tomt)
         }
         // Set position
-        glassImage?.setBounds(posX.toInt() - width/2, posY.toInt() - height/2, posX.toInt() + width/2, posY.toInt() + height/2)
+        glassImage?.setBounds(viewWidth.toInt() / 2 + offsetFromMiddleX.toInt() - width/2,
+            offsetFromTopY.toInt() - height/2,
+            viewWidth.toInt() / 2 + offsetFromMiddleX.toInt() + width/2,
+             offsetFromTopY.toInt() + height/2)
 
         if(rotationAngle == 0f) {
             glassImage?.draw(canvas)
@@ -46,7 +49,7 @@ class GlassBrick(private val gameView: GameView,
         else {
             glassImage?.let {
                 canvas.save()
-                canvas.rotate(rotationAngle, posX, posY)
+                canvas.rotate(rotationAngle, offsetFromMiddleX, offsetFromTopY)
                 it.draw(canvas)
                 canvas.restore()
             }
@@ -58,5 +61,9 @@ class GlassBrick(private val gameView: GameView,
         // TODO: Lägg till mer logik för vad som ska hända när bricka träffas, efter att bilden roterat ska brickan bl.a. försvinna så småningom.
     }
 
+    fun sufaceChanged(width: Float, height: Float){
+        viewWidth = width
+        viewHeight = height
+    }
 
 }

@@ -21,6 +21,10 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     private var mcontext = context
     private var ball1: Ball
     private var playerPlatform: PlayerPlatform
+    lateinit private var brick1_1: GlassBrick
+    lateinit private var brick1_2: GlassBrick
+    lateinit private var brick1_3: GlassBrick
+    lateinit private var brick2_3: GlassBrick
     private var thread: Thread? = null
     private var platformLevel = 200f
     private var platformHeight = 25f
@@ -55,7 +59,10 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-
+        brick1_1 = GlassBrick(this, mcontext, -200f, 400f, false, viewWidth, viewHeight)
+        brick1_2 = GlassBrick(this, mcontext, -100f, 400f, false, viewWidth, viewHeight)
+        brick1_3 = GlassBrick(this, mcontext, 0f, 400f, true, viewWidth, viewHeight)
+        brick2_3 = GlassBrick(this, mcontext, 0f, 600f, true, viewWidth, viewHeight)
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -63,6 +70,10 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         playerPlatform.initialize(width, height)
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
+        brick1_1.sufaceChanged(viewWidth, viewHeight)
+        brick1_2.sufaceChanged(viewWidth, viewHeight)
+        brick1_3.sufaceChanged(viewWidth, viewHeight)
+        brick2_3.sufaceChanged(viewWidth, viewHeight)
         start()
 
     }
@@ -144,6 +155,10 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         backgroundDrawable.draw(canvas)
         drawPoints(canvas)
         playerPlatform.draw(canvas)
+        brick1_1.draw(canvas)
+        brick1_2.draw(canvas)
+        brick1_3.draw(canvas)
+        brick2_3.draw(canvas)
         ball1.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
     }
