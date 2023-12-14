@@ -214,20 +214,25 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     }
 
     fun drawPoints(canvas: Canvas) {
+        // Rensa Canvas
+        val backgroundDrawable = resources.getDrawable(R.drawable.pexels_kai_pilger_1341279, null)
+        backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
+        backgroundDrawable.draw(canvas)
+
         val textColor = ContextCompat.getColor(context, R.color.white)
         val shadowColor = ContextCompat.getColor(context, R.color.baby_blue)
 
         paintPoints.color = textColor
         paintPoints.textAlign = Paint.Align.CENTER
         paintPoints.textSize = textSizePoints
-        paintPoints.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD) // Gör texten fet
+        paintPoints.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
 
         // Använd shadowLayer för skugga
         paintPoints.setShadowLayer(20f, 3f, 3f, shadowColor)
 
         // Rita "Name" och "Score" bredvid varandra på samma rad, högre upp på skärmen
-        val nameText = "Name: $playerName".uppercase() // Gör texten till stora bokstäver
-        val scoreText = "Score: $GameManager.points".uppercase() // Gör texten till stora bokstäver
+        val nameText = "Name: $playerName".uppercase()
+        val scoreText = "Score: ${GameManager.points}".uppercase()
 
         val centerX = viewWidth / 2
         val centerY = viewHeight / 8 // Justera y-koordinaten för att höja texten
@@ -243,7 +248,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         val scoreY = centerY - textSizePoints / 2
         canvas.drawText(scoreText, scoreX, scoreY, paintPoints)
 
-        // Rensa shadowLayer efter användning
         paintPoints.clearShadowLayer()
     }
 
