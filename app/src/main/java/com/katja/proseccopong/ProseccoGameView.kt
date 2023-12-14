@@ -31,7 +31,11 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     var viewHeight = 0f
     var paintPoints = Paint()
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
+    var brickWidth: Int = 50
     private var playerName: String = ""
+
+    // List holding active bricks, filled in onSurfaceCreated. Bricks should be removed once they are hit.
+    val brickList = ArrayList<GlassBrick>()
 
 
     init {
@@ -56,6 +60,36 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     override fun surfaceCreated(holder: SurfaceHolder) {
 
+        // Create glass brick layout
+        brickList.add(GlassBrick(this, mcontext, "brick 1_1", brickWidth,
+            -2, 0, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 1_2", brickWidth,
+            -1, 0, true, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 1_3", brickWidth,
+            0, 0, true, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 1_4", brickWidth,
+            1, 0, true, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 1_5", brickWidth,
+            2, 0, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 2_1", brickWidth,
+            -1, 1, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 2_2", brickWidth,
+            0, 1, true, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 2_3", brickWidth,
+            1, 1, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 3_1", brickWidth,
+            0, 2, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 4_1", brickWidth,
+            0, 3, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 5_1", brickWidth,
+            0, 4, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 6_1", brickWidth,
+            -1, 5, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 6_2", brickWidth,
+            0, 5, false, viewWidth, viewHeight))
+        brickList.add(GlassBrick(this, mcontext,"brick 6_3", brickWidth,
+            1, 5, false, viewWidth, viewHeight))
+
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -63,6 +97,22 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         playerPlatform.initialize(width, height)
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
+
+        if (viewHeight >= viewWidth) {
+            // Set first Int to aprx. how big part of the screen width the layout should take up (1/x)
+            // Set last Int to the number of bricks in the widest row of the brick layout
+            brickWidth = viewWidth.toInt() / 4 / 5
+        }
+        else {
+            // Set first Int to aprx. how big part of the screen height the layout should take up (1/x)
+            // Second Int converts brickHeight to brickWidth and should be kept as 3
+            // Set last Int to the number of bricks in the widest row of the brick layout
+            brickWidth = viewHeight.toInt() / 4 / 3 / 7 // Set last Int to the number of bricks in the longest column of the brick layout
+        }
+        brickList.forEach { brick ->
+            brick.sufaceChanged(viewWidth, viewHeight, brickWidth)
+        }
+
         start()
 
     }
@@ -144,6 +194,9 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         backgroundDrawable.draw(canvas)
         drawPoints(canvas)
         playerPlatform.draw(canvas)
+        brickList.forEach { brick ->
+            brick.draw(canvas)
+        }
         ball1.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
     }
