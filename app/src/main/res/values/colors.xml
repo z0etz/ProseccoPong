@@ -3,10 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#38e917</color>
-    <color name="pink">#fc47eb</color>
-    <!--<color name="pink">#fef3b5</color>-->
+    <!--<color name="pink">#fc47eb</color>-->
+    <color name="pink">#FFE868</color>
     <color name="yellow">#ddd016</color>
-    <color name="baby_blue">#00d4ff</color>
+    <!--<color name="baby_blue">#00d4ff</color>-->
+    <color name="baby_blue">#FFE868</color>
     <color name="blue">#0612a8</color>
 
 </resources>
