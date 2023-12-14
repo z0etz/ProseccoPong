@@ -18,7 +18,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     private var mholder: SurfaceHolder? = null
     private var running = false
     lateinit var canvas: Canvas
-    private var mcontext=context
+    private var mcontext = context
     private var ball1: Ball
     private var playerPlatform: PlayerPlatform
     private var thread: Thread? = null
@@ -37,12 +37,20 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     init {
         mholder = holder
 
-        if(mholder!=null) {
+        if (mholder != null) {
             holder?.addCallback(this)
 
         }
-        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
-        ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f, platformTop)
+        playerPlatform = PlayerPlatform(
+            mcontext,
+            platformWidth,
+            platformHeight,
+            0f,
+            0f,
+            platformLevel,
+            Color.WHITE
+        )
+        ball1 = Ball(this, mcontext, 100f, 100f, 20f, 10f, 20f, platformTop)
 
     }
 
@@ -51,7 +59,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        bounds= Rect(0,0, width,height)
+        bounds = Rect(0, 0, width, height)
         playerPlatform.initialize(width, height)
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
@@ -62,11 +70,12 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         stop()
     }
-    override fun onTouchEvent(event: MotionEvent?):Boolean{
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
         val touchX = event?.x ?: 0f
 
         // Gradvis rörelsehastighet för plattformen
-        val movementSpeed = 5f
+        val movementSpeed = calculateMovementSpeedBasedOnScore()
 
         // Beräkna skillnaden mellan den nuvarande plattformens position och tryckpunkten
         val difference = touchX - playerPlatform.posX
@@ -88,7 +97,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         running = false
         try {
             thread?.join()
-        } catch (e:InterruptedException){
+        } catch (e: InterruptedException) {
             e.printStackTrace()
         }
 
@@ -104,7 +113,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         return onIntersection(playerPlatform, ball1)
     }
 
-    fun onIntersection(p:PlayerPlatform,b:Ball): Boolean{
+    fun onIntersection(p: PlayerPlatform, b: Ball): Boolean {
         // Calculate the centers of the platform and the ball
         val platformCenterX = p.posX + p.width / 2
         val ballCenterX = b.posX
@@ -122,15 +131,14 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
             return false // Return statment to mark that the ball is not out
-        }
-        else {
+        } else {
             return true // Return statment to mark that the ball is out
         }
     }
 
     fun draw() {
 
-        canvas= mholder!!.lockCanvas() ?: return
+        canvas = mholder!!.lockCanvas() ?: return
         val backgroundDrawable = resources.getDrawable(R.drawable.pexels_kai_pilger_1341279, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
@@ -145,7 +153,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
             update()
             draw()
-            ball1.checkbounders(bounds,mcontext)
+            ball1.checkbounders(bounds, mcontext)
             playerPlatform.checkBounds(bounds)
 
         }
@@ -191,35 +199,48 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         playerName = name
     }
 
-    // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat tne skrivs över
-    fun saveScore() {
+    fun calculateMovementSpeedBasedOnScore(): Float {
+        val currentScore = GameManager.points
 
-        val editor = sharedPreferences.edit()
+        // Justera hastigheten beroende på poängen
+        return when {
+            currentScore < 5 -> 5f // Långsammare rörelse om poängen är mindre än 50
+            currentScore < 10 -> 4f // Måttlig hastighet om poängen är mindre än 100
+            currentScore < 15 -> 3f // Snabbare om poängen är mindre än 150
+            else -> 2f // Anpassa efter behov för högre poäng
+        }
+    }
 
-        val existingScoreIndex = ScoreList.scoreList.indexOfFirst { it.name == playerName && it.classic }
+        // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat tne skrivs över
+        fun saveScore() {
 
-        if (existingScoreIndex != -1) {
-            // Om användaren redan finns i listan, uppdatera poängen
-            ScoreList.scoreList[existingScoreIndex].score = GameManager.points
-        } else {
-            // Om användaren inte finns, lägg till nya poäng
-            val newClassicScore = Score(playerName, GameManager.points, true)
-            ScoreList.scoreList.add(newClassicScore)
+            val editor = sharedPreferences.edit()
+
+            val existingScoreIndex =
+                ScoreList.scoreList.indexOfFirst { it.name == playerName && it.classic }
+
+            if (existingScoreIndex != -1) {
+                // Om användaren redan finns i listan, uppdatera poängen
+                ScoreList.scoreList[existingScoreIndex].score = GameManager.points
+            } else {
+                // Om användaren inte finns, lägg till nya poäng
+                val newClassicScore = Score(playerName, GameManager.points, true)
+                ScoreList.scoreList.add(newClassicScore)
+            }
+
+            // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
+            val scoreListJson = Gson().toJson(ScoreList.scoreList)
+            editor.putString("score_list", scoreListJson)
+            editor.apply()
         }
 
-        // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
-        val scoreListJson = Gson().toJson(ScoreList.scoreList)
-        editor.putString("score_list", scoreListJson)
-        editor.apply()
+
+        override fun gameEnd() {
+            saveScore() // Save the score before transitioning to HighscoreActivity
+            println(ScoreList) //Sout for debug
+            val intent = Intent(activityContext, HighscoreActivity::class.java)
+            activityContext.startActivity(intent)
+            GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
+        }
+
     }
-
-
-    override fun gameEnd(){
-        saveScore() // Save the score before transitioning to HighscoreActivity
-        println(ScoreList) //Sout for debug
-        val intent = Intent(activityContext, HighscoreActivity::class.java)
-        activityContext.startActivity(intent)
-        GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
-    }
-
-}
