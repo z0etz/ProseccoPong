@@ -201,32 +201,19 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     fun saveScore() {
         val editor = sharedPreferences.edit()
 
-        // Hitta befintliga poängposter för samma spelare
-        val existingScores = ScoreList.scoreList.filter { it.name == playerName && it.classic }
+        // Lägg till ny poäng i listan oavsett om det finns en duplicat
+        val newClassicScore = Score(playerName, GameManager.points, true)
+        ScoreList.scoreList.add(newClassicScore)
 
-        // Kontrollera om den nya poängen redan finns i listan
-        val isDuplicate = existingScores.any { it.score == points }
+        // Uppdatera den befintliga variabeln
+        existingScoreIndex = ScoreList.scoreList.indexOfFirst { it.name == playerName && it.classic }
 
-        // Lägg till ny poäng i listan om det inte är en duplicat
-        if (!isDuplicate) {
-            // Om användaren redan finns i listan, uppdatera poängen
-            if (existingScoreIndex != -1) {
-                ScoreList.scoreList[existingScoreIndex].score = GameManager.points
-            } else {
-                // Om användaren inte finns, lägg till nya poäng
-                val newClassicScore = Score(playerName, GameManager.points, true)
-                ScoreList.scoreList.add(newClassicScore)
-            }
-
-            // Uppdatera den befintliga variabeln
-            existingScoreIndex = existingScores.indexOfFirst { it.name == playerName && it.classic }
-
-            // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
-            val scoreListJson = Gson().toJson(ScoreList.scoreList)
-            editor.putString("score_list", scoreListJson)
-            editor.apply()
-        }
+        // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
+        val scoreListJson = Gson().toJson(ScoreList.scoreList)
+        editor.putString("score_list", scoreListJson)
+        editor.apply()
     }
+
 
 
     override fun gameEnd(){
