@@ -33,6 +33,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     var brickWidth: Int = 50
     private var playerName: String = ""
+    var touchX = 0f // Declare touchX as a class-level variable
 
     // List holding active bricks, filled in onSurfaceCreated. Bricks should be removed once they are hit.
     val brickList = ArrayList<GlassBrick>()
@@ -180,6 +181,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
+            GameManager.addPoints()
             return false // Return statment to mark that the ball is not out
         } else {
             return true // Return statment to mark that the ball is out
