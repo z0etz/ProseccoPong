@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
 
         bClassicPong.setOnClickListener {
-            val toast = "ClassicGameViewActivity"
+            val toast = "Classic Pong"
             Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EnterNameActivity::class.java)
             intent.putExtra("Game Choice", toast);
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
 
         bProseccoPong.setOnClickListener {
-            val toast = "ProseccoGameViewActivity"
+            val toast = "Prosecco Pong"
             Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EnterNameActivity::class.java)
             intent.putExtra("Game Choice", toast)
