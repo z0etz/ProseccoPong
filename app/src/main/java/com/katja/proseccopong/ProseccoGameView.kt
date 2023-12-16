@@ -34,7 +34,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     var brickWidth: Int = 50
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
-
     // List holding active bricks, filled in onSurfaceCreated. Bricks should be removed once they are hit.
     val brickList = ArrayList<GlassBrick>()
 
@@ -123,20 +122,23 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val touchX = event?.x ?: 0f
-
-        // Gradvis rörelsehastighet för plattformen
-        val movementSpeed = calculateMovementSpeedBasedOnScore()
-
-        // Beräkna skillnaden mellan den nuvarande plattformens position och tryckpunkten
-        val difference = touchX - playerPlatform.posX
-
-        // Uppdatera plattformens position gradvis mot tryckpunkten
-        playerPlatform.posX += difference / movementSpeed
-
+        if (event?.action == MotionEvent.ACTION_DOWN || event?.action == MotionEvent.ACTION_MOVE) {
+            touchX = event.x // Update touchX when a new touch event occurs
+        }
         return true
     }
 
+    fun updatePlatformPosition() {
+        val movementSpeed = calculateMovementSpeedBasedOnScore()
+        val difference = touchX - playerPlatform.posX
+        playerPlatform.posX += difference / movementSpeed
+
+        // Check if the platform is close enough to the touch point
+        if (Math.abs(touchX - playerPlatform.posX) < 5) {
+            // If the difference is very small, set the platform's position to the touch point
+            playerPlatform.posX = touchX
+        }
+    }
 
     fun start() {
         running = true
@@ -156,7 +158,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     fun update() {
         ball1.update()
-
+        updatePlatformPosition()
     }
 
     // Function to accsess the return statment of onIntersection by other classes
@@ -181,6 +183,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
+            // Increment points
             GameManager.addPoints()
             return false // Return statment to mark that the ball is not out
         } else {
