@@ -7,12 +7,14 @@
 
     <dimen name="button_w">200dp</dimen>
     <dimen name="button_h">50dp</dimen>
+    <dimen name="button_margin">110dp</dimen>
 
     <!-- Font -->
 
     <dimen name="small_font">15sp</dimen>
     <dimen name="medium_font">25sp</dimen>
     <dimen name="font_XL">50sp</dimen>
+    <dimen name="highscore">410sp</dimen>
 
     <!-- Margin -->
 
