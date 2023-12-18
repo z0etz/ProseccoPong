@@ -45,15 +45,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             holder?.addCallback(this)
 
         }
-        playerPlatform = PlayerPlatform(
-            mcontext,
-            platformWidth,
-            platformHeight,
-            0f,
-            0f,
-            platformLevel,
-            Color.WHITE
-        )
+        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext, 100f, 100f, 20f, 10f, 20f, platformTop)
 
     }
@@ -123,20 +115,20 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN || event?.action == MotionEvent.ACTION_MOVE) {
-            touchX = event.x // Update touchX when a new touch event occurs
+            touchX = event.x
         }
         return true
     }
 
     fun updatePlatformPosition() {
         val movementSpeed = calculateMovementSpeedBasedOnScore()
-        val difference = touchX - playerPlatform.posX
+        val difference = touchX - (playerPlatform.posX + playerPlatform.width / 2)
         playerPlatform.posX += difference / movementSpeed
 
         // Check if the platform is close enough to the touch point
-        if (Math.abs(touchX - playerPlatform.posX) < 5) {
+        if (Math.abs(touchX - (playerPlatform.posX + playerPlatform.width / 2)) < 5) {
             // If the difference is very small, set the platform's position to the touch point
-            playerPlatform.posX = touchX
+            playerPlatform.posX = touchX - playerPlatform.width / 2
         }
     }
 
