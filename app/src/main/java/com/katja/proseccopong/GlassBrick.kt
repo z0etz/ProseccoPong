@@ -15,6 +15,18 @@ class GlassBrick(private val gameView: GameView,
     var rotationAngle = 0f
     val topBrickLayoutOffset = 400
 
+    private var leftBound: Int = 0
+    private var topBound: Int = 0
+    private var rightBound: Int = 0
+    private var bottomBound: Int = 0
+
+    private fun calculateBounds() {
+        leftBound = viewWidth.toInt() / 2 + numberFromMiddleX * width + numberFromMiddleX * 10 - width/2
+        topBound = numberFromTopY * height - height/2 + numberFromTopY * 10 + topBrickLayoutOffset
+        rightBound = viewWidth.toInt() / 2 + numberFromMiddleX * width + numberFromMiddleX * 10 + width/2
+        bottomBound = numberFromTopY * height + height/2 + numberFromTopY * 10 + topBrickLayoutOffset
+    }
+
     fun draw(canvas: Canvas) {
         // Choose drawable
         if(!hasBeenHit) {
@@ -27,11 +39,11 @@ class GlassBrick(private val gameView: GameView,
         else {
             glassImage = ContextCompat.getDrawable(context, R.drawable.glas_tomt)
         }
+
+        calculateBounds()
+
         // Set position
-        glassImage?.setBounds(viewWidth.toInt() / 2 + numberFromMiddleX * width + numberFromMiddleX * 10 - width/2,
-            numberFromTopY * height - height/2 + numberFromTopY * 10 + topBrickLayoutOffset,
-            viewWidth.toInt() / 2 + numberFromMiddleX * width + numberFromMiddleX * 10 + width/2,
-            numberFromTopY * height + height/2 + numberFromTopY * 10 + topBrickLayoutOffset)
+        glassImage?.setBounds(leftBound, topBound, rightBound, bottomBound)
 
         if(rotationAngle == 0f) {
             glassImage?.draw(canvas)
