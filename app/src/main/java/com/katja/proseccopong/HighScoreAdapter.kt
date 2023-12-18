@@ -7,11 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class HighScoreAdapter(private val highScores: List<Score>) : RecyclerView.Adapter<HighScoreAdapter.ViewHolder>() {
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val rankTextView: TextView = view.findViewById(R.id.rankTextView)
         val scoreTextView: TextView = view.findViewById(R.id.scoreTextView)
         val nameTextView: TextView = view.findViewById(R.id.nameTextView)
+        val dateTextView: TextView = view.findViewById(R.id.dateTextView)
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_classic, parent, false)
@@ -29,7 +31,7 @@ class HighScoreAdapter(private val highScores: List<Score>) : RecyclerView.Adapt
         holder.rankTextView.text = (position + 1).toString()
         holder.scoreTextView.text = score.score.toString()
         holder.nameTextView.text = score.name
-
+        holder.dateTextView.text = score.getFormattedDate()
     }
 
 
