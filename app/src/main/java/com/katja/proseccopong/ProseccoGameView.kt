@@ -213,7 +213,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             draw()
             ball1.checkbounders(bounds, mcontext)
             playerPlatform.checkBounds(bounds)
-
+            Thread.sleep(6)
         }
         Thread.sleep(6)
     }
