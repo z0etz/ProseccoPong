@@ -265,7 +265,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         }
     }
 
-        // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat tne skrivs över
+        // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat inte skrivs över
         fun saveScore() {
 
             val editor = sharedPreferences.edit()
