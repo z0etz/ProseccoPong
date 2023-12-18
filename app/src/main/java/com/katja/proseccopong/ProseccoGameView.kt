@@ -238,20 +238,12 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         // Rita "Name" och "Score" bredvid varandra på samma rad, högre upp på skärmen
         val nameText = "Name: $playerName".uppercase()
         val scoreText = "Score: ${GameManager.points}".uppercase()
+        val printText = nameText + "     " + scoreText
 
         val centerX = viewWidth / 2
         val centerY = viewHeight / 8 // Justera y-koordinaten för att höja texten
-        val distanceBetweenText = 10f // Justera avståndet mellan "Name" och "Score"
 
-        // Rita "Name"
-        val nameX = centerX - paintPoints.measureText(nameText) / 2
-        val nameY = centerY - textSizePoints / 2
-        canvas.drawText(nameText, nameX, nameY, paintPoints)
-
-        // Rita "Score" bredvid "Name"
-        val scoreX = centerX + paintPoints.measureText(nameText) / 2 + distanceBetweenText
-        val scoreY = centerY - textSizePoints / 2
-        canvas.drawText(scoreText, scoreX, scoreY, paintPoints)
+        canvas.drawText(printText, centerX, centerY, paintPoints)
 
         paintPoints.clearShadowLayer()
     }
