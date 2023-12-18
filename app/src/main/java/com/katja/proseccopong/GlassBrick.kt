@@ -62,8 +62,17 @@ class GlassBrick(private val gameView: GameView,
     }
 
     fun glasHit() {
-        hasBeenHit = true
-        // TODO: Lägg till mer logik för vad som ska hända när bricka träffas, efter att bilden roterat ska brickan bl.a. försvinna så småningom.
+        val rotationThread = Thread {
+            while (rotationAngle < 180) {
+                rotationAngle ++
+                if (rotationAngle >= 90) {
+                    hasBeenHit = true
+                }
+                Thread.sleep(3)
+            }
+        }
+        // TODO: Lägg till i kollissionskontrollen inne i ProseccoGameView att den här funktionen ska
+    //  anropas och en tråd sedan vänta i 800 millisekunder, innan den tar bort brickan från listan.
     }
 
     fun sufaceChanged(inputWidth: Float, inputHeight: Float, imageWidth: Int){
