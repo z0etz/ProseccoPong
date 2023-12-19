@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class Score(val name: String, var score: Int, val classic: Boolean, val timestamp: Long = System.currentTimeMillis()) {
+class Score(val name: String, var score: Int, val classic: Boolean = false, val timestamp: Long = System.currentTimeMillis()) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Score) return false

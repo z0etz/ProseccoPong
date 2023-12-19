@@ -5,30 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/pexels_kai_pilger_1341279">
+    android:background="@drawable/gold_and_black_background">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin_top"
-        android:text="@string/prosecco"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/gameplay"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_XL"
-        android:textStyle="bold"
         android:shadowColor="@color/baby_blue"
         android:shadowDx="6"
         android:shadowDy="10"
         android:shadowRadius="30"
+        android:text="@string/prosecco"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_XL"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="@dimen/medium_layout_width"
         android:layout_height="@dimen/small_layout_height"
         android:layout_marginEnd="@dimen/small_margin_end"
-        android:layout_marginBottom="92dp"
+        android:layout_marginBottom="60dp"
         android:alpha="0.90"
         android:fontFamily="@font/splatch"
         android:shadowColor="@color/black"
@@ -47,7 +47,7 @@
         android:id="@+id/buttonClassicGame"
         android:layout_width="@dimen/button_w"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/extra_medium_margin_top"
+        android:layout_marginTop="95dp"
         android:background="@drawable/main_buttons"
         android:fontFamily="@font/gameplay"
         android:padding="@dimen/margin_medium"
@@ -67,7 +67,7 @@
         android:id="@+id/buttonProseccoGame"
         android:layout_width="@dimen/button_w"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin_top"
+        android:layout_marginTop="65dp"
         android:background="@drawable/main_buttons"
         android:fontFamily="@font/gameplay"
         android:padding="@dimen/margin_medium"
@@ -87,7 +87,7 @@
         android:id="@+id/buttonHighscore"
         android:layout_width="@dimen/button_w"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin_top"
+        android:layout_marginTop="65dp"
         android:background="@drawable/main_buttons"
         android:fontFamily="@font/gameplay"
         android:padding="@dimen/margin_medium"
@@ -102,7 +102,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonProseccoGame" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

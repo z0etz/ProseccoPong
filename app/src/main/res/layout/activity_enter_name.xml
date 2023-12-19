@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EnterNameActivity"
-    android:background="@drawable/pexels_kai_pilger_1341279">
+    android:background="@drawable/gold_and_black_background">
 
     <TextView
         android:id="@+id/GameModeTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin_top"
+        android:layout_marginTop="105dp"
         android:fontFamily="@font/gameplay"
         android:shadowColor="@color/baby_blue"
         android:shadowDx="3"
@@ -32,8 +32,8 @@
 
     <EditText
         android:id="@+id/editTextName"
-        android:layout_width="@dimen/large_layout_width"
-        android:layout_height="@dimen/small_layout_height"
+        android:layout_width="257dp"
+        android:layout_height="56dp"
         android:autofillHints="name"
         android:background="@drawable/card_layout"
         android:fontFamily="@font/gameplay"
@@ -49,16 +49,15 @@
         android:textSize="@dimen/small_font"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/GameModeTextView"
-        app:layout_constraintVertical_bias="0.363" />
+        app:layout_constraintVertical_bias="0.35" />
 
     <Button
         android:id="@+id/buttonPlay"
         android:layout_width="@dimen/button_w"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin_top"
+        android:layout_marginTop="160dp"
         android:background="@drawable/main_buttons"
         android:fontFamily="@font/gameplay"
         android:padding="@dimen/margin_medium"
@@ -67,10 +66,11 @@
         android:shadowDy="5"
         android:shadowRadius="20"
         android:text="Play"
-        android:textStyle="bold"
         android:textColor="@color/pink"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

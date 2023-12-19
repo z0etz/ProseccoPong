@@ -28,10 +28,17 @@ class HighscoreActivity : AppCompatActivity() {
         // Sortera listan baserat på poäng i fall det inte är sorterat ännu
         ScoreList.scoreList.sortByDescending { it.score }
 
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewClassic)
-        val adapter = HighScoreAdapter(ScoreList.scoreList)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val recyclerViewClassic: RecyclerView = findViewById(R.id.recyclerViewClassic)
+        val adapterClassic = HighScoreAdapter(ScoreList.scoreList.filter { it.classic })
+        recyclerViewClassic.adapter = adapterClassic
+        recyclerViewClassic.layoutManager = LinearLayoutManager(this)
+
+        val recyclerViewProsecco: RecyclerView = findViewById(R.id.recyclerViewProcesso)
+        val adapterProsecco = HighScoreAdapter(ScoreList.scoreList.filter { !it.classic })
+        recyclerViewProsecco.adapter = adapterProsecco
+        recyclerViewProsecco.layoutManager = LinearLayoutManager(this)
+
+
         val buttonDelete = binding.btnDelete // Change this to your ImageButton ID
         buttonDelete.setOnClickListener {
             deleteScore.clearAllData()
