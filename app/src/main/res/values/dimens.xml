@@ -13,7 +13,7 @@
 
     <dimen name="small_font">15sp</dimen>
     <dimen name="medium_font">25sp</dimen>
-    <dimen name="font_XL">50sp</dimen>
+    <dimen name="font_XL">45sp</dimen>
     <dimen name="highscore">410sp</dimen>
 
     <!-- Margin -->

@@ -134,7 +134,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     fun draw() {
 
         canvas= mholder!!.lockCanvas() ?: return
-        val backgroundDrawable = resources.getDrawable(R.drawable.pexels_kai_pilger_1341279, null)
+        val backgroundDrawable = resources.getDrawable(R.drawable.black_background, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
         drawPoints(canvas)
@@ -158,7 +158,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
     fun drawPoints(canvas: Canvas) {
         // Rensa Canvas
-        val backgroundDrawable = resources.getDrawable(R.drawable.pexels_kai_pilger_1341279, null)
+        val backgroundDrawable = resources.getDrawable(R.drawable.black_background, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
 
