@@ -223,7 +223,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     fun draw() {
 
         canvas = mholder!!.lockCanvas() ?: return
-        val backgroundDrawable = resources.getDrawable(R.drawable.gold_and_black_background, null)
+        val backgroundDrawable = resources.getDrawable(R.drawable.black_background, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
         drawPoints(canvas)
@@ -249,7 +249,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     fun drawPoints(canvas: Canvas) {
         // Rensa Canvas
-        val backgroundDrawable = resources.getDrawable(R.drawable.gold_and_black_background, null)
+        val backgroundDrawable = resources.getDrawable(R.drawable.black_background, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
 
