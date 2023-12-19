@@ -159,7 +159,23 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     fun update() {
         ball1.update()
         updatePlatformPosition()
+
+        val iterator = brickList.iterator()
+        while (iterator.hasNext()) {
+            val brick = iterator.next()
+
+            if (brick.checkCollision(ball1)) {
+                brick.handleCollision(ball1)
+                iterator.remove()
+            }
+        }
+
+        // Other game logic...
+
+        ball1.checkbounders(bounds, mcontext)
+        playerPlatform.checkBounds(bounds)
     }
+
 
     // Function to accsess the return statment of onIntersection by other classes
     override fun ballDown(): Boolean {
@@ -187,6 +203,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             GameManager.addPoints()
             return false // Return statment to mark that the ball is not out
         } else {
+
             return true // Return statment to mark that the ball is out
         }
     }
@@ -297,4 +314,9 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
         }
 
+    override fun incrementPoints() {
+
+        GameManager.incrementPoints()
     }
+
+}

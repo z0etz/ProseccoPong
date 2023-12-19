@@ -218,6 +218,10 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         activityContext.startActivity(intent)
         GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
     }
+
+    override fun incrementPoints() {
+        TODO("Not yet implemented")
+    }
 }
 
 

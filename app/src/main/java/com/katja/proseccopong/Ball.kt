@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import kotlin.math.sqrt
 
 class Ball(private val gameView: GameView,
     val context: Context,
@@ -54,6 +55,16 @@ class Ball(private val gameView: GameView,
 
         }
     }
+
+    open var speed: Float
+        get() = sqrt(speedX * speedX + speedY * speedY)
+        set(value) {
+            if (speed != 0f) {
+                val factor = value / speed
+                speedX *= factor
+                speedY *= factor
+            }
+        }
 
     fun update() {
         posY += speedY
