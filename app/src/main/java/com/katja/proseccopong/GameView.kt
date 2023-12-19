@@ -5,5 +5,6 @@ interface GameView {
     fun ballDown() : Boolean
 
     fun gameEnd()
+    fun incrementPoints()
 
 }
