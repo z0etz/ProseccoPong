@@ -56,16 +56,15 @@ class GlassBrick(
         // Set position
         glassImage?.setBounds(leftBound, topBound, rightBound, bottomBound)
 
+        val centerX = (leftBound + rightBound) / 2f
+        val centerY = (topBound + bottomBound) / 2f
+
         if (rotationAngle == 0f) {
             glassImage?.draw(canvas)
-        }
-        // Rotation used once a brick is hit
-        else {
-            val x = numberFromMiddleX.toFloat() * width + numberFromMiddleX * 10
-            val y = numberFromTopY.toFloat() * height + numberFromTopY * 10 + topBrickLayoutOffset
+        } else {
             glassImage?.let {
                 canvas.save()
-                canvas.rotate(rotationAngle, x, y)
+                canvas.rotate(rotationAngle, centerX, centerY)
                 it.draw(canvas)
                 canvas.restore()
             }
@@ -74,6 +73,10 @@ class GlassBrick(
 
     fun handleCollision(ball: Ball) {
         if (!hasBeenHit) {
+
+            rotationAngle = 1F
+            glasHit()
+
             val hitPointX = ball.posX - (leftBound + rightBound) / 2
             val hitPointY = ball.posY - (topBound + bottomBound) / 2
 
@@ -90,9 +93,6 @@ class GlassBrick(
             // Update the ball's velocity with the reflection
             ball.speedX = reflectionX
             ball.speedY = reflectionY
-
-            hasBeenHit = true
-            glasHit()
         }
     }
 
@@ -123,17 +123,17 @@ class GlassBrick(
     }
 
     fun glasHit() {
-        val rotationThread = Thread {
-            while (rotationAngle < 180) {
-                rotationAngle ++
-                if (rotationAngle >= 90) {
+        Thread {
+            var rotationCounter = 0
+            while (rotationCounter < 180) {
+                rotationCounter++
+                rotationAngle = rotationCounter.toFloat()
+                if (rotationCounter >= 90) {
                     hasBeenHit = true
                 }
                 Thread.sleep(3)
             }
-        }
-        // TODO: Lägg till i kollissionskontrollen inne i ProseccoGameView att den här funktionen ska
-    //  anropas och en tråd sedan vänta i 800 millisekunder, innan den tar bort brickan från listan.
+        }.start()
     }
 
     fun sufaceChanged(inputWidth: Float, inputHeight: Float, imageWidth: Int) {

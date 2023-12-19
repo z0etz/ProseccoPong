@@ -13,6 +13,9 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ProseccoGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
     private var mholder: SurfaceHolder? = null
@@ -36,6 +39,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     var touchX = 0f // Declare touchX as a class-level variable
     // List holding active bricks, filled in onSurfaceCreated. Bricks should be removed once they are hit.
     val brickList = ArrayList<GlassBrick>()
+    val bricksToRemove = mutableListOf<GlassBrick>()
 
 
     init {
@@ -158,14 +162,30 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
             if (brick.checkCollision(ball1)) {
                 brick.handleCollision(ball1)
-                iterator.remove()
+
+                // Mark brick for removal afterdelay
+                bricksToRemove.add(brick)
             }
         }
 
-        // Other game logic...
+        // Perform the delayed removal after 600 milliseconds
+        if (bricksToRemove.isNotEmpty()) {
+            GlobalScope.launch {
+                delay(800) // Delay for 600 milliseconds
+                removeBricks()
+            }
+        }
 
         ball1.checkbounders(bounds, mcontext)
         playerPlatform.checkBounds(bounds)
+    }
+
+    suspend fun removeBricks() {
+        // Remove marked bricks from the brickList after the delay
+        bricksToRemove.forEach { brick ->
+            brickList.remove(brick)
+        }
+        bricksToRemove.clear() // Clear the list after removal
     }
 
 
@@ -203,7 +223,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     fun draw() {
 
         canvas = mholder!!.lockCanvas() ?: return
-        val backgroundDrawable = resources.getDrawable(R.drawable.black_background, null)
+        val backgroundDrawable = resources.getDrawable(R.drawable.gold_and_black_background, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
         drawPoints(canvas)
@@ -229,7 +249,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     fun drawPoints(canvas: Canvas) {
         // Rensa Canvas
-        val backgroundDrawable = resources.getDrawable(R.drawable.black_background, null)
+        val backgroundDrawable = resources.getDrawable(R.drawable.gold_and_black_background, null)
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
 
