@@ -22,7 +22,7 @@ class GlassBrick(
     var glassImage = ContextCompat.getDrawable(context, R.drawable.glas_prosecco)
     var height = width * 3
     var rotationAngle = 0f
-    val topBrickLayoutOffset = 400
+    val topBrickLayoutOffset = 600
 
     private var leftBound: Int = 0
     private var topBound: Int = 0
@@ -93,6 +93,15 @@ class GlassBrick(
             // Update the ball's velocity with the reflection
             ball.speedX = reflectionX
             ball.speedY = reflectionY
+
+            // Uppdatera poäng baserat på vilken typ av glasbricka som träffas
+            if (rose) {
+                GameManager.incrementPoints(2) // Om det är en roséglasbricka, ge 2 poäng
+            } else {
+                GameManager.incrementPoints(1) // Annars, ge 1 poäng för proseccoglasbricka
+            }
+
+            hasBeenHit = true // Markera brickan som träffad
         }
     }
 
