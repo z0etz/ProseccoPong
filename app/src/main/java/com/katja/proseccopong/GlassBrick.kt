@@ -3,12 +3,7 @@ package com.katja.proseccopong
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.RectF
-import android.util.Log
 import androidx.core.content.ContextCompat
-import kotlin.math.abs
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
 import kotlin.math.sqrt
 
 class GlassBrick(
@@ -18,7 +13,9 @@ class GlassBrick(
     val numberFromTopY: Int, var rose: Boolean, var viewWidth: Float, var viewHeight: Float
 ) {
 
+    var hitTime: Long? = null
     var hasBeenHit = false
+    var empty = false
     var glassImage = ContextCompat.getDrawable(context, R.drawable.glas_prosecco)
     var height = width * 3
     var rotationAngle = 0f
@@ -41,7 +38,7 @@ class GlassBrick(
 
     fun draw(canvas: Canvas) {
         // Choose drawable
-        if (!hasBeenHit) {
+        if (!empty) {
             if (!rose) {
                 glassImage = ContextCompat.getDrawable(context, R.drawable.glas_prosecco)
             } else {
@@ -76,6 +73,7 @@ class GlassBrick(
 
             rotationAngle = 1F
             glasHit()
+            hasBeenHit = true
 
             val hitPointX = ball.posX - (leftBound + rightBound) / 2
             val hitPointY = ball.posY - (topBound + bottomBound) / 2
@@ -129,7 +127,7 @@ class GlassBrick(
                 rotationCounter++
                 rotationAngle = rotationCounter.toFloat()
                 if (rotationCounter >= 90) {
-                    hasBeenHit = true
+                    empty = true
                 }
                 Thread.sleep(3)
             }
