@@ -11,7 +11,7 @@ object GameManager {
         points = 0
     }
 
-    fun incrementPoints() {
-        TODO("Not yet implemented")
+    fun incrementPoints(pointsToAdd: Int) {
+        points += pointsToAdd
     }
 }

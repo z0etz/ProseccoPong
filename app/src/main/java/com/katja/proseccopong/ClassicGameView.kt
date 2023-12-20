@@ -179,7 +179,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         val printText = nameText + "     " + scoreText
 
         val centerX = viewWidth / 2
-        val centerY = viewHeight / 8 // Justera y-koordinaten för att höja texten
+        val centerY = viewHeight / 10 // Justera y-koordinaten för att höja texten
 
         canvas.drawText(printText, centerX, centerY, paintPoints)
 
