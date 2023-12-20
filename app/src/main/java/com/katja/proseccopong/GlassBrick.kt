@@ -19,7 +19,7 @@ class GlassBrick(
     var glassImage = ContextCompat.getDrawable(context, R.drawable.glas_prosecco)
     var height = width * 3
     var rotationAngle = 0f
-    val topBrickLayoutOffset = 600
+    val topBrickLayoutOffset = 400
 
     private var leftBound: Int = 0
     private var topBound: Int = 0
@@ -133,12 +133,12 @@ class GlassBrick(
         Thread {
             var rotationCounter = 0
             while (rotationCounter < 180) {
-                rotationCounter++
+                rotationCounter += 2
                 rotationAngle = rotationCounter.toFloat()
                 if (rotationCounter >= 90) {
                     empty = true
                 }
-                Thread.sleep(3)
+                Thread.sleep(1)
             }
         }.start()
     }

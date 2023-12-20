@@ -23,7 +23,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     private var ball1: Ball
     private var playerPlatform: PlayerPlatform
     private var thread: Thread? = null
-    private var platformLevel = 200f
+    private var platformLevel = 100f
     private var platformHeight = 25f
     private var platformTop = platformHeight + platformLevel
     private var platformWidth = 200f
@@ -217,10 +217,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         val intent = Intent(activityContext, HighscoreActivity::class.java)
         activityContext.startActivity(intent)
         GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
-    }
-
-    override fun incrementPoints() {
-        TODO("Not yet implemented")
     }
 }
 

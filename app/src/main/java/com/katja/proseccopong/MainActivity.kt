@@ -22,16 +22,18 @@ class MainActivity : AppCompatActivity() {
 
         bClassicPong.setOnClickListener {
             val toast = "Classic Pong"
-            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
+            // Om man vill ha en toast som anger spelläge, så kan den avkommenteras nedan.
+//          Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EnterNameActivity::class.java)
-            intent.putExtra("Game Choice", toast);
+            intent.putExtra("Game Choice", toast)
             startActivity(intent)
         }
 
 
         bProseccoPong.setOnClickListener {
             val toast = "Prosecco Pong"
-            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
+            // Om man vill ha en toast som anger spelläge, så kan den avkommenteras nedan.
+//            Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EnterNameActivity::class.java)
             intent.putExtra("Game Choice", toast)
             startActivity(intent)

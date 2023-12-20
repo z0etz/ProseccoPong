@@ -22,7 +22,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     private var ball1: Ball
     private var playerPlatform: PlayerPlatform
     private var thread: Thread? = null
-    private var platformLevel = 200f
+    private var platformLevel = 100f
     private var platformHeight = 25f
     private var platformTop = platformHeight + platformLevel
     private var platformWidth = 200f
@@ -143,7 +143,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             val brick = iteratorToRemove.next()
 
             brick.hitTime?.let { hitTime ->
-                if (currentTime - hitTime > 800) {
+                if (currentTime - hitTime > 200) {
                     bricksToRemove.add(brick)
                 }
             }
@@ -193,8 +193,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
-            // Increment points
-            GameManager.addPoints()
             return false // Return statment to mark that the ball is not out
         } else {
 
@@ -307,11 +305,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             activityContext.startActivity(intent)
             GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
         }
-
-    override fun incrementPoints() {
-
-        GameManager.incrementPoints(1) // Använd det här om standardpoängen är 1
-    }
 
     fun addBricks() {
         // Create glass brick layout
