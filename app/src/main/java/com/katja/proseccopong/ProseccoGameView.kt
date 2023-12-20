@@ -270,7 +270,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         val printText = nameText + "     " + scoreText
 
         val centerX = viewWidth / 2
-        val centerY = viewHeight / 8 // Justera y-koordinaten för att höja texten
+        val centerY = viewHeight / 10 /// Justera värdet för önskat avstånd
 
         canvas.drawText(printText, centerX, centerY, paintPoints)
 
@@ -327,8 +327,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         }
 
     override fun incrementPoints() {
-
-        GameManager.incrementPoints()
+        GameManager.incrementPoints(1) // Använd det här om standardpoängen är 1
     }
 
 }
