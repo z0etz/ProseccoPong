@@ -105,6 +105,7 @@ gameView.handleGlassBreakage()
     }
 
 
+
     fun checkCollision(ball: Ball): Boolean {
         if (!hasBeenHit) {
             val brickRect = RectF(

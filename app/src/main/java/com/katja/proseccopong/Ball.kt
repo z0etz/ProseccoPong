@@ -40,6 +40,7 @@ class Ball(private val gameView: GameView,
             speedY *= -1
             posY += speedY * 2
         }
+
         if (posY + size / 2 > bounds.bottom - platformTop) {
             // When the ball reaches the platform level, check it it collides or goes out
             if(gameView.ballDown()) {

@@ -19,6 +19,7 @@ class PlayerPlatform(
     private var glassesBroken: Int = 0
 
 
+
     var posX: Float = 0f
     var posY: Float = 0f
 
