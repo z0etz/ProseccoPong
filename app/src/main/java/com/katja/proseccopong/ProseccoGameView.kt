@@ -176,6 +176,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         return onIntersection(playerPlatform, ball1)
     }
 
+
     fun onIntersection(p: PlayerPlatform, b: Ball): Boolean {
         // Calculate the centers of the platform and the ball
         val platformCenterX = p.posX + p.width / 2
