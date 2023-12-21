@@ -12,7 +12,7 @@
         android:id="@+id/textView3"
         android:layout_width="@dimen/highscore"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin_start"
+        android:layout_marginTop="105dp"
         android:fontFamily="@font/gameplay"
         android:shadowColor="@color/baby_blue"
         android:shadowDx="3"
@@ -24,6 +24,7 @@
         android:textSize="@dimen/medium_font"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,16 +33,17 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin_start"
+        android:layout_marginTop="55dp"
         android:fontFamily="@font/gameplay"
         android:orientation="horizontal"
         android:shadowColor="@color/baby_blue"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="20"
-        android:text="@string/classic"
+        android:text="Classic"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -49,8 +51,8 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin_end"
-        android:layout_marginEnd="@dimen/medium_layout_width"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="160dp"
         android:fontFamily="@font/gameplay"
         android:shadowColor="@color/baby_blue"
         android:shadowDx="3"
@@ -63,31 +65,30 @@
 
     <Button
         android:id="@+id/btnDelete"
-        android:layout_width="@dimen/button_w"
+        android:layout_width="220dp"
         android:layout_height="@dimen/button_h"
-        android:layout_marginStart="@dimen/button_margin"
-        android:layout_marginTop="@dimen/extra_small_margin_bottom"
-        android:layout_marginEnd="@dimen/button_margin"
+        android:layout_marginTop="160dp"
         android:background="@drawable/delete_btn"
-        android:shadowColor="@color/baby_blue"
+        android:fontFamily="@font/gameplay"
+        android:shadowColor="@color/pink"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="20"
         android:text="@string/delete"
-        android:textColor="@color/baby_blue"
+        android:textColor="@color/white"
         android:textSize="@dimen/small_font"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.858"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewProcesso" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.875" />
 
     <Button
         android:id="@+id/buttonMainMenu"
-        android:layout_width="@dimen/button_w"
+        android:layout_width="115dp"
         android:layout_height="@dimen/button_h"
-        android:layout_marginStart="@dimen/button_margin"
-        android:layout_marginTop="@dimen/medium_margin_start"
-        android:layout_marginEnd="@dimen/button_margin"
+        android:layout_marginTop="160dp"
         android:background="@drawable/main_buttons"
         android:fontFamily="@font/gameplay"
         android:shadowColor="@color/pink"
@@ -97,44 +98,17 @@
         android:text="@string/main_menu"
         android:textAlignment="center"
         android:textColor="@color/pink"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDelete" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="@dimen/large_margin_top"
-        android:layout_height="@dimen/extra_medium_margin_top"
-        android:backgroundTint="@color/black"
-        android:elevation="@dimen/small_elevation"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewClassic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/recyclerViewClassic"
-        app:layout_constraintTop_toTopOf="@+id/recyclerViewClassic">
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="@dimen/large_margin_top"
-        android:layout_height="@dimen/extra_medium_margin_top"
-        android:backgroundTint="@color/black"
-        android:elevation="@dimen/small_elevation"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewProcesso"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerViewProcesso"
-        app:layout_constraintStart_toStartOf="@+id/recyclerViewProcesso"
-        app:layout_constraintTop_toTopOf="@+id/recyclerViewProcesso">
-
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.875" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewClassic"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/medium_layout_width"
+        android:layout_height="140dp"
         android:layout_marginTop="@dimen/small_margin_end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,11 +117,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProcesso"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/medium_layout_width"
+        android:layout_height="140dp"
         android:layout_marginTop="@dimen/small_margin_end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
