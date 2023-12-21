@@ -38,7 +38,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     val brickList = ArrayList<GlassBrick>()
     val bricksToRemove = mutableListOf<GlassBrick>()
 
-
     init {
         mholder = holder
 
