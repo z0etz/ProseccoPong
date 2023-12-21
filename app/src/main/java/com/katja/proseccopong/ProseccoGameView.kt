@@ -1,5 +1,6 @@
 package com.katja.proseccopong
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,6 +12,7 @@ import android.graphics.Typeface
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 
@@ -38,7 +40,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     val brickList = ArrayList<GlassBrick>()
     val bricksToRemove = mutableListOf<GlassBrick>()
 
-
+    var glassesHitCount = 0
     init {
         mholder = holder
 
@@ -92,16 +94,30 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     }
 
     fun updatePlatformPosition() {
-        val movementSpeed = calculateMovementSpeedBasedOnScore()
         val difference = touchX - (playerPlatform.posX + playerPlatform.width / 2)
-        playerPlatform.posX += difference / movementSpeed
+        val speedFactor = decreasePlatformSpeed()
+        playerPlatform.speedX = difference / speedFactor
 
-        // Check if the platform is close enough to the touch point
-        if (Math.abs(touchX - (playerPlatform.posX + playerPlatform.width / 2)) < 5) {
-            // If the difference is very small, set the platform's position to the touch point
-            playerPlatform.posX = touchX - playerPlatform.width / 2
+        // Adjust the platform's position based on touch input
+        if (Math.abs(difference) > 5) {
+            // Move the platform if the touch input is significantly different from the platform's position
+            playerPlatform.posX += playerPlatform.speedX
         }
     }
+
+    private fun decreasePlatformSpeed(): Float {
+        // Adjust platform movement based on the number of glasses broken
+
+        return when {
+            glassesHitCount < 2 -> 1f
+            glassesHitCount < 4 -> 1.5f
+            glassesHitCount < 6 -> 2.3f
+            glassesHitCount < 15 -> 4f
+            else -> 5f
+        }
+
+        }
+
 
     fun start() {
         running = true
@@ -123,6 +139,8 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         ball1.update()
         updatePlatformPosition()
 
+        val previousScore = GameManager.points // Save the previous score
+        val currentScore = GameManager.points // Get the current score after possible increments
         val currentTime = System.currentTimeMillis()
 
         val iterator = brickList.iterator()
@@ -135,6 +153,13 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
                 // Mark brick with the time it was hit
                 brick.hitTime = currentTime
             }
+
+                when (currentScore) {
+                    10 -> increaseBallSpeed(2.01f) // Increase speed at score 10
+                    20 -> increaseBallSpeed(2.03f) // Increase speed at score 4
+                    30 -> increaseBallSpeed(2.05f) // Increase speed at score 10
+            }
+
         }
 
         // Remove bricks that were hit more than 800 milliseconds ago
@@ -161,7 +186,10 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             addBricks()
         }
     }
-
+    private fun increaseBallSpeed(factor: Float) {
+        ball1.speedX *= factor
+        ball1.speedY *= factor
+    }
     fun removeBricks() {
         // Remove marked bricks from the brickList after delay
         bricksToRemove.forEach { brick ->
@@ -264,17 +292,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         playerName = name
     }
 
-    fun calculateMovementSpeedBasedOnScore(): Float {
-        val currentScore = GameManager.points
 
-        // Justera hastigheten beroende på poängen
-        return when {
-            currentScore < 5 -> 5f // Långsammare rörelse om poängen är mindre än 50
-            currentScore < 10 -> 4f // Måttlig hastighet om poängen är mindre än 100
-            currentScore < 15 -> 3f // Snabbare om poängen är mindre än 150
-            else -> 2f // Anpassa efter behov för högre poäng
-        }
-    }
 
         // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat inte skrivs över
         fun saveScore() {
@@ -299,7 +317,10 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             editor.apply()
         }
 
-
+    // Method to handle glass breakage event
+    override fun handleGlassBreakage() {
+        glassesHitCount++
+    }
         override fun gameEnd() {
             saveScore() // Save the score before transitioning to HighscoreActivity
             println(ScoreList) //Sout for debug
