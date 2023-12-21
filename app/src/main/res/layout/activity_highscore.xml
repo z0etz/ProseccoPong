@@ -40,7 +40,7 @@
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="20"
-        android:text="@string/classic"
+        android:text="Classic"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
