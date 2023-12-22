@@ -7,4 +7,7 @@ interface GameView {
     fun gameEnd()
 
 
+    // Method to handle glass breakage event
+    fun handleGlassBreakage() {
+    }
 }

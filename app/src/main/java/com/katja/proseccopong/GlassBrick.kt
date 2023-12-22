@@ -98,6 +98,7 @@ class GlassBrick(
             } else {
                 GameManager.incrementPoints(1) // Annars, ge 1 poäng för proseccoglasbricka
             }
+gameView.handleGlassBreakage()
 
             hasBeenHit = true // Markera brickan som träffad
         }

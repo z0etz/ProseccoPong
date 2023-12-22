@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="1dp"
+    android:layout_height="@dimen/small_height"
     android:background="#00000000">
 
     <!-- Guideline för att skapa utrymme mellan rank och score -->
@@ -13,21 +12,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="147dp" />
+        app:layout_constraintGuide_end="318dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_begin="140dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="229dp" />
 
     <TextView
         android:id="@+id/rankTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:shadowColor="@color/baby_blue"
+        android:shadowColor="@color/gold"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="10"
@@ -35,62 +40,69 @@
         android:textColor="@color/white"
         android:textSize="@dimen/small_font"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/scoreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/small_margin"
+        android:shadowColor="@color/gold"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="10"
-        android:shadowColor="@color/baby_blue"
         android:text="@string/score"
         android:textColor="@color/white"
         android:textSize="@dimen/small_font"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.238"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:shadowColor="@color/baby_blue"
+        android:layout_marginStart="@dimen/small_margin"
+        android:shadowColor="@color/gold"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="10"
         android:text="@string/name"
+        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="@dimen/small_font"
         android:textStyle="bold"
-        android:textAllCaps="true"
-        app:layout_constraintStart_toEndOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.365"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:shadowColor="@color/baby_blue"
+        android:shadowColor="@color/gold"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="10"
         android:text=""
-        android:textColor="@color/white"
-        android:textSize="@dimen/small_font"
-        android:textStyle="bold"
         android:textAllCaps="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rankTextView"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/small_date_font"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.763"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
