@@ -17,11 +17,11 @@ class Ball(private val gameView: GameView,
     var speedX: Float,
     var speedY: Float,
     var platformTop: Float,
-    var color: Int = R.color.pink
+    var color: Int = R.color.gold
 ) {
 
     private val paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.pink)
+        color = ContextCompat.getColor(context, R.color.gold)
     }
     var ballOutToastShown = false
 
