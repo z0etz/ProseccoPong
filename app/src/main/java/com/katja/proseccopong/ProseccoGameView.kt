@@ -264,7 +264,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         backgroundDrawable.draw(canvas)
 
         val textColor = ContextCompat.getColor(context, R.color.white)
-        val shadowColor = ContextCompat.getColor(context, R.color.baby_blue)
+        val shadowColor = ContextCompat.getColor(context, R.color.gold)
 
         paintPoints.color = textColor
         paintPoints.textAlign = Paint.Align.CENTER

@@ -3,66 +3,45 @@
 
     <dimen name="text_size_points">18sp</dimen>
 
+
     <!-- Button -->
 
-    <dimen name="button_w">200dp</dimen>
-    <dimen name="button_h">50dp</dimen>
-    <dimen name="button_margin">110dp</dimen>
-
-    <!-- Font -->
-
-    <dimen name="small_font">15sp</dimen>
-    <dimen name="medium_font">25sp</dimen>
-    <dimen name="font_XL">45sp</dimen>
-    <dimen name="highscore">410sp</dimen>
-
-    <!-- Margin -->
-
-    <dimen name="margin_medium">25dp</dimen>
-
-
-    <dimen name="extra_small_margin_top">10dp</dimen>
-    <dimen name="small_margin_top">85dp</dimen>
-    <dimen name="extra_medium_margin_top">125dp</dimen>
-    <dimen name="medium_margin_top">200dp</dimen>
-    <dimen name="large_margin_top">335dp</dimen>
-
-
-    <dimen name="extra_small_margin_end">5dp</dimen>
-    <dimen name="small_margin_end">16dp</dimen>
-    <dimen name="medium_margin_end">55dp</dimen>
-    <dimen name="large_margin_end">288dp</dimen>
-
-    <dimen name="extra_small_margin_bottom">20dp</dimen>
-    <dimen name="small_margin_bottom">50dp</dimen>
-    <dimen name="medium_margin_bottom">115dp</dimen>
-
-    <dimen name="small_margin_start">5dp</dimen>
-    <dimen name="medium_margin_start">30dp</dimen>
-    <dimen name="extra_medium_margin_start">80dp</dimen>
-    <dimen name="large_margin_start">308dp</dimen>
-
-    <!-- Height -->
-
-    <dimen name="small_layout_height">69dp</dimen>
-    <dimen name="large_layout_height">442dp</dimen>
+    <dimen name="small_width_button">115dp</dimen>
+    <dimen name="medium_width_button">200dp</dimen>
 
     <!-- Width -->
 
-    <dimen name="medium_layout_width">162dp</dimen>
-    <dimen name="large_layout_width">300dp</dimen>
+    <dimen name="small_width">162dp</dimen>
+    <dimen name="medium_width">255dp</dimen>
 
-    <!-- Elevation -->
+    <!-- Height -->
 
-    <dimen name="small_elevation">10dp</dimen>
-    <dimen name="small_card_elevation">8dp</dimen>
+    <dimen name="small_height">69dp</dimen>
+    <dimen name="medium_height">140dp</dimen>
+
+    <!-- Font -->
+
+    <dimen name="small_date_font">13sp</dimen>
+    <dimen name="small_font">15sp</dimen>
+    <dimen name="medium_font">25sp</dimen>
+    <dimen name="large_font">45sp</dimen>
+
+    <!-- Margin -->
+
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="large_margin">68dp</dimen>
+
+
+    <dimen name="small_margin_top">55dp</dimen>
+    <dimen name="medium_margin_top">105dp</dimen>
+    <dimen name="large_margin_top">160dp</dimen>
 
     <!-- Padding -->
 
-    <dimen name="medium_padding">20dp</dimen>
-    <dimen name="extra_small_margin_start">16dp</dimen>
-    <dimen name="extra_medium_margin_end">184dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="small_padding">20dp</dimen>
+    <dimen name="medium_padding">25dp</dimen>
+
 
 
 </resources>
