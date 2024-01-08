@@ -1,6 +1,5 @@
 package com.katja.proseccopong
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -24,7 +23,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     private var ball1: Ball
     private var playerPlatform: PlayerPlatform
     private var thread: Thread? = null
-    private var platformLevel = 200f
+    private var platformLevel = 100f
     private var platformHeight = 25f
     private var platformTop = platformHeight + platformLevel
     private var platformWidth = 200f
@@ -37,7 +36,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
     // List holding active bricks, filled in onSurfaceCreated. Bricks should be removed once they are hit.
-    val brickList = ArrayList<GlassBrick>()
     val bricksToRemove = mutableListOf<GlassBrick>()
 
     var glassesHitCount = 0
@@ -49,12 +47,14 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
         }
         playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
-        ball1 = Ball(this, mcontext, 100f, 100f, 20f, 10f, 20f, platformTop)
+        ball1 = Ball(this, mcontext, 1f, 500f, 20f, 10f, 20f, platformTop)
 
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        addBricks()
+        if (GameManager.brickList.isEmpty()) {
+            addBricks()
+        }
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -74,7 +74,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             // Set last Int to the number of bricks in the widest row of the brick layout
             brickWidth = viewHeight.toInt() / 4 / 3 / 7 // Set last Int to the number of bricks in the longest column of the brick layout
         }
-        brickList.forEach { brick ->
+        GameManager.brickList.forEach { brick ->
             brick.sufaceChanged(viewWidth, viewHeight, brickWidth)
         }
 
@@ -143,7 +143,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         val currentScore = GameManager.points // Get the current score after possible increments
         val currentTime = System.currentTimeMillis()
 
-        val iterator = brickList.iterator()
+        val iterator = GameManager.brickList.iterator()
         while (iterator.hasNext()) {
             val brick = iterator.next()
 
@@ -163,12 +163,12 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         }
 
         // Remove bricks that were hit more than 800 milliseconds ago
-        val iteratorToRemove = brickList.iterator()
+        val iteratorToRemove = GameManager.brickList.iterator()
         while (iteratorToRemove.hasNext()) {
             val brick = iteratorToRemove.next()
 
             brick.hitTime?.let { hitTime ->
-                if (currentTime - hitTime > 800) {
+                if (currentTime - hitTime > 200) {
                     bricksToRemove.add(brick)
                 }
             }
@@ -182,7 +182,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         ball1.checkbounders(bounds, mcontext)
         playerPlatform.checkBounds(bounds)
 
-        if (brickList.isEmpty()) {
+        if (GameManager.brickList.isEmpty()) {
             addBricks()
         }
     }
@@ -193,7 +193,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     fun removeBricks() {
         // Remove marked bricks from the brickList after delay
         bricksToRemove.forEach { brick ->
-            brickList.remove(brick)
+            GameManager.brickList.remove(brick)
         }
         bricksToRemove.clear()
     }
@@ -221,11 +221,9 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
-            // Increment points
-            GameManager.addPoints()
             return false // Return statment to mark that the ball is not out
         } else {
-
+            GameManager.brickList.clear()
             return true // Return statment to mark that the ball is out
         }
     }
@@ -238,7 +236,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         backgroundDrawable.draw(canvas)
         drawPoints(canvas)
         playerPlatform.draw(canvas)
-        brickList.forEach { brick ->
+        GameManager.brickList.forEach { brick ->
             brick.draw(canvas)
         }
         ball1.draw(canvas)
@@ -329,40 +327,35 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
         }
 
-    override fun incrementPoints() {
-
-        GameManager.incrementPoints(1) // Använd det här om standardpoängen är 1
-    }
-
     fun addBricks() {
         // Create glass brick layout
-        brickList.add(GlassBrick(this, mcontext, "brick 1_1", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext, "brick 1_1", brickWidth,
             -2, 0, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 1_2", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 1_2", brickWidth,
             -1, 0, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 1_3", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 1_3", brickWidth,
             0, 0, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 1_4", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 1_4", brickWidth,
             1, 0, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 1_5", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 1_5", brickWidth,
             2, 0, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 2_1", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 2_1", brickWidth,
             -1, 1, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 2_2", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 2_2", brickWidth,
             0, 1, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 2_3", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 2_3", brickWidth,
             1, 1, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 3_1", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 3_1", brickWidth,
             0, 2, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 4_1", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 4_1", brickWidth,
             0, 3, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 5_1", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 5_1", brickWidth,
             0, 4, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 6_1", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 6_1", brickWidth,
             -1, 5, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 6_2", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 6_2", brickWidth,
             0, 5, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this, mcontext,"brick 6_3", brickWidth,
+        GameManager.brickList.add(GlassBrick(this, mcontext,"brick 6_3", brickWidth,
             1, 5, false, viewWidth, viewHeight))
 
     }
