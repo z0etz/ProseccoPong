@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val bClassicPong: Button = binding.buttonClassicGame
         val bProseccoPong: Button = binding.buttonProseccoGame
         val bHighscore: Button = binding.buttonHighscore
+        val bInfoPage: Button = binding.buttonInfoPage
 
 
         bClassicPong.setOnClickListener {
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("Game Choice", toast)
             startActivity(intent)
         }
-
 
         bProseccoPong.setOnClickListener {
             val toast = "Prosecco Pong"
@@ -49,6 +49,11 @@ class MainActivity : AppCompatActivity() {
 
         bHighscore.setOnClickListener {
             val intent = Intent(this, HighscoreActivity::class.java)
+            startActivity(intent)
+        }
+
+        bInfoPage.setOnClickListener {
+            val intent = Intent(this, InfoPageActivity::class.java)
             startActivity(intent)
         }
 

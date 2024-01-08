@@ -33,7 +33,7 @@
     <dimen name="large_margin">68dp</dimen>
 
 
-    <dimen name="small_margin_top">55dp</dimen>
+    <dimen name="small_margin_top">35dp</dimen>
     <dimen name="medium_margin_top">105dp</dimen>
     <dimen name="large_margin_top">160dp</dimen>
 

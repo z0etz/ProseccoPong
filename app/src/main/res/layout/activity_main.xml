@@ -28,7 +28,7 @@
         android:layout_width="@dimen/small_width"
         android:layout_height="@dimen/small_height"
         android:layout_marginEnd="@dimen/medium_margin"
-        android:layout_marginBottom="@dimen/large_margin"
+        android:layout_marginBottom="@dimen/small_margin_top"
         android:alpha="0.90"
         android:fontFamily="@font/splatch"
         android:shadowColor="@color/black"
@@ -47,7 +47,7 @@
         android:id="@+id/buttonClassicGame"
         android:layout_width="@dimen/medium_width_button"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin_top"
+        android:layout_marginTop="@dimen/large_margin"
         android:background="@drawable/main_buttons"
         android:fontFamily="@font/gameplay"
         android:padding="@dimen/medium_padding"
@@ -57,8 +57,8 @@
         android:shadowRadius="20"
         android:text="@string/classic_pong"
         android:textColor="@color/gold"
-        android:textStyle="bold"
         android:textSize="@dimen/small_font"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +105,27 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonProseccoGame" />
+
+    <Button
+        android:id="@+id/buttonInfoPage"
+        android:layout_width="@dimen/medium_width_button"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin_top"
+        android:background="@drawable/main_buttons"
+        android:fontFamily="@font/gameplay"
+        android:padding="@dimen/medium_padding"
+        android:shadowColor="@color/gold"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="20"
+        android:text="@string/info_page"
+        android:textColor="@color/gold"
+        android:textStyle="bold"
+        android:textSize="@dimen/small_font"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonHighscore" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
