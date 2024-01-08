@@ -1,6 +1,7 @@
 package com.katja.proseccopong
 
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -10,10 +11,17 @@ import com.katja.proseccopong.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+
+    lateinit var backgroundMusicPlayer: MediaPlayer // Declare mediaplayer for background music
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.theme_song) // Inizialize mediaplayer for background music
+        backgroundMusicPlayer.isLooping = true
+        backgroundMusicPlayer.start()
+
 
         val bClassicPong: Button = binding.buttonClassicGame
         val bProseccoPong: Button = binding.buttonProseccoGame
@@ -45,5 +53,10 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backgroundMusicPlayer.release()
     }
 }
