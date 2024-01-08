@@ -3,6 +3,8 @@ package com.katja.proseccopong
 object GameManager {
     var points = 0
 
+    val brickList = ArrayList<GlassBrick>()
+
     fun addPoints() {
         points++
     }
