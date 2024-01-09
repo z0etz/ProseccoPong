@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
 
 
         bClassicPong.setOnClickListener {
+
+            backgroundMusicPlayer.setVolume(0.1f, 0.1f) // Lower the volume in game mode
+
             val toast = "Classic Pong"
             Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EnterNameActivity::class.java)
@@ -38,6 +41,8 @@ class MainActivity : AppCompatActivity() {
 
 
         bProseccoPong.setOnClickListener {
+
+            backgroundMusicPlayer.setVolume(0.1f, 0.1f)
             val toast = "Prosecco Pong"
             Toast.makeText(this,toast, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EnterNameActivity::class.java)
@@ -46,6 +51,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         bHighscore.setOnClickListener {
+
+            backgroundMusicPlayer.setVolume(1.0f, 1.0f)
+
             val intent = Intent(this, HighscoreActivity::class.java)
             startActivity(intent)
         }
