@@ -31,6 +31,7 @@
     <dimen name="small_margin">8dp</dimen>
     <dimen name="medium_margin">16dp</dimen>
     <dimen name="large_margin">68dp</dimen>
+    <dimen name="pong_text_offset">-60dp</dimen>
 
 
     <dimen name="small_margin_top">35dp</dimen>
