@@ -2,9 +2,14 @@ package com.katja.proseccopong
 
 interface GameView {
 
-    fun ballDown() : Boolean
+
+
+
+
+    fun incrementPoints()
 
     fun gameEnd()
+
 
 
     // Method to handle glass breakage event

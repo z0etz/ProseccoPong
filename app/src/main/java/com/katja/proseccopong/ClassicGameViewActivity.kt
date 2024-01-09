@@ -10,6 +10,8 @@ class ClassicGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
     lateinit var binding: ActivityClassicGameViewBinding
     lateinit var classicGameView: ClassicGameView
+    lateinit var gameManager: GameManager
+    lateinit var proseccoGameView: ProseccoGameView
 
     // Skapa SharedPreferences-objekt
     private val sharedPreferences by lazy {
@@ -22,7 +24,9 @@ class ClassicGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
         setContentView(binding.root)
 
         val playerName = intent.getStringExtra("PLAYER_NAME")
-        classicGameView = ClassicGameView(this, this, sharedPreferences)
+
+        classicGameView = ClassicGameView(this,  sharedPreferences,resources)
+        gameManager = GameManager(classicGameView, this, "ClassicGame", sharedPreferences, resources)
         classicGameView.setPlayerName(playerName ?: "")
 
         binding.surfaceClassicGameView.holder.addCallback(classicGameView)
@@ -31,7 +35,7 @@ class ClassicGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
 
     override fun onDestroy() {
         super.onDestroy()
-        classicGameView.saveScore() // Spara poängen när aktiviteten förstörs
+        gameManager.saveScore() // Spara poängen när aktiviteten förstörs
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
