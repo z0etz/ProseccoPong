@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InfoPageActivity"
+    android:background="@drawable/gold_and_black_background">
+
+    <TextView
+        android:id="@+id/textInfoPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin_top"
+        android:fontFamily="@font/gameplay"
+        android:shadowColor="@color/gold"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="20"
+        android:text="@string/info_page"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium_font"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/descriptionsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin_top"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/small_margin_top"
+        app:layout_constraintTop_toBottomOf="@id/textInfoPage"
+        tools:layout_editor_absoluteX="35dp">
+
+        <TextView
+            android:id="@+id/firstDescriptionInfoPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/gold"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="10"
+            android:text="@string/first_description_info_page"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_font"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/secondDescriptionInfoPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin_top"
+            android:shadowColor="@color/gold"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="10"
+            android:text="@string/second_description_info_page"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_font"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/thirdDescriptionInfoPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin_top"
+            android:shadowColor="@color/gold"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="10"
+            android:text="@string/third_description_info_page"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_font"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonMainMenu"
+        android:layout_width="@dimen/small_width_button"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin_top"
+        android:background="@drawable/main_buttons"
+        android:fontFamily="@font/gameplay"
+        android:shadowColor="@color/gold"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="20"
+        android:text="@string/main_menu"
+        android:textAlignment="center"
+        android:textColor="@color/gold"
+        android:textSize="@dimen/small_font"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.889" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

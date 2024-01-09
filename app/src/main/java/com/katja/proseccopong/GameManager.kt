@@ -101,6 +101,7 @@ thread?.start()
 
 
 
+
     fun gameEnd(){
         saveScore() // Save the score before transitioning to HighscoreActivity
         println(ScoreList) //Sout for debug
@@ -123,6 +124,10 @@ thread?.start()
         editor.putString("score_list", scoreListJson)
         editor.apply()
     }
+
+    val brickList = ArrayList<GlassBrick>()
+
+
     fun addPoints() {
         points++
     }

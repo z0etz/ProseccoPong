@@ -13,6 +13,7 @@ import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 
 
+
 class ClassicGameView(context: Context, private val sharedPreferences: SharedPreferences,private val resources: Resources) : SurfaceView(context), SurfaceHolder.Callback,  GameView {
     var mholder: SurfaceHolder? = null
 
@@ -20,6 +21,17 @@ class ClassicGameView(context: Context, private val sharedPreferences: SharedPre
      var mcontext=context
 
     private var platformLevel = 200f
+
+class ClassicGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
+    private var mholder: SurfaceHolder? = null
+    private var running = false
+    lateinit var canvas:Canvas
+    private var mcontext=context
+    private var ball1: Ball
+    private var playerPlatform: PlayerPlatform
+    private var thread: Thread? = null
+    private var platformLevel = 100f
+
     private var platformHeight = 25f
     private var platformTop = platformHeight + platformLevel
     private var platformWidth = 200f
@@ -100,8 +112,17 @@ lateinit var proseccoGameView: ProseccoGameView
 
 
 
+
     override fun incrementPoints() {
         TODO("Not yet implemented")
+=======
+    override fun gameEnd(){
+        saveScore() // Save the score before transitioning to HighscoreActivity
+        println(ScoreList) //Sout for debug
+        val intent = Intent(activityContext, HighscoreActivity::class.java)
+        activityContext.startActivity(intent)
+        GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
+
     }
 }
 
