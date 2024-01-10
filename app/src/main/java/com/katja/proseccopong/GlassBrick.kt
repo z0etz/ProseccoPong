@@ -7,12 +7,12 @@ import androidx.core.content.ContextCompat
 import kotlin.math.sqrt
 
 class GlassBrick(
- val gameView: GameView,
- val gameManager: GameManager,
+    private val gameView: GameView,
     val context: Context, val name: String, var width: Int,
     val numberFromMiddleX: Int,
     val numberFromTopY: Int, var rose: Boolean, var viewWidth: Float, var viewHeight: Float
 ) {
+
     var hitTime: Long? = null
     var hasBeenHit = false
     var empty = false
@@ -94,9 +94,9 @@ class GlassBrick(
 
             // Uppdatera poäng baserat på vilken typ av glasbricka som träffas
             if (rose) {
-                gameManager.incrementPoints(2) // Om det är en roséglasbricka, ge 2 poäng
+                GameManager.incrementPoints(2) // Om det är en roséglasbricka, ge 2 poäng
             } else {
-                gameManager.incrementPoints(1) // Annars, ge 1 poäng för proseccoglasbricka
+                GameManager.incrementPoints(1) // Annars, ge 1 poäng för proseccoglasbricka
             }
 gameView.handleGlassBreakage()
 
