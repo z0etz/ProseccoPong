@@ -35,7 +35,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     var brickWidth: Int = 50
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
-    // List holding active bricks, filled in onSurfaceCreated. Bricks should be removed once they are hit.
+    // List holding hit bricks that will be removed once they have had time to spin.
     val bricksToRemove = mutableListOf<GlassBrick>()
 
     var glassesHitCount = 0
@@ -152,12 +152,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
                 // Mark brick with the time it was hit
                 brick.hitTime = currentTime
-            }
-
-                when (currentScore) {
-                    10 -> increaseBallSpeed(2.01f) // Increase speed at score 10
-                    20 -> increaseBallSpeed(2.03f) // Increase speed at score 4
-                    30 -> increaseBallSpeed(2.05f) // Increase speed at score 10
             }
 
         }
