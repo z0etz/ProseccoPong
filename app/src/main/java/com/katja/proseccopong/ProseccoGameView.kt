@@ -15,12 +15,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 
-class ProseccoGameView(private val gameManager: GameManager,context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
+class ProseccoGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
     private var mholder: SurfaceHolder? = null
     private var running = false
     lateinit var canvas: Canvas
     private var mcontext = context
-
+    private var ball1: Ball
+    private var playerPlatform: PlayerPlatform
     private var thread: Thread? = null
     private var platformLevel = 100f
     private var platformHeight = 25f
@@ -45,11 +46,8 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
             holder?.addCallback(this)
 
         }
-
-
         playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext, 1f, 500f, 20f, 10f, 20f, platformTop)
-
 
     }
 
@@ -61,7 +59,7 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         bounds = Rect(0, 0, width, height)
-       gameManager. playerPlatform.initialize(width, height)
+        playerPlatform.initialize(width, height)
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
 
@@ -96,14 +94,14 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
     }
 
     fun updatePlatformPosition() {
-        val difference = touchX - (gameManager.playerPlatform.posX + gameManager.playerPlatform.width / 2)
+        val difference = touchX - (playerPlatform.posX + playerPlatform.width / 2)
         val speedFactor = decreasePlatformSpeed()
-        gameManager. playerPlatform.speedX = difference / speedFactor
+        playerPlatform.speedX = difference / speedFactor
 
         // Adjust the platform's position based on touch input
         if (Math.abs(difference) > 5) {
             // Move the platform if the touch input is significantly different from the platform's position
-            gameManager. playerPlatform.posX += gameManager.playerPlatform.speedX
+            playerPlatform.posX += playerPlatform.speedX
         }
     }
 
@@ -138,19 +136,19 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
     }
 
     fun update() {
-        gameManager.ball1.update()
+        ball1.update()
         updatePlatformPosition()
 
-        val previousScore = gameManager.points // Save the previous score
-        val currentScore = gameManager.points // Get the current score after possible increments
+        val previousScore = GameManager.points // Save the previous score
+        val currentScore = GameManager.points // Get the current score after possible increments
         val currentTime = System.currentTimeMillis()
 
         val iterator = GameManager.brickList.iterator()
         while (iterator.hasNext()) {
             val brick = iterator.next()
 
-            if (brick.checkCollision(gameManager.ball1)) {
-                brick.handleCollision(gameManager.ball1)
+            if (brick.checkCollision(ball1)) {
+                brick.handleCollision(ball1)
 
                 // Mark brick with the time it was hit
                 brick.hitTime = currentTime
@@ -181,16 +179,16 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
             removeBricks()
         }
 
-        gameManager. ball1.checkbounders(bounds, mcontext)
-        gameManager.playerPlatform.checkBounds(bounds)
+        ball1.checkbounders(bounds, mcontext)
+        playerPlatform.checkBounds(bounds)
 
         if (GameManager.brickList.isEmpty()) {
             addBricks()
         }
     }
     private fun increaseBallSpeed(factor: Float) {
-        gameManager. ball1.speedX *= factor
-        gameManager. ball1.speedY *= factor
+        ball1.speedX *= factor
+        ball1.speedY *= factor
     }
     fun removeBricks() {
         // Remove marked bricks from the brickList after delay
@@ -202,6 +200,9 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
 
 
     // Function to accsess the return statment of onIntersection by other classes
+    override fun ballDown(): Boolean {
+        return onIntersection(playerPlatform, ball1)
+    }
 
     fun onIntersection(p: PlayerPlatform, b: Ball): Boolean {
         // Calculate the centers of the platform and the ball
@@ -220,10 +221,6 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
-
-            // Increment points
-            gameManager.addPoints()
-
             return false // Return statment to mark that the ball is not out
         } else {
             GameManager.brickList.clear()
@@ -238,16 +235,11 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
         backgroundDrawable.setBounds(0, 0, canvas.width, canvas.height)
         backgroundDrawable.draw(canvas)
         drawPoints(canvas)
-
-        gameManager.playerPlatform.draw(canvas)
-        brickList.forEach { brick ->
-
         playerPlatform.draw(canvas)
         GameManager.brickList.forEach { brick ->
-
             brick.draw(canvas)
         }
-        gameManager. ball1.draw(canvas)
+        ball1.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
     }
 
@@ -256,8 +248,8 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
 
             update()
             draw()
-            gameManager. ball1.checkbounders(bounds, mcontext)
-            gameManager. playerPlatform.checkBounds(bounds)
+            ball1.checkbounders(bounds, mcontext)
+            playerPlatform.checkBounds(bounds)
             Thread.sleep(6)
         }
         Thread.sleep(6)
@@ -282,7 +274,7 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
 
         // Rita "Name" och "Score" bredvid varandra på samma rad, högre upp på skärmen
         val nameText = "Name: $playerName".uppercase()
-        val scoreText = "Score: ${gameManager.points}".uppercase()
+        val scoreText = "Score: ${GameManager.points}".uppercase()
         val printText = nameText + "     " + scoreText
 
         val centerX = viewWidth / 2
@@ -310,10 +302,10 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
 
             if (existingScoreIndex != -1) {
                 // Om användaren redan finns i listan, uppdatera poängen
-                ScoreList.scoreList[existingScoreIndex].score = gameManager.points
+                ScoreList.scoreList[existingScoreIndex].score = GameManager.points
             } else {
                 // Om användaren inte finns, lägg till nya poäng som Prosecco-score
-                val newProseccoScore = Score(playerName, gameManager.points, false)
+                val newProseccoScore = Score(playerName, GameManager.points, false)
                 ScoreList.scoreList.add(newProseccoScore)
             }
 
@@ -327,42 +319,13 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
     override fun handleGlassBreakage() {
         glassesHitCount++
     }
-
-
-    override fun incrementPoints() {
-
-        gameManager.incrementPoints(1) // Använd det här om standardpoängen är 1
-    }
-
-    fun addBricks() {
-        // Create glass brick layout
-        brickList.add(GlassBrick(this,gameManager, mcontext, "brick 1_1", brickWidth,
-            -2, 0, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 1_2", brickWidth,
-            -1, 0, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 1_3", brickWidth,
-            0, 0, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 1_4", brickWidth,
-            1, 0, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 1_5", brickWidth,
-            2, 0, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 2_1", brickWidth,
-            -1, 1, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 2_2", brickWidth,
-            0, 1, true, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 2_3", brickWidth,
-            1, 1, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 3_1", brickWidth,
-            0, 2, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 4_1", brickWidth,
-            0, 3, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 5_1", brickWidth,
-            0, 4, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 6_1", brickWidth,
-            -1, 5, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 6_2", brickWidth,
-            0, 5, false, viewWidth, viewHeight))
-        brickList.add(GlassBrick(this,gameManager, mcontext,"brick 6_3", brickWidth,
+        override fun gameEnd() {
+            saveScore() // Save the score before transitioning to HighscoreActivity
+            println(ScoreList) //Sout for debug
+            val intent = Intent(activityContext, HighscoreActivity::class.java)
+            activityContext.startActivity(intent)
+            GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
+        }
 
     fun addBricks() {
         // Create glass brick layout
@@ -393,7 +356,6 @@ class ProseccoGameView(private val gameManager: GameManager,context: Context, pr
         GameManager.brickList.add(GlassBrick(this, mcontext,"brick 6_2", brickWidth,
             0, 5, false, viewWidth, viewHeight))
         GameManager.brickList.add(GlassBrick(this, mcontext,"brick 6_3", brickWidth,
-
             1, 5, false, viewWidth, viewHeight))
 
     }

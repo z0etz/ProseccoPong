@@ -9,8 +9,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import kotlin.math.sqrt
 
-class Ball(
-    var gameManager: GameManager,
+class Ball(private val gameView: GameView,
     val context: Context,
     var posX: Float,
     var posY: Float,
@@ -43,13 +42,13 @@ class Ball(
         }
         if (posY + size / 2 > bounds.bottom - platformTop) {
             // When the ball reaches the platform level, check it it collides or goes out
-            if(gameManager.ballDown()) {
+            if(gameView.ballDown()) {
                 if (!ballOutToastShown) { // Check if the toast has been shown
                     (context as Activity).runOnUiThread {
                         val toast = "Ball is out"
                         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
                     }
-                    gameManager.gameEnd()
+                    gameView.gameEnd()
                     ballOutToastShown = true // Set the flag to true once the toast is shown
                 }
             }
