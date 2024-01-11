@@ -10,4 +10,8 @@ interface GameView {
     // Method to handle glass breakage event
     fun handleGlassBreakage() {
     }
+
+    fun initializeMediaPLayer()
+    fun playHitSoundEffect()
+    fun playGlassSoundEffect()
 }

@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -33,6 +34,9 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     var paintPoints = Paint()
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     var brickWidth: Int = 50
+    private lateinit var platformHitSound: MediaPlayer
+    private lateinit var glassHitSound: MediaPlayer
+
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
     // List holding hit bricks that will be removed once they have had time to spin.
@@ -40,6 +44,12 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     var glassesHitCount = 0
     init {
+        platformHitSound = MediaPlayer.create(context,R.raw.platform_sound)
+        platformHitSound.setVolume(0.3f, 0.3f)
+
+        glassHitSound = MediaPlayer.create(context,R.raw.glas)
+        glassHitSound.setVolume(0.3f,0.3f)
+
         mholder = holder
 
         if (mholder != null) {
@@ -152,6 +162,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
                 // Mark brick with the time it was hit
                 brick.hitTime = currentTime
+                playGlassSoundEffect() // Sound-effect when the ball hits the glas
             }
 
         }
@@ -215,9 +226,13 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
+
+            playHitSoundEffect() // Sound-effect when the ball hits the platform
+
             return false // Return statment to mark that the ball is not out
         } else {
             GameManager.brickList.clear()
+
             return true // Return statment to mark that the ball is out
         }
     }
@@ -313,7 +328,24 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     override fun handleGlassBreakage() {
         glassesHitCount++
     }
-        override fun gameEnd() {
+
+    override fun initializeMediaPLayer() {
+        TODO("Not yet implemented")
+    }
+
+    override fun playHitSoundEffect() {
+        if (!platformHitSound.isPlaying){
+            platformHitSound.start()
+        }
+    }
+
+    override fun playGlassSoundEffect() {
+        if (!glassHitSound.isPlaying){
+            glassHitSound.start()
+        }
+    }
+
+    override fun gameEnd() {
             saveScore() // Save the score before transitioning to HighscoreActivity
             println(ScoreList) //Sout for debug
             val intent = Intent(activityContext, HighscoreActivity::class.java)

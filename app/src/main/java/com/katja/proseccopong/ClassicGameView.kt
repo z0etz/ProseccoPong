@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -34,8 +35,11 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     private var playerName: String = ""
     var existingScoreIndex = -1
-
+    //private var mediaPlayer: MediaPlayer? = null
+    private lateinit var platformHitSound: MediaPlayer
     init {
+        platformHitSound = MediaPlayer.create(context,R.raw.platform_sound)
+        platformHitSound.setVolume(0.3f, 0.3f)
         mholder = holder
 
         if(mholder!=null) {
@@ -48,6 +52,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
+        initializeMediaPLayer()
 
     }
 
@@ -124,7 +129,12 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             b.posY = b.posY + b.speedY * 2
             // Increment points
             GameManager.addPoints()
+
+            playHitSoundEffect() // Sound effect
+
             return false // Return statment to mark that the ball is not out
+
+
         }
         else {
             return true // Return statment to mark that the ball is out
@@ -217,6 +227,20 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         val intent = Intent(activityContext, HighscoreActivity::class.java)
         activityContext.startActivity(intent)
         GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
+    }
+
+    override fun initializeMediaPLayer() {
+        //mediaPlayer = MediaPlayer.create(context, R.raw.music)
+    }
+
+    override fun playHitSoundEffect() {
+        if (!platformHitSound.isPlaying){
+            platformHitSound.start()
+        }
+    }
+
+    override fun playGlassSoundEffect() {
+        TODO("Not yet implemented")
     }
 }
 
