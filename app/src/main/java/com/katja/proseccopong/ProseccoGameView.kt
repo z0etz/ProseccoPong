@@ -46,7 +46,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             holder?.addCallback(this)
 
         }
-        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
+        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext, 1f, 500f, 20f, 10f, 20f, platformTop)
 
     }
@@ -284,9 +284,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         playerName = name
     }
 
-
-
-        // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat inte skrivs över
         fun saveScore() {
 
             val editor = sharedPreferences.edit()

@@ -11,7 +11,6 @@ class PlayerPlatform(
     var width: Float,
     var height: Float,
     var speedX: Float = 0f,
-    var speedY: Float,
     var platformLevel: Float,
     color: Int = Color.BLUE,
 
@@ -41,7 +40,6 @@ class PlayerPlatform(
         }
 
         fun update() {
-            posY += speedY
             posX += speedX
         }
 
