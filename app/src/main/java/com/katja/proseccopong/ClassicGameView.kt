@@ -42,7 +42,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             holder?.addCallback(this)
 
         }
-        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
+        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f, platformTop)
 
     }
@@ -191,7 +191,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         playerName = name
     }
 
-    // TODO: Ändra så att tidigare resultat inte skrivs över
 
     fun saveScore() {
         val editor = sharedPreferences.edit()

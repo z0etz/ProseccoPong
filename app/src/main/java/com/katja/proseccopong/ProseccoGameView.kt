@@ -46,7 +46,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             holder?.addCallback(this)
 
         }
-        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f,0f, platformLevel, Color.WHITE)
+        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext, 1f, 500f, 20f, 10f, 20f, platformTop)
 
     }
@@ -72,7 +72,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             // Set first Int to aprx. how big part of the screen height the layout should take up (1/x)
             // Second Int converts brickHeight to brickWidth and should be kept as 3
             // Set last Int to the number of bricks in the widest row of the brick layout
-            brickWidth = viewHeight.toInt() / 4 / 3 / 7 // Set last Int to the number of bricks in the longest column of the brick layout
+            brickWidth = viewHeight.toInt() / 2 / 3 / 6 // Set last Int to the number of bricks in the longest column of the brick layout
         }
         GameManager.brickList.forEach { brick ->
             brick.sufaceChanged(viewWidth, viewHeight, brickWidth)
@@ -284,9 +284,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         playerName = name
     }
 
-
-
-        // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat inte skrivs över
         fun saveScore() {
 
             val editor = sharedPreferences.edit()

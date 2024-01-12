@@ -11,7 +11,6 @@ class PlayerPlatform(
     var width: Float,
     var height: Float,
     var speedX: Float = 0f,
-    var speedY: Float,
     var platformLevel: Float,
     color: Int = Color.BLUE,
 
@@ -26,8 +25,7 @@ class PlayerPlatform(
     private val paint = Paint().apply { this.color = color }
     fun initialize(viewWidth: Int, viewHeight: Int) {
         posX = (viewWidth / 2 - width / 2).toFloat() // Center horizontally
-        posY =
-            (viewHeight - height - platformLevel).toFloat() // The bar is raised a little bit from the bottom, by the platformLevel variable
+        posY = (viewHeight - height - platformLevel).toFloat() // The bar is raised a little bit from the bottom, by the platformLevel variable
     }
 
 
@@ -41,7 +39,6 @@ class PlayerPlatform(
         }
 
         fun update() {
-            posY += speedY
             posX += speedX
         }
 
