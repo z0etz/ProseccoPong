@@ -156,7 +156,6 @@ gameView.handleGlassBreakage()
         else {
             topBrickLayoutOffset = 400
         }
-
     }
 
 }

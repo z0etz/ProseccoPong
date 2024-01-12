@@ -132,7 +132,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-
     }
 
     fun update() {
