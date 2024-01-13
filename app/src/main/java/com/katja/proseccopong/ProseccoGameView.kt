@@ -1,5 +1,6 @@
 package com.katja.proseccopong
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,6 +13,7 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 
@@ -39,6 +41,8 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     val bricksToRemove = mutableListOf<GlassBrick>()
 
     var glassesHitCount = 0
+    private var gameOver = false
+
     init {
         mholder = holder
 
@@ -238,14 +242,14 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     override fun run() {
         while (running) {
-
-            update()
-            draw()
-            ball1.checkbounders(bounds, mcontext)
-            playerPlatform.checkBounds(bounds)
+            if (!gameOver) {
+                update()
+                draw()
+                ball1.checkbounders(bounds, mcontext)
+                playerPlatform.checkBounds(bounds)
+            }
             Thread.sleep(6)
         }
-        Thread.sleep(6)
     }
 
     fun drawPoints(canvas: Canvas) {
@@ -309,13 +313,28 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     override fun handleGlassBreakage() {
         glassesHitCount++
     }
-        override fun gameEnd() {
-            saveScore() // Save the score before transitioning to HighscoreActivity
-            println(ScoreList) //Sout for debug
-            val intent = Intent(activityContext, HighscoreActivity::class.java)
-            activityContext.startActivity(intent)
-            GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
+
+    private fun showGameOverDialog() {
+        (context as Activity).runOnUiThread {
+            AlertDialog.Builder(activityContext)
+                .setTitle("Game Over")
+                .setMessage("Your score: ${GameManager.points}")
+                .setPositiveButton("OK") { dialog, which ->
+                    val intent = Intent(activityContext, HighscoreActivity::class.java)
+                    activityContext.startActivity(intent)
+                }
+                .setCancelable(false) // Prevent dismissing dialog on outside touch or back press
+                .show()
         }
+    }
+    override fun gameEnd() {
+        saveScore()
+        println(ScoreList)
+        showGameOverDialog()
+        GameManager.resetPoints()
+        gameOver = true
+    }
+
 
     fun addBricks() {
         // Create glass brick layout
