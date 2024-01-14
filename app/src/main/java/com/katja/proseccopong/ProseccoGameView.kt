@@ -9,11 +9,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TextAppearanceSpan
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 
@@ -316,17 +318,56 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     private fun showGameOverDialog() {
         (context as Activity).runOnUiThread {
-            AlertDialog.Builder(activityContext)
+            val currentTime = System.currentTimeMillis()
+            val currentScore = GameManager.points
+
+            // Formatera score och tid
+            val formattedScore = "\nScore: $currentScore"
+            val formattedTime = "\n\n${Score(playerName, currentScore, true, currentTime).getFormattedDate()}"
+
+            // Skapa en AlertDialog
+            val alertDialog = android.app.AlertDialog.Builder(activityContext, R.style.CustomAlertDialog)
                 .setTitle("Game Over")
-                .setMessage("Your score: ${GameManager.points}")
+                .setMessage(buildSpannableMessage(formattedScore, formattedTime))
                 .setPositiveButton("OK") { dialog, which ->
                     val intent = Intent(activityContext, HighscoreActivity::class.java)
                     activityContext.startActivity(intent)
                 }
-                .setCancelable(false) // Prevent dismissing dialog on outside touch or back press
-                .show()
+                .setCancelable(false)
+                .create()
+
+            // Justera storlek på dialogfönstret
+            alertDialog.setOnShowListener {
+                val layoutParams = WindowManager.LayoutParams()
+                layoutParams.copyFrom(alertDialog.window?.attributes)
+                layoutParams.width = 800 // Justera bredden efter behov
+                layoutParams.height = 550 // Justera höjden efter behov
+                alertDialog.window?.attributes = layoutParams
+            }
+
+            alertDialog.show()
         }
     }
+
+    private fun buildSpannableMessage(formattedScore: String, formattedTime: String): SpannableStringBuilder {
+        // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
+        val spannableStringBuilder = SpannableStringBuilder()
+
+        // Lägg till formattedScore med ScoreStyle
+        val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
+        val startIndexOfScore = spannableStringBuilder.length
+        spannableStringBuilder.append(formattedScore)
+        spannableStringBuilder.setSpan(scoreStyleSpan, startIndexOfScore, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        // Lägg till formattedTime med TimeStyle
+        val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
+        val startIndexOfTime = spannableStringBuilder.length
+        spannableStringBuilder.append(formattedTime)
+        spannableStringBuilder.setSpan(timeStyleSpan, startIndexOfTime, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        return spannableStringBuilder
+    }
+
     override fun gameEnd() {
         saveScore()
         println(ScoreList)
