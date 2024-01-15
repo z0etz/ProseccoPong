@@ -50,6 +50,7 @@ class ProseccoGameView(
 
     var glassesHitCount = 0
     private var gameOver = false
+    private var ballOnPlatform = true // Sätt initialt värdet till true för att bollen ska starta på plattformen
 
     init {
         mholder = holder
@@ -105,6 +106,14 @@ class ProseccoGameView(
         if (event?.action == MotionEvent.ACTION_DOWN || event?.action == MotionEvent.ACTION_MOVE) {
             touchX = event.x
         }
+
+        if (ballOnPlatform && event?.action == MotionEvent.ACTION_DOWN) {
+            // Bollen är på plattformen och användaren trycker ner på skärmen, skjut iväg bollen
+            ball1.speedX = 10f // Ange den önskade hastigheten för bollen i X-riktningen
+            ball1.speedY = -20f // Ange den önskade hastigheten för bollen i Y-riktningen
+            ballOnPlatform = false
+        }
+
         return true
     }
 
@@ -262,6 +271,12 @@ class ProseccoGameView(
                 draw()
                 ball1.checkbounders(bounds, mcontext)
                 playerPlatform.checkBounds(bounds)
+
+                if (ballOnPlatform) {
+                    // Bollen är på plattformen, uppdatera dess position med plattformen
+                    ball1.posX = playerPlatform.posX + playerPlatform.width / 2
+                    ball1.posY = playerPlatform.posY - ball1.size
+                }
             }
             Thread.sleep(6)
         }
