@@ -65,5 +65,6 @@
     <string name="first_description_info_page">Welcome to Prosecco Pong! In the year 2023, our dynamic team consisting of Matilda, Katja, Hanad, and Christofer created our own version of the classic game Pong with a unique twist.</string>
     <string name="second_description_info_page">Discover our two exciting game modes - let the competitive spirit flow in the classic mode or challenge your skills in Prosecco Pong. Versatility is the key to joy!</string>
     <string name="third_description_info_page">Keep track of your progress with our scoring system and strive for the top of the HighScore list. Showcase your expertise to the world and dive into a bubbly competition. Thank you for choosing Prosecco Pong. Let the game begin, and may the glass always be half full!</string>
+    <string name="play">Play</string>
 
 </resources>
