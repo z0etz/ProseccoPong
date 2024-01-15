@@ -1,7 +1,6 @@
 package com.katja.proseccopong
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,17 +9,16 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
-import android.media.MediaPlayer
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TextAppearanceSpan
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
-
+import android.app.AlertDialog
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TextAppearanceSpan
+import android.view.WindowManager
 
 class ClassicGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
     private var mholder: SurfaceHolder? = null
@@ -41,13 +39,10 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     private var playerName: String = ""
     var existingScoreIndex = -1
-    //private var mediaPlayer: MediaPlayer? = null
-    private lateinit var platformHitSound: MediaPlayer
+
     private var gameOver = false
 
     init {
-        platformHitSound = MediaPlayer.create(context,R.raw.platform_sound)
-        platformHitSound.setVolume(0.3f, 0.3f)
         mholder = holder
 
         if(mholder!=null) {
@@ -60,7 +55,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        initializeMediaPLayer()
 
     }
 
@@ -137,12 +131,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             b.posY = b.posY + b.speedY * 2
             // Increment points
             GameManager.addPoints()
-
-            playHitSoundEffect() // Sound effect
-
             return false // Return statment to mark that the ball is not out
-
-
         }
         else {
             return true // Return statment to mark that the ball is out
@@ -163,15 +152,16 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
     override fun run() {
         while (running) {
-
-            update()
-            draw()
-            ball1.checkbounders(bounds,mcontext)
-            playerPlatform.checkBounds(bounds)
-
+            if (!gameOver) {
+                update()
+                draw()
+                ball1.checkbounders(bounds, mcontext)
+                playerPlatform.checkBounds(bounds)
+            }
+            Thread.sleep(6)
         }
-        Thread.sleep(6)
     }
+
 
 
     fun drawPoints(canvas: Canvas) {
@@ -209,7 +199,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         playerName = name
     }
 
-    // TODO: Ändra så att tidigare resultat inte skrivs över
 
     fun saveScore() {
         val editor = sharedPreferences.edit()
@@ -226,7 +215,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         editor.putString("score_list", scoreListJson)
         editor.apply()
     }
-
 
     private fun showGameOverDialog() {
         (context as Activity).runOnUiThread {
@@ -281,6 +269,10 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
 
+
+
+
+
     override fun gameEnd() {
         saveScore()
         gameOver = true
@@ -289,19 +281,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         GameManager.resetPoints()
     }
 
-    override fun initializeMediaPLayer() {
-        //mediaPlayer = MediaPlayer.create(context, R.raw.music)
-    }
-
-    override fun playHitSoundEffect() {
-        if (!platformHitSound.isPlaying){
-            platformHitSound.start()
-        }
-    }
-
-    override fun playGlassSoundEffect() {
-        TODO("Not yet implemented")
-    }
 }
 
 
