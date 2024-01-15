@@ -1,7 +1,5 @@
 package com.katja.proseccopong
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,13 +9,9 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.media.MediaPlayer
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TextAppearanceSpan
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
@@ -42,7 +36,6 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     var brickWidth: Int = 50
     private lateinit var platformHitSound: MediaPlayer
     private lateinit var glassHitSound: MediaPlayer
-    private var gameOver = false
 
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
@@ -352,65 +345,13 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         }
     }
 
-    private fun showGameOverDialog() {
-        (context as Activity).runOnUiThread {
-            val currentTime = System.currentTimeMillis()
-            val currentScore = GameManager.points
-
-            // Formatera score och tid
-            val formattedScore = "\nScore: $currentScore"
-            val formattedTime = "\n\n${Score(playerName, currentScore, true, currentTime).getFormattedDate()}"
-
-            // Skapa en AlertDialog
-            val alertDialog = AlertDialog.Builder(activityContext, R.style.CustomAlertDialog)
-                .setTitle("Game Over")
-                .setMessage(buildSpannableMessage(formattedScore, formattedTime))
-                .setPositiveButton("OK") { dialog, which ->
-                    val intent = Intent(activityContext, HighscoreActivity::class.java)
-                    activityContext.startActivity(intent)
-                }
-                .setCancelable(false)
-                .create()
-
-            // Justera storlek på dialogfönstret
-            alertDialog.setOnShowListener {
-                val layoutParams = WindowManager.LayoutParams()
-                layoutParams.copyFrom(alertDialog.window?.attributes)
-                layoutParams.width = 800 // Justera bredden efter behov
-                layoutParams.height = 550 // Justera höjden efter behov
-                alertDialog.window?.attributes = layoutParams
-            }
-
-            alertDialog.show()
-        }
-    }
-
-    private fun buildSpannableMessage(formattedScore: String, formattedTime: String): SpannableStringBuilder {
-        // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
-        val spannableStringBuilder = SpannableStringBuilder()
-
-        // Lägg till formattedScore med ScoreStyle
-        val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
-        val startIndexOfScore = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedScore)
-        spannableStringBuilder.setSpan(scoreStyleSpan, startIndexOfScore, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        // Lägg till formattedTime med TimeStyle
-        val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
-        val startIndexOfTime = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedTime)
-        spannableStringBuilder.setSpan(timeStyleSpan, startIndexOfTime, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        return spannableStringBuilder
-    }
-
     override fun gameEnd() {
-        saveScore()
-        println(ScoreList)
-        showGameOverDialog()
-        GameManager.resetPoints()
-        gameOver = true
-    }
+            saveScore() // Save the score before transitioning to HighscoreActivity
+            println(ScoreList) //Sout for debug
+            val intent = Intent(activityContext, HighscoreActivity::class.java)
+            activityContext.startActivity(intent)
+            GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
+        }
 
     fun addBricks() {
         // Create glass brick layout
