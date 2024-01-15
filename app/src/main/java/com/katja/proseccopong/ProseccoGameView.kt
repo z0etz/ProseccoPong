@@ -43,6 +43,7 @@ class ProseccoGameView(
     var brickWidth: Int = 50
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
+    private var existingScoreIndex = -1 // Lägg till den här raden
 
     // List holding hit bricks that will be removed once they have had time to spin.
     val bricksToRemove = mutableListOf<GlassBrick>()
@@ -91,7 +92,7 @@ class ProseccoGameView(
             brick.sufaceChanged(viewWidth, viewHeight, brickWidth)
         }
 
-        }
+
         start()
 
     }
@@ -303,25 +304,21 @@ class ProseccoGameView(
 
 
     fun saveScore() {
-    val editor = sharedPreferences.edit()
+        val editor = sharedPreferences.edit()
 
-        val existingScoreIndex =
-            ScoreList.scoreList.indexOfFirst { it.name == playerName && !it.classic }
+        // Lägg till ny poäng i listan oavsett om det finns en duplicat
+        val newProseccoScore = Score(playerName, GameManager.points, false)
+        ScoreList.scoreList.add(newProseccoScore)
 
-        if (existingScoreIndex != -1) {
-            // Om användaren redan finns i listan, uppdatera poängen
-            ScoreList.scoreList[existingScoreIndex].score = GameManager.points
-        } else {
-            // Om användaren inte finns, lägg till nya poäng som Prosecco-score
-            val newProseccoScore = Score(playerName, GameManager.points, false)
-            ScoreList.scoreList.add(newProseccoScore)
-        }
+        // Uppdatera den befintliga variabeln
+        existingScoreIndex = ScoreList.scoreList.indexOfFirst { it.name == playerName && !it.classic }
 
         // Konvertera ScoreList till en JSON-sträng och spara den i SharedPreferences
         val scoreListJson = Gson().toJson(ScoreList.scoreList)
         editor.putString("score_list", scoreListJson)
         editor.apply()
     }
+
 
     // Method to handle glass breakage event
     override fun handleGlassBreakage() {
