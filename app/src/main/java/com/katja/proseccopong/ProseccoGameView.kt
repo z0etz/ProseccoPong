@@ -1,6 +1,5 @@
 package com.katja.proseccopong
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,13 +8,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TextAppearanceSpan
+import android.media.MediaPlayer
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 
@@ -37,15 +34,22 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
     var paintPoints = Paint()
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     var brickWidth: Int = 50
+    private lateinit var platformHitSound: MediaPlayer
+    private lateinit var glassHitSound: MediaPlayer
+
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
     // List holding hit bricks that will be removed once they have had time to spin.
     val bricksToRemove = mutableListOf<GlassBrick>()
 
     var glassesHitCount = 0
-    private var gameOver = false
-
     init {
+        platformHitSound = MediaPlayer.create(context,R.raw.platform_sound)
+        platformHitSound.setVolume(0.3f, 0.3f)
+
+        glassHitSound = MediaPlayer.create(context,R.raw.glas)
+        glassHitSound.setVolume(0.3f,0.3f)
+
         mholder = holder
 
         if (mholder != null) {
@@ -78,7 +82,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             // Set first Int to aprx. how big part of the screen height the layout should take up (1/x)
             // Second Int converts brickHeight to brickWidth and should be kept as 3
             // Set last Int to the number of bricks in the widest row of the brick layout
-            brickWidth = viewHeight.toInt() / 2 / 3 / 6 // Set last Int to the number of bricks in the longest column of the brick layout
+            brickWidth = viewHeight.toInt() / 4 / 3 / 7 // Set last Int to the number of bricks in the longest column of the brick layout
         }
         GameManager.brickList.forEach { brick ->
             brick.sufaceChanged(viewWidth, viewHeight, brickWidth)
@@ -138,6 +142,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
+
     }
 
     fun update() {
@@ -157,6 +162,7 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
                 // Mark brick with the time it was hit
                 brick.hitTime = currentTime
+                playGlassSoundEffect() // Sound-effect when the ball hits the glas
             }
 
         }
@@ -220,9 +226,13 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
+
+            playHitSoundEffect() // Sound-effect when the ball hits the platform
+
             return false // Return statment to mark that the ball is not out
         } else {
             GameManager.brickList.clear()
+
             return true // Return statment to mark that the ball is out
         }
     }
@@ -244,14 +254,14 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
 
     override fun run() {
         while (running) {
-            if (!gameOver) {
-                update()
-                draw()
-                ball1.checkbounders(bounds, mcontext)
-                playerPlatform.checkBounds(bounds)
-            }
+
+            update()
+            draw()
+            ball1.checkbounders(bounds, mcontext)
+            playerPlatform.checkBounds(bounds)
             Thread.sleep(6)
         }
+        Thread.sleep(6)
     }
 
     fun drawPoints(canvas: Canvas) {
@@ -289,6 +299,9 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         playerName = name
     }
 
+
+
+        // TODO: Anpassa funktionen för Prosecco Pong scores + ändra så att tidigare resultat inte skrivs över
         fun saveScore() {
 
             val editor = sharedPreferences.edit()
@@ -316,66 +329,29 @@ class ProseccoGameView(context: Context, private val activityContext: Context, p
         glassesHitCount++
     }
 
-    private fun showGameOverDialog() {
-        (context as Activity).runOnUiThread {
-            val currentTime = System.currentTimeMillis()
-            val currentScore = GameManager.points
+    override fun initializeMediaPLayer() {
+        TODO("Not yet implemented")
+    }
 
-            // Formatera score och tid
-            val formattedScore = "\nScore: $currentScore"
-            val formattedTime = "\n\n${Score(playerName, currentScore, true, currentTime).getFormattedDate()}"
-
-            // Skapa en AlertDialog
-            val alertDialog = android.app.AlertDialog.Builder(activityContext, R.style.CustomAlertDialog)
-                .setTitle("Game Over")
-                .setMessage(buildSpannableMessage(formattedScore, formattedTime))
-                .setPositiveButton("OK") { dialog, which ->
-                    val intent = Intent(activityContext, HighscoreActivity::class.java)
-                    activityContext.startActivity(intent)
-                }
-                .setCancelable(false)
-                .create()
-
-            // Justera storlek på dialogfönstret
-            alertDialog.setOnShowListener {
-                val layoutParams = WindowManager.LayoutParams()
-                layoutParams.copyFrom(alertDialog.window?.attributes)
-                layoutParams.width = 800 // Justera bredden efter behov
-                layoutParams.height = 550 // Justera höjden efter behov
-                alertDialog.window?.attributes = layoutParams
-            }
-
-            alertDialog.show()
+    override fun playHitSoundEffect() {
+        if (!platformHitSound.isPlaying){
+            platformHitSound.start()
         }
     }
 
-    private fun buildSpannableMessage(formattedScore: String, formattedTime: String): SpannableStringBuilder {
-        // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
-        val spannableStringBuilder = SpannableStringBuilder()
-
-        // Lägg till formattedScore med ScoreStyle
-        val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
-        val startIndexOfScore = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedScore)
-        spannableStringBuilder.setSpan(scoreStyleSpan, startIndexOfScore, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        // Lägg till formattedTime med TimeStyle
-        val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
-        val startIndexOfTime = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedTime)
-        spannableStringBuilder.setSpan(timeStyleSpan, startIndexOfTime, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        return spannableStringBuilder
+    override fun playGlassSoundEffect() {
+        if (!glassHitSound.isPlaying){
+            glassHitSound.start()
+        }
     }
 
     override fun gameEnd() {
-        saveScore()
-        println(ScoreList)
-        showGameOverDialog()
-        GameManager.resetPoints()
-        gameOver = true
-    }
-
+            saveScore() // Save the score before transitioning to HighscoreActivity
+            println(ScoreList) //Sout for debug
+            val intent = Intent(activityContext, HighscoreActivity::class.java)
+            activityContext.startActivity(intent)
+            GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
+        }
 
     fun addBricks() {
         // Create glass brick layout

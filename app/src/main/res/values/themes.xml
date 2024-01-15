@@ -6,42 +6,4 @@
     </style>
 
     <style name="Theme.ProseccoPong" parent="Base.Theme.ProseccoPong" />
-
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/card_layout</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:shadowColor">@color/gold</item>
-        <item name="android:shadowDx">3</item>
-        <item name="android:shadowDy">3</item>
-        <item name="android:shadowRadius">10</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
-
-
-    <style name="TimeStyle">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColor">@color/yellow</item>
-        <item name="android:shadowColor">@color/gold</item>
-        <item name="android:shadowDx">3</item>
-        <item name="android:shadowDy">3</item>
-        <item name="android:shadowRadius">10</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ScoreStyle">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:shadowColor">@color/gold</item>
-        <item name="android:shadowDx">3</item>
-        <item name="android:shadowDy">3</item>
-        <item name="android:shadowRadius">10</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
-
-
-
-
 </resources>
