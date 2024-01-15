@@ -19,7 +19,7 @@ class GlassBrick(
     var glassImage = ContextCompat.getDrawable(context, R.drawable.glas_prosecco)
     var height = width * 3
     var rotationAngle = 0f
-    val topBrickLayoutOffset = 400
+    var topBrickLayoutOffset = 400
 
     private var leftBound: Int = 0
     private var topBound: Int = 0
@@ -150,6 +150,12 @@ gameView.handleGlassBreakage()
         width = imageWidth
         height = imageWidth * 3
 
+        if(viewWidth > viewHeight) {
+            topBrickLayoutOffset = 200
+        }
+        else {
+            topBrickLayoutOffset = 400
+        }
     }
 
 }
