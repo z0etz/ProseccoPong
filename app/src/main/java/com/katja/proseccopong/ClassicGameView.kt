@@ -1,5 +1,6 @@
 package com.katja.proseccopong
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,13 +9,16 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
-import android.media.MediaPlayer
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
-
+import android.app.AlertDialog
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TextAppearanceSpan
+import android.view.WindowManager
 
 class ClassicGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
     private var mholder: SurfaceHolder? = null
@@ -35,11 +39,10 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     private var playerName: String = ""
     var existingScoreIndex = -1
-    //private var mediaPlayer: MediaPlayer? = null
-    private lateinit var platformHitSound: MediaPlayer
+
+    private var gameOver = false
+
     init {
-        platformHitSound = MediaPlayer.create(context,R.raw.platform_sound)
-        platformHitSound.setVolume(0.3f, 0.3f)
         mholder = holder
 
         if(mholder!=null) {
@@ -52,7 +55,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        initializeMediaPLayer()
 
     }
 
@@ -129,12 +131,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             b.posY = b.posY + b.speedY * 2
             // Increment points
             GameManager.addPoints()
-
-            playHitSoundEffect() // Sound effect
-
             return false // Return statment to mark that the ball is not out
-
-
         }
         else {
             return true // Return statment to mark that the ball is out
@@ -155,15 +152,16 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
     override fun run() {
         while (running) {
-
-            update()
-            draw()
-            ball1.checkbounders(bounds,mcontext)
-            playerPlatform.checkBounds(bounds)
-
+            if (!gameOver) {
+                update()
+                draw()
+                ball1.checkbounders(bounds, mcontext)
+                playerPlatform.checkBounds(bounds)
+            }
+            Thread.sleep(6)
         }
-        Thread.sleep(6)
     }
+
 
 
     fun drawPoints(canvas: Canvas) {
@@ -201,7 +199,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         playerName = name
     }
 
-    // TODO: Ändra så att tidigare resultat inte skrivs över
 
     fun saveScore() {
         val editor = sharedPreferences.edit()
@@ -219,29 +216,71 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         editor.apply()
     }
 
+    private fun showGameOverDialog() {
+        (context as Activity).runOnUiThread {
+            val currentTime = System.currentTimeMillis()
+            val currentScore = GameManager.points
 
+            // Formatera score och tid
+            val formattedScore = "\nScore: $currentScore"
+            val formattedTime = "\n\n${Score(playerName, currentScore, true, currentTime).getFormattedDate()}"
 
-    override fun gameEnd(){
-        saveScore() // Save the score before transitioning to HighscoreActivity
-        println(ScoreList) //Sout for debug
-        val intent = Intent(activityContext, HighscoreActivity::class.java)
-        activityContext.startActivity(intent)
-        GameManager.resetPoints() // Reset points variable so that it starts at 0 in the next game
-    }
+            // Skapa en AlertDialog
+            val alertDialog = AlertDialog.Builder(activityContext, R.style.CustomAlertDialog)
+                .setTitle("Game Over")
+                .setMessage(buildSpannableMessage(formattedScore, formattedTime))
+                .setPositiveButton("OK") { dialog, which ->
+                    val intent = Intent(activityContext, HighscoreActivity::class.java)
+                    activityContext.startActivity(intent)
+                }
+                .setCancelable(false)
+                .create()
 
-    override fun initializeMediaPLayer() {
-        //mediaPlayer = MediaPlayer.create(context, R.raw.music)
-    }
+            // Justera storlek på dialogfönstret
+            alertDialog.setOnShowListener {
+                val layoutParams = WindowManager.LayoutParams()
+                layoutParams.copyFrom(alertDialog.window?.attributes)
+                layoutParams.width = 800 // Justera bredden efter behov
+                layoutParams.height = 550 // Justera höjden efter behov
+                alertDialog.window?.attributes = layoutParams
+            }
 
-    override fun playHitSoundEffect() {
-        if (!platformHitSound.isPlaying){
-            platformHitSound.start()
+            alertDialog.show()
         }
     }
 
-    override fun playGlassSoundEffect() {
-        TODO("Not yet implemented")
+    private fun buildSpannableMessage(formattedScore: String, formattedTime: String): SpannableStringBuilder {
+        // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
+        val spannableStringBuilder = SpannableStringBuilder()
+
+        // Lägg till formattedScore med ScoreStyle
+        val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
+        val startIndexOfScore = spannableStringBuilder.length
+        spannableStringBuilder.append(formattedScore)
+        spannableStringBuilder.setSpan(scoreStyleSpan, startIndexOfScore, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        // Lägg till formattedTime med TimeStyle
+        val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
+        val startIndexOfTime = spannableStringBuilder.length
+        spannableStringBuilder.append(formattedTime)
+        spannableStringBuilder.setSpan(timeStyleSpan, startIndexOfTime, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        return spannableStringBuilder
     }
+
+
+
+
+
+
+    override fun gameEnd() {
+        saveScore()
+        println(ScoreList)
+        showGameOverDialog()
+        GameManager.resetPoints()
+        gameOver = true
+    }
+
 }
 
 

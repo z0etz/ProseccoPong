@@ -47,8 +47,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
         bHighscore.setOnClickListener {
             val intent = Intent(this, HighscoreActivity::class.java)
             startActivity(intent)
