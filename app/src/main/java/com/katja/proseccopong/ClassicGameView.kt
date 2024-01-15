@@ -275,10 +275,10 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
     override fun gameEnd() {
         saveScore()
+        gameOver = true
         println(ScoreList)
         showGameOverDialog()
         GameManager.resetPoints()
-        gameOver = true
     }
 
 }

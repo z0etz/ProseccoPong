@@ -75,31 +75,14 @@ class GlassBrick(
             glasHit()
             hasBeenHit = true
 
-            val hitPointX = ball.posX - (leftBound + rightBound) / 2
-            val hitPointY = ball.posY - (topBound + bottomBound) / 2
-
-            // Calculate the normalized vector pointing from the center of the brick to the hit point
-            val hitVectorLength = sqrt((hitPointX * hitPointX + hitPointY * hitPointY).toDouble()).toFloat()
-            val normalizedHitVectorX = hitPointX / hitVectorLength
-            val normalizedHitVectorY = hitPointY / hitVectorLength
-
-            // Reflect the ball's velocity vector across the normalized hit vector
-            val dotProduct = ball.speedX * normalizedHitVectorX + ball.speedY * normalizedHitVectorY
-            val reflectionX = 2 * dotProduct * normalizedHitVectorX - ball.speedX
-            val reflectionY = 2 * dotProduct * normalizedHitVectorY - ball.speedY
-
-            // Update the ball's velocity with the reflection
-            ball.speedX = reflectionX
-            ball.speedY = reflectionY
-
             // Uppdatera poäng baserat på vilken typ av glasbricka som träffas
             if (rose) {
                 GameManager.incrementPoints(2) // Om det är en roséglasbricka, ge 2 poäng
             } else {
                 GameManager.incrementPoints(1) // Annars, ge 1 poäng för proseccoglasbricka
             }
-gameView.handleGlassBreakage()
 
+            gameView.handleGlassBreakage()
             hasBeenHit = true // Markera brickan som träffad
         }
     }
@@ -122,11 +105,30 @@ gameView.handleGlassBreakage()
 
             if (brickRect.intersect(ballRect)) {
                 handleCollision(ball)
+
+                // Check if the collision is more horizontal or vertical
+                val overlapX = minOf(brickRect.right, ballRect.right) - maxOf(brickRect.left, ballRect.left)
+                val overlapY = minOf(brickRect.bottom, ballRect.bottom) - maxOf(brickRect.top, ballRect.top)
+
+                val isHorizontalCollision = overlapX > overlapY
+
+                // Use isHorizontalCollision to determine whether it's a horizontal or vertical collision
+                if (isHorizontalCollision) {
+                    // Handle horizontal collision
+                    ball.speedY *= -1
+                    val differenceX = ball.posX - (leftBound + rightBound) / 2
+                    ball.speedX = differenceX / 1.5f // Adjust this factor as needed
+                } else {
+                    // Handle vertical collision
+                    ball.speedX *= -1
+                    val differenceY = ball.posY - (topBound + bottomBound) / 2
+                    ball.speedY = differenceY / 1.5f  // Adjust this factor as needed
+                }
+
                 return true
             }
         }
         return false
-
 
     }
 
