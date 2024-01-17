@@ -79,6 +79,7 @@ class ProseccoGameView(
         glassSound = MediaPlayer.create(mcontext, R.raw.glass_sound)
     }
 
+
     override fun surfaceCreated(holder: SurfaceHolder) {
         if (GameManager.brickList.isEmpty()) {
             addBricks()
@@ -428,6 +429,7 @@ class ProseccoGameView(
         println(ScoreList)
         showGameOverDialog()
         GameManager.resetPoints()
+        GameManager.brickList.clear()
         playGameOverSound()
         gameOver = true
     }

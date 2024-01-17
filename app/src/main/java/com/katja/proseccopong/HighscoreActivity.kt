@@ -1,5 +1,6 @@
 package com.katja.proseccopong
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -44,5 +45,11 @@ class HighscoreActivity : AppCompatActivity() {
             deleteScore.clearAllData()
             recreate() // Återskapar den nuvarande aktiviteten
         }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

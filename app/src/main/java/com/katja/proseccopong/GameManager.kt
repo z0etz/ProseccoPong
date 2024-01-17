@@ -16,4 +16,5 @@ object GameManager {
     fun incrementPoints(pointsToAdd: Int) {
         points += pointsToAdd
     }
+
 }

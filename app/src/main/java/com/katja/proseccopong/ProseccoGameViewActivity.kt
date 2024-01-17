@@ -1,5 +1,6 @@
 package com.katja.proseccopong
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -45,4 +46,10 @@ class ProseccoGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         // Implementera vid behov
     }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        proseccoGameView.gameEnd()
+    }
+
 }
