@@ -43,6 +43,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     private var ballOnPlatform = true // Sätt initialt värdet till true för att bollen ska starta på plattformen
     private var gameOver = false
     private var platformSound: MediaPlayer? = null
+    private var gameOverSound: MediaPlayer? = null
 
 
     init {
@@ -307,6 +308,12 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         }
     }
 
+    private fun playGameOverSound(){
+        val gameOverSound = MediaPlayer.create(mcontext, R.raw.gameover)
+        gameOverSound.setOnCompletionListener { mp ->mp.release() }
+        gameOverSound.start()
+    }
+
 
     override fun gameEnd() {
         saveScore()
@@ -315,6 +322,8 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         showGameOverDialog()
         GameManager.resetPoints()
         platformSound?.release()
+        playGameOverSound()
+
     }
 
 
