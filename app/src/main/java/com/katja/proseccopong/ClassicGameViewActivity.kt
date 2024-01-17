@@ -1,5 +1,6 @@
 package com.katja.proseccopong
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.SurfaceHolder
@@ -45,4 +46,10 @@ class ClassicGameViewActivity : AppCompatActivity(), SurfaceHolder.Callback {
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         // Implementera vid behov
     }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        classicGameView.gameEnd()
+    }
+
 }
