@@ -4,17 +4,21 @@ import android.content.Intent
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.Switch
 import android.widget.Toast
 import com.katja.proseccopong.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    lateinit var switchToggleSound: Switch
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        switchToggleSound = findViewById(R.id.switchToggleSound)
 
         AudioManager.initialize(this, R.raw.theme_song) // AudioManager Singleton
 
@@ -22,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         val bProseccoPong: Button = binding.buttonProseccoGame
         val bHighscore: Button = binding.buttonHighscore
         val bInfoPage: Button = binding.buttonInfoPage
+
+
 
 
         bClassicPong.setOnClickListener {
@@ -52,7 +58,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        switchToggleSound.setOnCheckedChangeListener{_, isChecked -> onToggleSoundSwitchChanged(isChecked)}
 
+
+
+    }
+
+    fun onToggleSoundSwitchChanged(isChecked: Boolean){
+        AudioManager.getInstance()?.setSoundEnabled(isChecked)
     }
 
 

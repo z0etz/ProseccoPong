@@ -7,10 +7,26 @@ import android.media.MediaPlayer
 class AudioManager private constructor(private val context: Context, rawResourceId: Int) {
 
     private var backgroundMusicPlayer: MediaPlayer = MediaPlayer.create(context, rawResourceId)
+    private var isSoundEnabled = true
 
     init {
         backgroundMusicPlayer.isLooping = true
-        backgroundMusicPlayer.start()
+        if (!isSoundEnabled) {
+            backgroundMusicPlayer.pause()
+        } else {
+            backgroundMusicPlayer.start()
+        }
+    }
+
+    fun setSoundEnabled(enabled: Boolean) {
+        isSoundEnabled = enabled
+        if (!enabled) {
+            if (!backgroundMusicPlayer.isPlaying){
+                backgroundMusicPlayer.start()
+            }
+        } else {
+            backgroundMusicPlayer.pause()
+        }
     }
 
     companion object {
@@ -25,6 +41,10 @@ class AudioManager private constructor(private val context: Context, rawResource
         fun release() {
             instance?.backgroundMusicPlayer?.release()
             instance = null
+        }
+
+        fun getInstance(): AudioManager? {
+            return instance
         }
     }
 }

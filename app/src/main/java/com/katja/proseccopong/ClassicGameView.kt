@@ -20,6 +20,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TextAppearanceSpan
 import android.view.WindowManager
+import android.widget.Button
 
 class ClassicGameView(context: Context, private val activityContext: Context, private val sharedPreferences: SharedPreferences) : SurfaceView(context), SurfaceHolder.Callback, Runnable, GameView {
     private var mholder: SurfaceHolder? = null
@@ -44,6 +45,8 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     private var gameOver = false
     private var platformSound: MediaPlayer? = null
     private var gameOverSound: MediaPlayer? = null
+    private var issoundEnabled = true
+    private lateinit var soundButton: Button
 
 
     init {
@@ -62,7 +65,10 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     override fun playPlatformSound(){
-        platformSound = MediaPlayer.create(mcontext, R.raw.platform)
+        if (issoundEnabled){
+            platformSound = MediaPlayer.create(mcontext, R.raw.platform)
+        }
+
     }
 
     override fun playGlassSound() {
@@ -71,10 +77,15 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        //platformSound = MediaPlayer.create(context, R.raw.platform)
+        if (::soundButton.isInitialized){
+            soundButton.setOnClickListener{
+                toggleSound()
+            }
 
-
+        }
+        start()
     }
+
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         bounds=Rect(0,0, width,height)
@@ -308,10 +319,24 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         }
     }
 
+    fun toggleSound(){
+        issoundEnabled = !issoundEnabled
+        if (!issoundEnabled){
+            platformSound?.release()
+        }
+    }
+    fun setSoundButton(button: Button){
+        soundButton = button
+    }
+
+
     private fun playGameOverSound(){
-        val gameOverSound = MediaPlayer.create(mcontext, R.raw.gameover)
-        gameOverSound.setOnCompletionListener { mp ->mp.release() }
-        gameOverSound.start()
+        if (issoundEnabled){
+            val gameOverSound = MediaPlayer.create(mcontext, R.raw.gameover)
+            gameOverSound.setOnCompletionListener { mp ->mp.release() }
+            gameOverSound.start()
+        }
+
     }
 
 
