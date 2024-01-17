@@ -11,17 +11,12 @@ import com.katja.proseccopong.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-
-    lateinit var backgroundMusicPlayer: MediaPlayer // Declare mediaplayer for background music
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        backgroundMusicPlayer = MediaPlayer.create(this, R.raw.theme_song) // Inizialize mediaplayer for background music
-        backgroundMusicPlayer.isLooping = true
-        backgroundMusicPlayer.start()
-
+        AudioManager.initialize(this, R.raw.theme_song) // AudioManager Singleton
 
         val bClassicPong: Button = binding.buttonClassicGame
         val bProseccoPong: Button = binding.buttonProseccoGame
@@ -64,6 +59,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        backgroundMusicPlayer.release()
+        AudioManager.release()
     }
 }
