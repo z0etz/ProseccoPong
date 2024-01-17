@@ -228,11 +228,6 @@ class ProseccoGameView(
         }
     }
 
-    private fun increaseBallSpeed(factor: Float) {
-        ball1.speedX *= factor
-        ball1.speedY *= factor
-    }
-
     fun removeBricks() {
         // Remove marked bricks from the brickList after delay
         bricksToRemove.forEach { brick ->
@@ -429,7 +424,7 @@ class ProseccoGameView(
         println(ScoreList)
         showGameOverDialog()
         GameManager.resetPoints()
-        GameManager.brickList.clear()
+        GameManager.clearBricklist()
         playGameOverSound()
         gameOver = true
     }
