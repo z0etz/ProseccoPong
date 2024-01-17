@@ -58,7 +58,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             holder?.addCallback(this)
         }
 
-        playerPlatform = PlayerPlatform(mcontext, platformWidth, platformHeight, viewWidth / 2 - platformWidth / 2, platformLevel, Color.WHITE)
+        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext, playerPlatform.posX + playerPlatform.width / 2, playerPlatform.posY - 20f, 20f, 10f, 20f, platformTop)
     }
 
