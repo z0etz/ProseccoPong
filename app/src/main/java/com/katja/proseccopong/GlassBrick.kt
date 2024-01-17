@@ -121,8 +121,9 @@ class GlassBrick(
                 } else {
                     // Handle vertical collision
                     ball.speedX *= -1
-                    val differenceY = ball.posY - (topBound + bottomBound) / 2
-                    ball.speedY = differenceY / 1.5f  // Adjust this factor as needed
+                    ball.speedY *= -1
+//                    val differenceY = ball.posY - (topBound + bottomBound) / 2
+//                    ball.speedY = differenceY / 1.5f  // Adjust this factor as needed
                 }
 
                 return true
