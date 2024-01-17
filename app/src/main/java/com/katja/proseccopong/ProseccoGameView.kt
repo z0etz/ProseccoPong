@@ -48,6 +48,7 @@ class ProseccoGameView(
     private var existingScoreIndex = -1 // Lägg till den här raden
     private var platformSound: MediaPlayer? = null
     private var glassSound: MediaPlayer? = null
+    private var gameOverSound: MediaPlayer? = null
 
     // List holding hit bricks that will be removed once they have had time to spin.
     val bricksToRemove = mutableListOf<GlassBrick>()
@@ -416,11 +417,18 @@ class ProseccoGameView(
         }
     }
 
+    private fun playGameOverSound(){
+        val gameOverSound = MediaPlayer.create(mcontext, R.raw.gameover)
+        gameOverSound.setOnCompletionListener { mp ->mp.release() }
+        gameOverSound.start()
+    }
+
     override fun gameEnd() {
         saveScore()
         println(ScoreList)
         showGameOverDialog()
         GameManager.resetPoints()
+        playGameOverSound()
         gameOver = true
     }
 
