@@ -74,12 +74,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         val touchX = event?.x ?: 0f
 
-        if (ballOnPlatform && event?.action == MotionEvent.ACTION_DOWN) {
-            // Bollen är på plattformen och användaren trycker ner på skärmen, skjut iväg bollen
-            ball1.speedX = 10f // Ange den önskade hastigheten för bollen i X-riktningen
-            ball1.speedY = -20f // Ange den önskade hastigheten för bollen i Y-riktningen
-            ballOnPlatform = false
-        }
+        handleBallOnPlatformTouchEvent(event, touchX)
 
         // Gradvis rörelsehastighet för plattformen
         val movementSpeed = 5f
@@ -91,6 +86,16 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         playerPlatform.posX += difference / movementSpeed
 
         return true
+    }
+
+
+    fun handleBallOnPlatformTouchEvent(event: MotionEvent?, touchX: Float) {
+        if (ballOnPlatform && event?.action == MotionEvent.ACTION_DOWN) {
+            // Bollen är på plattformen och användaren trycker ner på skärmen, skjut iväg bollen
+            ball1.speedX = 10f // Ange den önskade hastigheten för bollen i X-riktningen
+            ball1.speedY = -20f // Ange den önskade hastigheten för bollen i Y-riktningen
+            ballOnPlatform = false
+        }
     }
 
     fun start() {
@@ -157,19 +162,24 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         holder!!.unlockCanvasAndPost(canvas)
     }
 
+    fun handleBallAndPlatform() {
+        ball1.checkbounders(bounds, mcontext)
+        playerPlatform.checkBounds(bounds)
+
+        if (ballOnPlatform) {
+            // Bollen är på plattformen, uppdatera dess position med plattformen
+            ball1.posX = playerPlatform.posX + playerPlatform.width / 2
+            ball1.posY = playerPlatform.posY - ball1.size
+        }
+    }
+
+
     override fun run() {
         while (running) {
             if (!gameOver) {
                 update()
                 draw()
-                ball1.checkbounders(bounds, mcontext)
-                playerPlatform.checkBounds(bounds)
-
-                if (ballOnPlatform) {
-                    // Bollen är på plattformen, uppdatera dess position med plattformen
-                    ball1.posX = playerPlatform.posX + playerPlatform.width / 2
-                    ball1.posY = playerPlatform.posY - ball1.size
-                }
+                handleBallAndPlatform()
             }
             Thread.sleep(6)
         }
@@ -230,7 +240,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         editor.apply()
     }
 
-    private fun showGameOverDialog() {
+    fun showGameOverDialog() {
         (context as Activity).runOnUiThread {
             val currentTime = System.currentTimeMillis()
             val currentScore = GameManager.points
@@ -239,10 +249,23 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             val formattedScore = "\nScore: $currentScore"
             val formattedTime = "\n\n${Score(playerName, currentScore, true, currentTime).getFormattedDate()}"
 
+            // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
+            val spannableStringBuilder = SpannableStringBuilder()
+
+            // Lägg till formattedScore med ScoreStyle
+            val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
+            spannableStringBuilder.append(formattedScore)
+            spannableStringBuilder.setSpan(scoreStyleSpan, 0, formattedScore.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            // Lägg till formattedTime med TimeStyle
+            val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
+            spannableStringBuilder.append(formattedTime)
+            spannableStringBuilder.setSpan(timeStyleSpan, formattedScore.length, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
             // Skapa en AlertDialog
             val alertDialog = AlertDialog.Builder(activityContext, R.style.CustomAlertDialog)
                 .setTitle("Game Over")
-                .setMessage(buildSpannableMessage(formattedScore, formattedTime))
+                .setMessage(spannableStringBuilder)
                 .setPositiveButton("OK") { dialog, which ->
                     val intent = Intent(activityContext, HighscoreActivity::class.java)
                     activityContext.startActivity(intent)
@@ -262,29 +285,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             alertDialog.show()
         }
     }
-
-    private fun buildSpannableMessage(formattedScore: String, formattedTime: String): SpannableStringBuilder {
-        // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
-        val spannableStringBuilder = SpannableStringBuilder()
-
-        // Lägg till formattedScore med ScoreStyle
-        val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
-        val startIndexOfScore = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedScore)
-        spannableStringBuilder.setSpan(scoreStyleSpan, startIndexOfScore, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        // Lägg till formattedTime med TimeStyle
-        val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
-        val startIndexOfTime = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedTime)
-        spannableStringBuilder.setSpan(timeStyleSpan, startIndexOfTime, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        return spannableStringBuilder
-    }
-
-
-
-
 
 
     override fun gameEnd() {

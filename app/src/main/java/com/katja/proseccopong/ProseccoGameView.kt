@@ -1,6 +1,7 @@
 package com.katja.proseccopong
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -107,14 +108,18 @@ class ProseccoGameView(
             touchX = event.x
         }
 
+        handleBallOnPlatformTouchEvent(event, touchX)
+
+        return true
+    }
+
+    fun handleBallOnPlatformTouchEvent(event: MotionEvent?, touchX: Float) {
         if (ballOnPlatform && event?.action == MotionEvent.ACTION_DOWN) {
             // Bollen är på plattformen och användaren trycker ner på skärmen, skjut iväg bollen
             ball1.speedX = 10f // Ange den önskade hastigheten för bollen i X-riktningen
             ball1.speedY = -20f // Ange den önskade hastigheten för bollen i Y-riktningen
             ballOnPlatform = false
         }
-
-        return true
     }
 
     fun updatePlatformPosition() {
@@ -264,19 +269,24 @@ class ProseccoGameView(
         holder!!.unlockCanvasAndPost(canvas)
     }
 
+    fun handleBallAndPlatform() {
+        ball1.checkbounders(bounds, mcontext)
+        playerPlatform.checkBounds(bounds)
+
+        if (ballOnPlatform) {
+            // Bollen är på plattformen, uppdatera dess position med plattformen
+            ball1.posX = playerPlatform.posX + playerPlatform.width / 2
+            ball1.posY = playerPlatform.posY - ball1.size
+        }
+    }
+
+
     override fun run() {
         while (running) {
             if (!gameOver) {
                 update()
                 draw()
-                ball1.checkbounders(bounds, mcontext)
-                playerPlatform.checkBounds(bounds)
-
-                if (ballOnPlatform) {
-                    // Bollen är på plattformen, uppdatera dess position med plattformen
-                    ball1.posX = playerPlatform.posX + playerPlatform.width / 2
-                    ball1.posY = playerPlatform.posY - ball1.size
-                }
+                handleBallAndPlatform()
             }
             Thread.sleep(6)
         }
@@ -340,27 +350,38 @@ class ProseccoGameView(
         glassesHitCount++
     }
 
-    private fun showGameOverDialog() {
+    fun showGameOverDialog() {
         (context as Activity).runOnUiThread {
             val currentTime = System.currentTimeMillis()
             val currentScore = GameManager.points
 
             // Formatera score och tid
             val formattedScore = "\nScore: $currentScore"
-            val formattedTime =
-                "\n\n${Score(playerName, currentScore, true, currentTime).getFormattedDate()}"
+            val formattedTime = "\n\n${Score(playerName, currentScore, true, currentTime).getFormattedDate()}"
+
+            // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
+            val spannableStringBuilder = SpannableStringBuilder()
+
+            // Lägg till formattedScore med ScoreStyle
+            val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
+            spannableStringBuilder.append(formattedScore)
+            spannableStringBuilder.setSpan(scoreStyleSpan, 0, formattedScore.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            // Lägg till formattedTime med TimeStyle
+            val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
+            spannableStringBuilder.append(formattedTime)
+            spannableStringBuilder.setSpan(timeStyleSpan, formattedScore.length, spannableStringBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             // Skapa en AlertDialog
-            val alertDialog = android.app.AlertDialog.Builder(activityContext, R.style.CustomAlertDialog)
+            val alertDialog = AlertDialog.Builder(activityContext, R.style.CustomAlertDialog)
                 .setTitle("Game Over")
-                .setMessage(buildSpannableMessage(formattedScore, formattedTime))
+                .setMessage(spannableStringBuilder)
                 .setPositiveButton("OK") { dialog, which ->
                     val intent = Intent(activityContext, HighscoreActivity::class.java)
                     activityContext.startActivity(intent)
                 }
                 .setCancelable(false)
                 .create()
-
 
             // Justera storlek på dialogfönstret
             alertDialog.setOnShowListener {
@@ -373,38 +394,6 @@ class ProseccoGameView(
 
             alertDialog.show()
         }
-    }
-
-    private fun buildSpannableMessage(
-        formattedScore: String,
-        formattedTime: String
-    ): SpannableStringBuilder {
-        // Skapa en SpannableStringBuilder för att kombinera text med olika stilar
-        val spannableStringBuilder = SpannableStringBuilder()
-
-        // Lägg till formattedScore med ScoreStyle
-        val scoreStyleSpan = TextAppearanceSpan(activityContext, R.style.ScoreStyle)
-        val startIndexOfScore = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedScore)
-        spannableStringBuilder.setSpan(
-            scoreStyleSpan,
-            startIndexOfScore,
-            spannableStringBuilder.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        // Lägg till formattedTime med TimeStyle
-        val timeStyleSpan = TextAppearanceSpan(activityContext, R.style.TimeStyle)
-        val startIndexOfTime = spannableStringBuilder.length
-        spannableStringBuilder.append(formattedTime)
-        spannableStringBuilder.setSpan(
-            timeStyleSpan,
-            startIndexOfTime,
-            spannableStringBuilder.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        return spannableStringBuilder
     }
 
     override fun gameEnd() {
