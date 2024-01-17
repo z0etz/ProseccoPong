@@ -54,16 +54,14 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         mholder = holder
         playPlatformSound()
 
-        if(mholder!=null) {
+        if(mholder != null) {
             holder?.addCallback(this)
-
-
         }
-        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f, platformLevel, Color.WHITE)
-        ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f, platformTop)
 
-
+        playerPlatform = PlayerPlatform(mcontext, platformWidth, platformHeight, viewWidth / 2 - platformWidth / 2, platformLevel, Color.WHITE)
+        ball1 = Ball(this, mcontext, playerPlatform.posX + playerPlatform.width / 2, playerPlatform.posY - 20f, 20f, 10f, 20f, platformTop)
     }
+
 
     override fun playPlatformSound(){
         if (issoundEnabled){
@@ -89,12 +87,11 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        bounds=Rect(0,0, width,height)
+        bounds = Rect(0, 0, width, height)
         playerPlatform.initialize(width, height)
         viewWidth = width.toFloat()
         viewHeight = height.toFloat()
         start()
-
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
@@ -127,6 +124,18 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             ballOnPlatform = false
         }
     }
+
+    fun handleBallAndPlatform() {
+        ball1.checkbounders(bounds, mcontext)
+        playerPlatform.checkBounds(bounds)
+
+        if (ballOnPlatform) {
+            // Bollen är på plattformen, uppdatera dess position med plattformen
+            ball1.posX = playerPlatform.posX + playerPlatform.width / 2
+            ball1.posY = playerPlatform.posY - ball1.size
+        }
+    }
+
 
     fun start() {
         running = true
@@ -195,18 +204,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         ball1.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
     }
-
-    fun handleBallAndPlatform() {
-        ball1.checkbounders(bounds, mcontext)
-        playerPlatform.checkBounds(bounds)
-
-        if (ballOnPlatform) {
-            // Bollen är på plattformen, uppdatera dess position med plattformen
-            ball1.posX = playerPlatform.posX + playerPlatform.width / 2
-            ball1.posY = playerPlatform.posY - ball1.size
-        }
-    }
-
 
     override fun run() {
         while (running) {
