@@ -66,7 +66,7 @@ class ProseccoGameView(
             holder?.addCallback(this)
 
         }
-        playerPlatform = PlayerPlatform(mcontext, platformWidth, platformHeight, viewWidth / 2 - platformWidth / 2, platformLevel, Color.WHITE)
+        playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext, playerPlatform.posX + playerPlatform.width / 2, playerPlatform.posY - 20f, 20f, 10f, 20f, platformTop)
 
     }
@@ -161,18 +161,16 @@ class ProseccoGameView(
     }
 
     private fun decreasePlatformSpeed(): Float {
-        // Adjust platform movement based on the number of glasses broken
+        // Justera plattformens rörelse baserat på antalet krossade glas
 
         return when {
-            glassesHitCount < 2 -> 1f
-            glassesHitCount < 4 -> 1.5f
-            glassesHitCount < 6 -> 2.3f
-            glassesHitCount < 15 -> 4f
-            else -> 5f
+            glassesHitCount < 1 -> 20.0f   // Ökning av hastigheten när inga eller få glas har krossats
+            glassesHitCount < 2 -> 15.0f   // Ökning av hastigheten när 2-3 glas har krossats
+            glassesHitCount < 3 -> 18.0f   // Ökning av hastigheten när 4-5 glas har krossats
+            glassesHitCount < 4 -> 2f   // Ökning av hastigheten när 6-14 glas har krossats
+            else -> 1.0f                  // Ökning av hastigheten när 15 eller fler glas har krossats
         }
-
     }
-
 
     fun start() {
         running = true
