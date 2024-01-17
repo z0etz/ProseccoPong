@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TextAppearanceSpan
@@ -45,6 +46,8 @@ class ProseccoGameView(
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
     private var existingScoreIndex = -1 // Lägg till den här raden
+    private var platformSound: MediaPlayer? = null
+    private var glassSound: MediaPlayer? = null
 
     // List holding hit bricks that will be removed once they have had time to spin.
     val bricksToRemove = mutableListOf<GlassBrick>()
@@ -55,6 +58,8 @@ class ProseccoGameView(
 
     init {
         mholder = holder
+        playPlatformSound()
+        playGlassSound()
 
         if (mholder != null) {
             holder?.addCallback(this)
@@ -64,6 +69,13 @@ class ProseccoGameView(
             PlayerPlatform(mcontext, platformWidth, platformHeight, 0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext, 1f, 500f, 20f, 10f, 20f, platformTop)
 
+    }
+    override fun playPlatformSound(){
+        platformSound = MediaPlayer.create(mcontext, R.raw.platform)
+    }
+
+    override fun playGlassSound(){
+        glassSound = MediaPlayer.create(mcontext, R.raw.glass_sound)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
@@ -163,11 +175,14 @@ class ProseccoGameView(
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
+        platformSound?.release()
+        glassSound?.release()
     }
 
     fun update() {
         ball1.update()
         updatePlatformPosition()
+
 
         val previousScore = GameManager.points // Save the previous score
         val currentScore = GameManager.points // Get the current score after possible increments
@@ -247,6 +262,9 @@ class ProseccoGameView(
             b.speedY *= 1.05f // Adjust this factor as needed
             // Move the ball up to avoid it going into the platform
             b.posY = b.posY + b.speedY * 2
+            platformSound?.start()
+
+
             return false // Return statment to mark that the ball is not out
         } else {
             GameManager.brickList.clear()
@@ -267,6 +285,7 @@ class ProseccoGameView(
         }
         ball1.draw(canvas)
         holder!!.unlockCanvasAndPost(canvas)
+
     }
 
     fun handleBallAndPlatform() {
@@ -348,6 +367,7 @@ class ProseccoGameView(
     // Method to handle glass breakage event
     override fun handleGlassBreakage() {
         glassesHitCount++
+        glassSound?.start()
     }
 
     fun showGameOverDialog() {

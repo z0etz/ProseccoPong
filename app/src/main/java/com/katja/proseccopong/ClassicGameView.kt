@@ -15,6 +15,7 @@ import android.view.SurfaceView
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import android.app.AlertDialog
+import android.media.MediaPlayer
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TextAppearanceSpan
@@ -41,20 +42,36 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     var existingScoreIndex = -1
     private var ballOnPlatform = true // Sätt initialt värdet till true för att bollen ska starta på plattformen
     private var gameOver = false
+    private var platformSound: MediaPlayer? = null
+
 
     init {
         mholder = holder
+        playPlatformSound()
 
         if(mholder!=null) {
             holder?.addCallback(this)
+
 
         }
         playerPlatform=PlayerPlatform(mcontext,platformWidth,platformHeight,0f, platformLevel, Color.WHITE)
         ball1 = Ball(this, mcontext,100f, 100f, 20f, 10f, 20f, platformTop)
 
+
     }
 
+    override fun playPlatformSound(){
+        platformSound = MediaPlayer.create(mcontext, R.raw.platform)
+    }
+
+    override fun playGlassSound() {
+        TODO("Not yet implemented")
+    }
+
+
     override fun surfaceCreated(holder: SurfaceHolder) {
+        //platformSound = MediaPlayer.create(context, R.raw.platform)
+
 
     }
 
@@ -105,6 +122,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     }
 
     fun stop() {
+        platformSound?.release()
         running = false
         try {
             thread?.join()
@@ -143,6 +161,9 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             b.posY = b.posY + b.speedY * 2
             // Increment points
             GameManager.addPoints()
+
+            platformSound?.start()
+
             return false // Return statment to mark that the ball is not out
         }
         else {
@@ -293,7 +314,9 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         println(ScoreList)
         showGameOverDialog()
         GameManager.resetPoints()
+        platformSound?.release()
     }
+
 
 }
 
