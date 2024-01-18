@@ -27,7 +27,7 @@ class HighScoreAdapter(private val highScores: List<Score>) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val score = highScores[position]
 
-        // Assuming rank is the position in the list (1-based)
+// Antagande: rank är positionen i listan (baserad på 1)
         holder.rankTextView.text = (position + 1).toString()
         holder.scoreTextView.text = score.score.toString()
         holder.nameTextView.text = score.name

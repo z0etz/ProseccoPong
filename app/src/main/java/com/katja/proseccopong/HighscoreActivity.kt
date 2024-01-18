@@ -40,7 +40,7 @@ class HighscoreActivity : AppCompatActivity() {
         recyclerViewProsecco.layoutManager = LinearLayoutManager(this)
 
 
-        val buttonDelete = binding.btnDelete // Change this to your ImageButton ID
+        val buttonDelete = binding.btnDelete
         buttonDelete.setOnClickListener {
             deleteScore.clearAllData()
             recreate() // Återskapar den nuvarande aktiviteten

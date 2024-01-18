@@ -170,39 +170,39 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
     }
 
-    // Function to accsess the return statment of onIntersection by other classes
+    // Funktion för att få åtkomst till retursatsen från onIntersection av andra klasser
     override fun ballDown(): Boolean {
         return onIntersection(playerPlatform, ball1)
     }
 
-    fun onIntersection(p:PlayerPlatform,b:Ball): Boolean{
-        // Calculate the centers of the platform and the ball
+    fun onIntersection(p: PlayerPlatform, b: Ball): Boolean {
+        // Beräkna centrum av plattformen och bollen
         val platformCenterX = p.posX + p.width / 2
         val ballCenterX = b.posX
 
-        // If the ball intersects the platform
+        // Om bollen korsar plattformen
         if (b.posX - b.size / 2 <= platformCenterX + p.width / 2 && b.posX + b.size / 2 >= platformCenterX - p.width / 2) {
-            // Calculate the difference between the centers
+            // Beräkna skillnaden mellan centrumen
             val differenceX = ballCenterX - platformCenterX
-            // Reverse the ball's horizontal direction
-            b.speedX = differenceX / 2  // Adjust this factor as needed
-            // Reverse the ball's vertical direction
+            // Ändra riktningen för bollen horisontellt
+            b.speedX = differenceX / 2  // Justera detta faktor efter behov
+            // Ändra riktningen för bollen vertikalt
             b.speedY *= -1
-            // Increse the ball's vertcal speed
-            b.speedY *= 1.05f // Adjust this factor as needed
-            // Move the ball up to avoid it going into the platform
+            // Öka bollens vertikala hastighet
+            b.speedY *= 1.05f // Justera detta faktor efter behov
+            // Flytta bollen uppåt för att undvika att den går in i plattformen
             b.posY = b.posY + b.speedY * 2
-            // Increment points
+            // Öka poängen
             GameManager.addPoints()
 
             platformSound?.start()
 
-            return false // Return statment to mark that the ball is not out
-        }
-        else {
-            return true // Return statment to mark that the ball is out
+            return false // Retursats för att markera att bollen inte är ute
+        } else {
+            return true // Retursats för att markera att bollen är ute
         }
     }
+
 
     fun draw() {
 
