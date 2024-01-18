@@ -42,7 +42,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     val textSizePoints: Float = resources.getDimension(R.dimen.text_size_points)
     private var playerName: String = ""
     var existingScoreIndex = -1
-    private var ballOnPlatform = true // Sätt initialt värdet till true för att bollen ska starta på plattformen
+    private var ballOnPlatform = true
     private var gameOver = false
     private var platformSound: MediaPlayer? = null
     private var gameOverSound: MediaPlayer? = null

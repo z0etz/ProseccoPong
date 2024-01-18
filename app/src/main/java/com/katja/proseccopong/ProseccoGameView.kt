@@ -45,7 +45,7 @@ class ProseccoGameView(
     var brickWidth: Int = 50
     private var playerName: String = ""
     var touchX = 0f // Declare touchX as a class-level variable
-    private var existingScoreIndex = -1 // Lägg till den här raden
+    private var existingScoreIndex = -1
     private var platformSound: MediaPlayer? = null
     private var glassSound: MediaPlayer? = null
     private var gameOverSound: MediaPlayer? = null
@@ -55,7 +55,7 @@ class ProseccoGameView(
 
     var glassesHitCount = 0
     private var gameOver = false
-    private var ballOnPlatform = true // Sätt initialt värdet till true för att bollen ska starta på plattformen
+    private var ballOnPlatform = true
 
     init {
         mholder = holder
@@ -129,11 +129,14 @@ class ProseccoGameView(
     fun handleBallOnPlatformTouchEvent(event: MotionEvent?, touchX: Float) {
         if (ballOnPlatform && event?.action == MotionEvent.ACTION_DOWN) {
             // Bollen är på plattformen och användaren trycker ner på skärmen, skjut iväg bollen
-            ball1.speedX = 10f // Ange den önskade hastigheten för bollen i X-riktningen
-            ball1.speedY = -20f // Ange den önskade hastigheten för bollen i Y-riktningen
+            val randomSpeedX = (Math.random() * 20) - 10 // Slumpmässig hastighet mellan -10 och 10
+            val randomSpeedY = -(Math.random() * 20 + 10) // Slumpmässig hastighet mellan -10 och -30
+            ball1.speedX = randomSpeedX.toFloat()
+            ball1.speedY = randomSpeedY.toFloat()
             ballOnPlatform = false
         }
     }
+
 
     fun handleBallAndPlatform() {
         ball1.checkbounders(bounds, mcontext)
@@ -164,11 +167,11 @@ class ProseccoGameView(
         // Justera plattformens rörelse baserat på antalet krossade glas
 
         return when {
-            glassesHitCount < 1 -> 20.0f   // Ökning av hastigheten när inga eller få glas har krossats
-            glassesHitCount < 2 -> 15.0f   // Ökning av hastigheten när 2-3 glas har krossats
-            glassesHitCount < 3 -> 18.0f   // Ökning av hastigheten när 4-5 glas har krossats
-            glassesHitCount < 4 -> 2f   // Ökning av hastigheten när 6-14 glas har krossats
-            else -> 1.0f                  // Ökning av hastigheten när 15 eller fler glas har krossats
+            glassesHitCount < 1 -> 18.0f   // Ökning av hastigheten när inga eller få glas har krossats
+            glassesHitCount < 2 -> 14.0f   // Ökning av hastigheten när 2 glas har krossats
+            glassesHitCount < 3 -> 8.0f   // Ökning av hastigheten när 3 glas har krossats
+            glassesHitCount < 4 -> 2f   // Ökning av hastigheten när 4 glas har krossats
+            else -> 1.0f                  // Ökning av hastigheten när 5 eller fler glas har krossats
         }
     }
 
