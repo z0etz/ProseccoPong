@@ -423,9 +423,9 @@ class ProseccoGameView(
         saveScore()
         println(ScoreList)
         showGameOverDialog()
-        GameManager.resetPoints()
         GameManager.clearBricklist()
         playGameOverSound()
+        GameManager.resetPoints()
         gameOver = true
     }
 
