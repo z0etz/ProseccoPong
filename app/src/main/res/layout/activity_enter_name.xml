@@ -52,6 +52,7 @@
             android:textColor="@color/white"
             android:textColorHint="@color/gold"
             android:textSize="@dimen/small_font"
+            android:maxLength="12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
