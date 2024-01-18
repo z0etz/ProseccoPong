@@ -70,6 +70,7 @@ class ProseccoGameView(
         ball1 = Ball(this, mcontext, playerPlatform.posX + playerPlatform.width / 2, playerPlatform.posY - 20f, 20f, 10f, 20f, platformTop)
 
     }
+
     override fun playPlatformSound(){
         platformSound = MediaPlayer.create(mcontext, R.raw.platform)
     }
