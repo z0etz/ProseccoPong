@@ -6,35 +6,24 @@ import android.graphics.Paint
 import android.graphics.Rect
 
 
-class PlayerPlatform(
-    val context: Context,
-    var width: Float,
-    var height: Float,
-    var speedX: Float = 0f,
-    var platformLevel: Float,
-    color: Int = Color.BLUE,
+class PlayerPlatform(val context: Context, var width: Float, var height: Float, var speedX: Float = 0f, var platformLevel: Float, color: Int = Color.BLUE, ) {
 
-    ) {
     private var glassesBroken: Int = 0
-
+    private val paint = Paint().apply { this.color = color }
 
     var posX: Float = 0f
     var posY: Float = 0f
 
-
-    private val paint = Paint().apply { this.color = color }
     fun initialize(viewWidth: Int, viewHeight: Int) {
-        posX = (viewWidth / 2 - width / 2).toFloat() // Center horizontally
-        posY = (viewHeight - height - platformLevel).toFloat() // The bar is raised a little bit from the bottom, by the platformLevel variable
+        posX = (viewWidth / 2 - width / 2).toFloat() // Centrera horisontellt
+        posY = (viewHeight - height - platformLevel).toFloat() // Stången är lite höjd över botten, med hjälp av variabeln plattformNivå
     }
-
-
 
         fun checkBounds(bounds: Rect) {
             if (posX <= bounds.left) {
-                posX = bounds.left.toFloat() // Limit to the left edge
+                posX = bounds.left.toFloat() // Begränsa till vänster kant
             } else if (posX + width >= bounds.right) {
-                posX = (bounds.right - width).toFloat() // Limit to the right edge
+                posX = (bounds.right - width).toFloat() // Begränsa till höger kant
             }
         }
 
@@ -43,11 +32,11 @@ class PlayerPlatform(
         }
 
         fun moveLeft() {
-            posX -= speedX // Adjust the position to move left
+            posX -= speedX
         }
 
         fun moveRight() {
-            posX += speedX // Adjust the position to move right
+            posX += speedX
         }
 
         fun draw(canvas: Canvas) {

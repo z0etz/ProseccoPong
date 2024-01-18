@@ -9,7 +9,7 @@ interface GameView {
     fun playPlatformSound()
     fun playGlassSound()
 
-    // Method to handle glass breakage event
+    // Metod för att hantera händelsen av glassplittring
     fun handleGlassBreakage() {
     }
 

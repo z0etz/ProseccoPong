@@ -6,11 +6,7 @@ import android.graphics.RectF
 import androidx.core.content.ContextCompat
 import kotlin.math.sqrt
 
-class GlassBrick(
-    private val gameView: GameView,
-    val context: Context, val name: String, var width: Int,
-    val numberFromMiddleX: Int,
-    val numberFromTopY: Int, var rose: Boolean, var viewWidth: Float, var viewHeight: Float
+class GlassBrick(private val gameView: GameView, val context: Context, val name: String, var width: Int, val numberFromMiddleX: Int, val numberFromTopY: Int, var rose: Boolean, var viewWidth: Float, var viewHeight: Float
 ) {
 
     var hitTime: Long? = null
@@ -37,7 +33,7 @@ class GlassBrick(
     }
 
     fun draw(canvas: Canvas) {
-        // Choose drawable
+
         if (!empty) {
             if (!rose) {
                 glassImage = ContextCompat.getDrawable(context, R.drawable.glas_prosecco)
@@ -50,7 +46,7 @@ class GlassBrick(
 
         calculateBounds()
 
-        // Set position
+        // Sätt position
         glassImage?.setBounds(leftBound, topBound, rightBound, bottomBound)
 
         val centerX = (leftBound + rightBound) / 2f
@@ -106,20 +102,20 @@ class GlassBrick(
             if (brickRect.intersect(ballRect)) {
                 handleCollision(ball)
 
-                // Check if the collision is more horizontal or vertical
+                // Kontrollera om kollisionen är mer horisontell eller vertikal
                 val overlapX = minOf(brickRect.right, ballRect.right) - maxOf(brickRect.left, ballRect.left)
                 val overlapY = minOf(brickRect.bottom, ballRect.bottom) - maxOf(brickRect.top, ballRect.top)
 
                 val isHorizontalCollision = overlapX > overlapY
 
-                // Use isHorizontalCollision to determine whether it's a horizontal or vertical collision
+                // Använd ärHorisontellKollision för att avgöra om det är en horisontell eller vertikal kollision
                 if (isHorizontalCollision) {
-                    // Handle horizontal collision
+                    // Hantera horisontell kollision
                     ball.speedY *= -1
                     val differenceX = ball.posX - (leftBound + rightBound) / 2
                     ball.speedX = differenceX / 1.5f // Adjust this factor as needed
                 } else {
-                    // Handle vertical collision
+                    // Hantera vertikal kollision
                     ball.speedX *= -1
                     ball.speedY *= -1
 //                    val differenceY = ball.posY - (topBound + bottomBound) / 2
