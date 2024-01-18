@@ -53,7 +53,6 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
     init {
         mholder = holder
-        playPlatformSound()
 
         if(mholder != null) {
             holder?.addCallback(this)
@@ -131,6 +130,9 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
             ball1.speedX = randomSpeedX.toFloat()
             ball1.speedY = randomSpeedY.toFloat()
             ballOnPlatform = false
+
+            playPlatformSound()
+
         }
     }
 
