@@ -49,6 +49,7 @@ class ProseccoGameView(
     private var platformSound: MediaPlayer? = null
     private var glassSound: MediaPlayer? = null
     private var gameOverSound: MediaPlayer? = null
+    private var pointsAtGameEnd = 0
 
     // List holding hit bricks that will be removed once they have had time to spin.
     val bricksToRemove = mutableListOf<GlassBrick>()
@@ -130,8 +131,14 @@ class ProseccoGameView(
     fun handleBallOnPlatformTouchEvent(event: MotionEvent?, touchX: Float) {
         if (ballOnPlatform && event?.action == MotionEvent.ACTION_DOWN) {
             // Bollen är på plattformen och användaren trycker ner på skärmen, skjut iväg bollen
-            val randomSpeedX = (Math.random() * 20) - 10 // Slumpmässig hastighet mellan -10 och 10
-            val randomSpeedY = -(Math.random() * 20 + 10) // Slumpmässig hastighet mellan -10 och -30
+            val randomSpeedX = (Math.random() * 20 - 10) // Slumpmässig hastighet mellan -10 och 10
+            var randomSpeedY = -30.0 // Initiera variabel
+            if(randomSpeedX > 0) {
+                randomSpeedY = -30 + randomSpeedX // Hastighet mellan -30 0ch -20
+            }
+            else {
+                randomSpeedY = -30 - randomSpeedX // Hastighet mellan -30 0ch -20
+            }
             ball1.speedX = randomSpeedX.toFloat()
             ball1.speedY = randomSpeedY.toFloat()
             ballOnPlatform = false
@@ -197,9 +204,6 @@ class ProseccoGameView(
         ball1.update()
         updatePlatformPosition()
 
-
-        val previousScore = GameManager.points // Save the previous score
-        val currentScore = GameManager.points // Get the current score after possible increments
         val currentTime = System.currentTimeMillis()
 
         val iterator = GameManager.brickList.iterator()
@@ -348,7 +352,7 @@ class ProseccoGameView(
         val editor = sharedPreferences.edit()
 
         // Lägg till ny poäng i listan oavsett om det finns en duplicat
-        val newProseccoScore = Score(playerName, GameManager.points, false)
+        val newProseccoScore = Score(playerName, pointsAtGameEnd, false)
         ScoreList.scoreList.add(newProseccoScore)
 
         // Uppdatera den befintliga variabeln
@@ -370,7 +374,7 @@ class ProseccoGameView(
     fun showGameOverDialog() {
         (context as Activity).runOnUiThread {
             val currentTime = System.currentTimeMillis()
-            val currentScore = GameManager.points
+            val currentScore = pointsAtGameEnd
 
             // Formatera score och tid
             val formattedScore = "\nScore: $currentScore"
@@ -420,6 +424,7 @@ class ProseccoGameView(
     }
 
     override fun gameEnd() {
+        pointsAtGameEnd = GameManager.points
         saveScore()
         println(ScoreList)
         showGameOverDialog()

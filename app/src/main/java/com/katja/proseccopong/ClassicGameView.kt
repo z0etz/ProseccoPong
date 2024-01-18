@@ -48,6 +48,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     private var gameOverSound: MediaPlayer? = null
     private var issoundEnabled = true
     private lateinit var soundButton: Button
+    private var pointsAtGameEnd = 0
 
 
     init {
@@ -119,8 +120,16 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     fun handleBallOnPlatformTouchEvent(event: MotionEvent?, touchX: Float) {
         if (ballOnPlatform && event?.action == MotionEvent.ACTION_DOWN) {
             // Bollen är på plattformen och användaren trycker ner på skärmen, skjut iväg bollen
-            ball1.speedX = 10f // Ange den önskade hastigheten för bollen i X-riktningen
-            ball1.speedY = -20f // Ange den önskade hastigheten för bollen i Y-riktningen
+            val randomSpeedX = (Math.random() * 20 - 10) // Slumpmässig hastighet mellan -10 och 10
+            var randomSpeedY = -30.0 // Initiera variabel
+            if(randomSpeedX > 0) {
+                randomSpeedY = -30 + randomSpeedX // Hastighet mellan -30 0ch -20
+            }
+            else {
+                randomSpeedY = -30 - randomSpeedX // Hastighet mellan -30 0ch -20
+            }
+            ball1.speedX = randomSpeedX.toFloat()
+            ball1.speedY = randomSpeedY.toFloat()
             ballOnPlatform = false
         }
     }
@@ -259,7 +268,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
         val editor = sharedPreferences.edit()
 
         // Lägg till ny poäng i listan oavsett om det finns en duplicat
-        val newClassicScore = Score(playerName, GameManager.points, true)
+        val newClassicScore = Score(playerName, pointsAtGameEnd, true)
         ScoreList.scoreList.add(newClassicScore)
 
         // Uppdatera den befintliga variabeln
@@ -274,7 +283,7 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
     fun showGameOverDialog() {
         (context as Activity).runOnUiThread {
             val currentTime = System.currentTimeMillis()
-            val currentScore = GameManager.points
+            val currentScore = pointsAtGameEnd
 
             // Formatera score och tid
             val formattedScore = "\nScore: $currentScore"
@@ -339,14 +348,14 @@ class ClassicGameView(context: Context, private val activityContext: Context, pr
 
 
     override fun gameEnd() {
+        pointsAtGameEnd = GameManager.points
         saveScore()
-        gameOver = true
         println(ScoreList)
         showGameOverDialog()
-        GameManager.resetPoints()
-        platformSound?.release()
+        GameManager.clearBricklist()
         playGameOverSound()
-
+        GameManager.resetPoints()
+        gameOver = true
     }
 
 
