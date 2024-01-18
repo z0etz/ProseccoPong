@@ -60,7 +60,6 @@ class ProseccoGameView(
 
     init {
         mholder = holder
-        playPlatformSound()
         playGlassSound()
 
         if (mholder != null) {
@@ -142,6 +141,9 @@ class ProseccoGameView(
             ball1.speedX = randomSpeedX.toFloat()
             ball1.speedY = randomSpeedY.toFloat()
             ballOnPlatform = false
+
+            playPlatformSound()
+
         }
     }
 
