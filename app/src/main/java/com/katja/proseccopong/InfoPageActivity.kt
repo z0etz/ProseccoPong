@@ -9,7 +9,7 @@ import com.katja.proseccopong.databinding.ActivityInfoPageBinding
 class InfoPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding = ActivityInfoPageBinding.inflate(layoutInflater)
+        val binding = ActivityInfoPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val mainmenubutton: Button = binding.buttonMainMenu

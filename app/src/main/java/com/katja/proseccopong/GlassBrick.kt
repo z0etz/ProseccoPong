@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.RectF
 import androidx.core.content.ContextCompat
-import kotlin.math.sqrt
+
 
 class GlassBrick(private val gameView: GameView, val context: Context, val name: String, var width: Int, val numberFromMiddleX: Int, val numberFromTopY: Int, var rose: Boolean, var viewWidth: Float, var viewHeight: Float
 ) {

@@ -11,12 +11,12 @@ class EnterNameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val  GameChoice: String? = intent.getStringExtra("Game Choice")
+        val  gameChoice: String? = intent.getStringExtra("Game Choice")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_name)
         val GameMode:TextView = findViewById(R.id.GameModeTextView)
-        GameMode.text=GameChoice
+        GameMode.text=gameChoice
 
         val editTextName: EditText = findViewById(R.id.editTextName)
 
@@ -24,7 +24,7 @@ class EnterNameActivity : AppCompatActivity() {
 
         buttonPlay.setOnClickListener {
             val playerName = editTextName.text.toString()
-            when (GameChoice) {
+            when (gameChoice) {
                 "Prosecco Pong" -> {
                     val intent = Intent(this, ProseccoGameViewActivity::class.java)
                     intent.putExtra("PLAYER_NAME", playerName)
