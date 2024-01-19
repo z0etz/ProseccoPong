@@ -6,8 +6,12 @@
 
     <!-- Button -->
 
+    <dimen name="small_width_switch_button">25dp</dimen>
     <dimen name="small_width_button">115dp</dimen>
     <dimen name="medium_width_button">200dp</dimen>
+
+    <dimen name="small_height_switch_button">25dp</dimen>
+
 
     <!-- Width -->
 
