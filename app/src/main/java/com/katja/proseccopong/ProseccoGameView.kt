@@ -361,6 +361,7 @@ fun saveScore() {
 // Metod för att hantera händelsen av glasbrott
     override fun handleGlassBreakage() {
     glassesHitCount++
+//    glassSound?.release()
 //    glassSound?.start()
 }
 
