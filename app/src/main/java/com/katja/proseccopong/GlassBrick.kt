@@ -69,7 +69,7 @@ class GlassBrick(private val gameView: GameView, val context: Context, val name:
 
             rotationAngle = 1F
             glasHit()
-            hasBeenHit = true
+            hasBeenHit = true // Markera brickan som träffad
 
             // Uppdatera poäng baserat på vilken typ av glasbricka som träffas
             if (rose) {
@@ -79,7 +79,6 @@ class GlassBrick(private val gameView: GameView, val context: Context, val name:
             }
 
             gameView.handleGlassBreakage()
-            hasBeenHit = true // Markera brickan som träffad
         }
     }
 

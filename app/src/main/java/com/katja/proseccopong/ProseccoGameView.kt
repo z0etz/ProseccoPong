@@ -69,6 +69,7 @@ override fun playPlatformSound(){
 }
 
 override fun playGlassSound(){
+    glassSound?.release()
     glassSound = MediaPlayer.create(mcontext, R.raw.glass_sound)
 }
 
@@ -360,7 +361,7 @@ fun saveScore() {
 // Metod för att hantera händelsen av glasbrott
     override fun handleGlassBreakage() {
     glassesHitCount++
-    glassSound?.start()
+//    glassSound?.start()
 }
 
 fun showGameOverDialog() {
