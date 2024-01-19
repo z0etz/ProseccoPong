@@ -22,7 +22,6 @@ class Ball(private val gameView: GameView, val context: Context, var posX: Float
         val leftBound = bounds.left + size
         val rightBound = bounds.right - size
         val topBound = bounds.top + size
-        val bottomBound = bounds.bottom - size
 
         // Hantera bollens kollision med vänster och höger kant av spelområdet
         if (posX - size < leftBound || posX + size > rightBound) {
@@ -39,14 +38,11 @@ class Ball(private val gameView: GameView, val context: Context, var posX: Float
         // Hantera bollens kollision med nederkanten (plattformens nivå) av spelområdet
         if (posY + size / 2 > bounds.bottom - platformTop) {
             if (gameView.ballDown()) {
-                if (!ballOutToastShown) {
-                    (context as Activity).runOnUiThread {
-                        val toast = "Bollen är ute"
-                        Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
-                    }
+
+
                     gameView.gameEnd()
                     ballOutToastShown = true
-                }
+
             }
         }
     }
