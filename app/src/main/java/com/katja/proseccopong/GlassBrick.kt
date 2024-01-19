@@ -117,8 +117,6 @@ class GlassBrick(private val gameView: GameView, val context: Context, val name:
                     // Hantera vertikal kollision
                     ball.speedX *= -1
                     ball.speedY *= -1
-//                    val differenceY = ball.posY - (topBound + bottomBound) / 2
-//                    ball.speedY = differenceY / 1.5f  // Adjust this factor as needed
                 }
 
                 return true
